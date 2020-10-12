@@ -89,4 +89,5 @@ for line in divine_comedy_list:
             print(line)
             print(size, syllables)
             count+=1
+
 print(str(count)+'/'+str(len(divine_comedy_list)) + " verses still wrong")

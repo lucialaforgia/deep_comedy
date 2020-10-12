@@ -91,6 +91,7 @@ def add_special_tokens(divine_comedy, special_tokens):
 #    divine_comedy = divine_comedy.replace("PARADISO", special_tokens['END_OF_CANTO']+"\n"+special_tokens['END_OF_CANTICA']+"\n"+special_tokens['START_OF_CANTICA'])
 
     divine_comedy_list = divine_comedy.split("\n")
+
 #    divine_comedy_list = [special_tokens['END_OF_CANTO']+"\n"+special_tokens['START_OF_CANTO'] if re.search(r'Canto [A-Z]+',line) else line for line in divine_comedy_list]
     divine_comedy_list = [special_tokens['END_OF_CANTO']+ "\n"+ special_tokens['START_OF_CANTO']+"\n"+special_tokens['START_OF_TERZINA'] \
             if re.search(r'Canto [A-Z]+',line) else line for line in divine_comedy_list]
@@ -106,10 +107,10 @@ def add_special_tokens(divine_comedy, special_tokens):
         if line != "":
             temp.append(line)
         else:
-            if i >= 3 and divine_comedy_list[i-1].endswith(special_tokens['END_OF_VERSO']) \
-                    and divine_comedy_list[i-2].endswith(special_tokens['END_OF_VERSO']) \
-                    and divine_comedy_list[i-3].endswith(special_tokens['END_OF_VERSO']):
-                temp.append(special_tokens['END_OF_TERZINA'])
+#            if i >= 3 and divine_comedy_list[i-1].endswith(special_tokens['END_OF_VERSO']) \
+#                    and divine_comedy_list[i-2].endswith(special_tokens['END_OF_VERSO']) \
+#                    and divine_comedy_list[i-3].endswith(special_tokens['END_OF_VERSO']):
+#                temp.append(special_tokens['END_OF_TERZINA'])
             if i < len(divine_comedy_list) - 3 and divine_comedy_list[i+1].endswith(special_tokens['END_OF_VERSO']) \
                     and divine_comedy_list[i+2].endswith(special_tokens['END_OF_VERSO']) \
                     and divine_comedy_list[i+3].endswith(special_tokens['END_OF_VERSO']):
@@ -126,8 +127,8 @@ def remove_newlines(divine_comedy):
 
 def prettify_text(text, special_tokens):
     text = text.replace(special_tokens['END_OF_VERSO'], "\n")
-    text = text.replace(special_tokens['START_OF_TERZINA'], "")
-    text = text.replace(special_tokens['END_OF_TERZINA'], "\n")
+    text = text.replace(special_tokens['START_OF_TERZINA'], "\n")
+    text = text.replace(special_tokens['END_OF_TERZINA'], "")
     text = text.replace(special_tokens['START_OF_CANTO'], "\nCANTO\n")
     text = text.replace(special_tokens['END_OF_CANTO'], "")
 #    text = text.replace(special_tokens['START_OF_CANTICA'], "\nCANTICA\n")
@@ -148,7 +149,7 @@ def clean_comedy(divine_comedy, special_tokens):
     divine_comedy = remove_empty_lines(divine_comedy)
     divine_comedy = add_special_tokens(divine_comedy, special_tokens)
 
-#    divine_comedy = remove_newlines(divine_comedy)
+    divine_comedy = remove_newlines(divine_comedy)
 
     divine_comedy = divine_comedy.lower()
 
@@ -167,9 +168,9 @@ if __name__ == "__main__":
         f.write(divine_comedy)
 
 
-    print(divine_comedy[:])
+    print(divine_comedy[:500])
     print(special_tokens)
-#    print(prettify_text(divine_comedy, special_tokens))
+    print(prettify_text(divine_comedy[:500], special_tokens))
 
 
 
