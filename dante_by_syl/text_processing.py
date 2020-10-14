@@ -100,6 +100,11 @@ def add_special_tokens(divine_comedy, special_tokens):
 
     del divine_comedy_list[0] # to remove the first end_of_canto token - 0 if not keeping cantica title, 1 if keep cantica title
 
+    #modify the separatores in verse
+    divine_comedy = "\n".join(divine_comedy_list)
+    divine_comedy = divine_comedy.replace(" ", " "+special_tokens['WORD_SEP']+" ")
+    #modify the separatores between verses
+    divine_comedy_list = divine_comedy.split("\n")
     divine_comedy_list = [line if line == "" or line in special_tokens.values() else line + ' ' + special_tokens['END_OF_VERSO'] for line in divine_comedy_list]
 
     temp = []
@@ -117,6 +122,7 @@ def add_special_tokens(divine_comedy, special_tokens):
                 temp.append(special_tokens['START_OF_TERZINA'])
     divine_comedy_list = temp
     divine_comedy = "\n".join(divine_comedy_list)
+
     return divine_comedy
 
 def remove_newlines(divine_comedy):
@@ -131,6 +137,7 @@ def prettify_text(text, special_tokens):
     text = text.replace(special_tokens['END_OF_TERZINA'], "")
     text = text.replace(special_tokens['START_OF_CANTO'], "\nCANTO\n")
     text = text.replace(special_tokens['END_OF_CANTO'], "")
+    text = text.replace(special_tokens['WORD_SEP'], " ")
 #    text = text.replace(special_tokens['START_OF_CANTICA'], "\nCANTICA\n")
 #    text = text.replace(special_tokens['END_OF_CANTICA'], "")
     text_list = text.split("\n")
@@ -149,7 +156,7 @@ def clean_comedy(divine_comedy, special_tokens):
     divine_comedy = remove_empty_lines(divine_comedy)
     divine_comedy = add_special_tokens(divine_comedy, special_tokens)
 
-    divine_comedy = remove_newlines(divine_comedy)
+#    divine_comedy = remove_newlines(divine_comedy)
 
     divine_comedy = divine_comedy.lower()
 
