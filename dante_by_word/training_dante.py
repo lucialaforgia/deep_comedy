@@ -3,6 +3,7 @@ import shutil
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
 plt.style.use('seaborn-whitegrid')
 
 def draw_graphs(history, logs_dir):
@@ -11,6 +12,7 @@ def draw_graphs(history, logs_dir):
     x = np.arange(0, epochs) + 1
 
     fig, ax1 = plt.subplots()
+    ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
 
     plt.title("Training results: epoch vs accuracy")
     ax1.set_xlabel('epoch')
@@ -22,6 +24,7 @@ def draw_graphs(history, logs_dir):
     ax1.tick_params(axis='y' )
 
     ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
+    ax2.grid(False)
     color = 'tab:red'
     ax2.set_ylabel('learning rate', color=color)  # we already handled the x-label with ax1
     ax2.plot(x, history['lr'], color=color)
@@ -34,6 +37,7 @@ def draw_graphs(history, logs_dir):
 
 
     fig, ax1 = plt.subplots()
+    ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
 
     plt.title("Training results: epoch vs loss")
     ax1.set_xlabel('epoch')
@@ -45,6 +49,7 @@ def draw_graphs(history, logs_dir):
     ax1.tick_params(axis='y')
 
     ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
+    ax2.grid(False)
     color = 'tab:red'
     ax2.set_ylabel('learning rate', color=color)  # we already handled the x-label with ax1
     ax2.plot(x, history['lr'], color=color)
@@ -55,42 +60,31 @@ def draw_graphs(history, logs_dir):
 
     plt.clf()
 
-def train_model(working_dir, model, dataset_train, dataset_val, epochs=100, batch_size=32):
-
-    # Directory where the checkpoints will be saved
-    #checkpoint_dir = os.path.join(working_dir, 'training_checkpoints')
-    #checkpoint_prefix = os.path.join(checkpoint_dir, "ckpt_{epoch:03d}")
+def train_model(working_dir, model, model_filename, dataset_train, dataset_val, epochs=50):
 
     # Path where the final model will be saved
     models_dir = os.path.join(working_dir, 'models')
-    shutil.rmtree(models_dir, ignore_errors=True)
     os.makedirs(models_dir, exist_ok = True) 
-    model_file = os.path.join(models_dir, "dante_by_word_model_final.h5")
-#    model_epoch_file = os.path.join(models_dir, "dante_by_char_model_epoch_{epoch:03d}.h5")
-    best_model_file = os.path.join(models_dir, "dante_by_word_best_model.h5")
+    model_file = os.path.join(models_dir, model_filename+'.h5')
 
     # Path where the logs will be saved
-    logs_dir = os.path.join(working_dir, 'logs')
+    logs_dir = os.path.join(working_dir, 'logs', model_filename)
     shutil.rmtree(logs_dir, ignore_errors=True)
     os.makedirs(logs_dir, exist_ok = True) 
 
-    log_file = os.path.join(logs_dir, "dante_by_char.csv")
+    log_file = os.path.join(logs_dir, "dante_by_word_training_logs.csv")
 
     # Path where the tensorboard logs will be saved
     tb_logs_dir = os.path.join(logs_dir, 'tensorboard')
     os.makedirs(tb_logs_dir, exist_ok = True) 
 
-    #checkpoint_callback=tf.keras.callbacks.ModelCheckpoint(
-    #    filepath=checkpoint_prefix,
-    #    save_weights_only=False,
-    #    monitor='loss', 
-    #    mode='auto', 
-    #    verbose=1, 
-    #    )
+    # Plot the model structure
+    model_image_file = os.path.join(logs_dir, model_filename+'.png')
+    tf.keras.utils.plot_model(model, to_file=model_image_file, show_shapes=True, show_layer_names=True)
 
     model_callback=tf.keras.callbacks.ModelCheckpoint(
 #        filepath=model_epoch_file,
-        filepath=best_model_file,
+        filepath=model_file,
         save_weights_only=False,
         save_best_only=True,
         monitor='val_loss', 
@@ -100,7 +94,7 @@ def train_model(working_dir, model, dataset_train, dataset_val, epochs=100, batc
 
     early_stopping_callback = tf.keras.callbacks.EarlyStopping(
         restore_best_weights=True, 
-        patience=15,
+        patience=5,
         monitor='val_loss', 
         mode='auto', 
         verbose=1
@@ -116,8 +110,8 @@ def train_model(working_dir, model, dataset_train, dataset_val, epochs=100, batc
         monitor='val_loss', 
         mode='auto', 
         factor=0.5, 
-        patience=3, 
-        min_lr=0.0001, 
+        patience=2, 
+        min_lr=0.0003, 
         verbose=1
         )
     tensorboard_callback = tf.keras.callbacks.TensorBoard(
@@ -129,10 +123,8 @@ def train_model(working_dir, model, dataset_train, dataset_val, epochs=100, batc
 #    history = model.fit(x_train, y_train,
     history = model.fit(dataset_train,
         epochs=epochs, 
-#        batch_size=batch_size, 
         validation_data=dataset_val,
         callbacks=[
-#            checkpoint_callback,
             model_callback,
             csv_logger_callback, 
             reduce_lr_callback,
@@ -143,14 +135,8 @@ def train_model(working_dir, model, dataset_train, dataset_val, epochs=100, batc
 
     print("TRAINING COMPLETE!")
     
-    model.save(model_file)
-#    print(history.history)
+#    model.save(model_file)
 
     draw_graphs(history.history, logs_dir)
 
-#    loss = history.history['loss'][-1]
-#    val_loss = history.history['val_loss'][-1]
-#    acc = history.history['accuracy'][-1]
-#    val_acc = history.history['val_accuracy'][-1]
-#    print("LOSS: {:5.2f}".format(loss) + " - ACC: {:5.2f}%".format(100 * acc) + " - VAL_LOSS: {:5.2f}".format(val_loss) + " - VAL_ACC: {:5.2f}%".format(100 * val_acc))
     return history

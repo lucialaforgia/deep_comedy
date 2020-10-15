@@ -3,8 +3,6 @@ import re
 import string
 
 special_tokens = {
-#    'START_OF_CANTICA' : '<start_of_cantica>',
-#    'END_OF_CANTICA'   : '<end_of_cantica>',
     'START_OF_CANTO'   : '<start_of_canto>',
     'END_OF_CANTO'     : '<end_of_canto>',
     'START_OF_TERZINA' : '<start_of_terzina>',
@@ -16,11 +14,11 @@ special_tokens = {
 def remove_puctuation(text):
     # remove punctuation
     # text = re.sub('[%s]'% re.escape(string.punctuation),'', text )
-    text = re.sub('[%s]'% re.escape(',.;:!?"-'),'', text )
+    text = re.sub('[%s]'% re.escape('!"#$%&()*+,-./:;=?@[\]^`{|}~'),'', text )
     text = re.sub(r' +',' ', text)
     return text
 
-def syllabify_verse(verse, special_tokens=special_tokens, synalepha=True, dieresis=True):
+def syllabify_verse(verse, special_tokens, synalepha=True, dieresis=True):
     
     if verse in special_tokens.values():
         return [verse]
@@ -104,12 +102,13 @@ if __name__ == "__main__":
 
     divine_comedy_list = divine_comedy.split("\n")
     count = 0
-    for line in divine_comedy_list[:]:
+    for line in divine_comedy_list[:25]:
     #    if line.strip() not in special_tokens.values():
         print("\n"+line)
-        syllables = syllabify_verse(line)
+        syllables = syllabify_verse(line, special_tokens)
         print(syllables)
-    #        size = len(syllables)
+        size = len(syllables)
+        print(size)
     #        if size != 11:
     #            print(line)
     #            print(size, syllables)

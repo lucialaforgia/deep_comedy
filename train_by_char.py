@@ -9,7 +9,7 @@ tf.get_logger().setLevel('ERROR')
 
 from dante_by_char.data_preparation import build_vocab, build_dataset, split_dataset
 from dante_by_char.text_processing import clean_comedy, prettify_text, special_tokens
-from dante_by_char.dante_model import build_model
+from dante_model import build_model
 from dante_by_char.training_dante import train_model
 
 working_dir = os.path.abspath('dante_by_char')
@@ -25,15 +25,49 @@ divine_comedy = clean_comedy(divine_comedy, special_tokens)
 
 ##############################
 # Training's hyper-parameters
+# VERSION 1
+
 BATCH_SIZE = 32
 EPOCHS = 50
 SEQ_LENGTH = 150
+EMBEDDING_DIM = 128
+RNN_UNITS = 512
+RNN_TYPE = 'lstm'
+SINGLE_OUTPUT = False
+
+## VERSION 2
+#
+#BATCH_SIZE = 32
+#EPOCHS = 50
+#SEQ_LENGTH = 350
+#EMBEDDING_DIM = 128
+#RNN_UNITS = 1024
+#RNN_TYPE = 'lstm'
+#SINGLE_OUTPUT = False
+#
+## VERSION 3
+#
+#BATCH_SIZE = 32
+#EPOCHS = 50
+#SEQ_LENGTH = 150
+#EMBEDDING_DIM = 128
+#RNN_UNITS = 512
+#RNN_TYPE = 'lstm'
+#SINGLE_OUTPUT = True
+#
+## VERSION 4
+#
+#BATCH_SIZE = 32
+#EPOCHS = 50
+#SEQ_LENGTH = 350
+#EMBEDDING_DIM = 128
+#RNN_UNITS = 1024
+#RNN_TYPE = 'lstm'
+#SINGLE_OUTPUT = True
+
 ##############################
 
 vocab, idx2char, char2idx = build_vocab(divine_comedy)
-
-#x_train, y_train = build_dataset(divine_comedy, vocab, idx2char, char2idx, seq_length)
-#x_train, y_train, x_val, y_val = split_dataset(x_train, y_train)
 
 dataset = build_dataset(divine_comedy, vocab, idx2char, char2idx, seq_length=SEQ_LENGTH)
 
@@ -45,26 +79,27 @@ dataset_train, dataset_val = split_dataset(dataset)
 dataset_train = dataset_train.batch(BATCH_SIZE, drop_remainder=True)
 dataset_val = dataset_val.batch(BATCH_SIZE, drop_remainder=True)
 
-print(dataset_train)
-for s in dataset_train.take(1).as_numpy_iterator():
-    print(s)
+#for s in dataset_train.take(1).as_numpy_iterator():
+#    print(s)
 
 model = build_model(
     vocab_size = len(vocab),
     seq_length = SEQ_LENGTH,
-    embedding_dim=128,
-    rnn_units=1024,
+    embedding_dim=EMBEDDING_DIM,
+    rnn_type = RNN_TYPE,
+    rnn_units=RNN_UNITS,
     learning_rate=0.001,
-#    batch_size=BATCH_SIZE
+    single_output=SINGLE_OUTPUT,
     )
 
+model_filename = 'model_by_char_seq{}_emb{}_{}{}_singleoutput{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS, SINGLE_OUTPUT)
 
 train_model(working_dir, 
         model, 
+        model_filename,
         dataset_train, 
         dataset_val, 
         epochs=EPOCHS, 
-#        batch_size=BATCH_SIZE
         )
 
 

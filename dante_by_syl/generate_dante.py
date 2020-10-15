@@ -2,7 +2,7 @@ import os
 import numpy as np
 import tensorflow as tf
 
-def generate_text(model, special_tokens, vocab_size, char2idx, idx2char, seq_length, temperature=1.0, start_string=""):
+def generate_text(model, special_tokens, vocab_size, char2idx, idx2char, seq_length, start_string, temperature=1.0):
     generated_text = start_string
     sequence = start_string
     prediction = ''

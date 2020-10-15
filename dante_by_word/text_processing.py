@@ -2,8 +2,6 @@ import re
 import string
 
 special_tokens = {
-#    'START_OF_CANTICA' : '<start_of_cantica>',
-#    'END_OF_CANTICA'   : '<end_of_cantica>',
     'START_OF_CANTO'   : '<start_of_canto>',
     'END_OF_CANTO'     : '<end_of_canto>',
     'START_OF_TERZINA' : '<start_of_terzina>',
@@ -49,8 +47,7 @@ def replace_chars(divine_comedy):
 
 def get_corpus(divine_comedy):
     # remove text before and after the divine comedy
-    start = divine_comedy.find("INFERNO") # if you want to keep cantica title
-#    start = divine_comedy.find("Inferno") # if you want to drop cantica title
+    start = divine_comedy.find("INFERNO")
     divina_end = "l'amor che move il sole e l'altre stelle."
     end = divine_comedy.find(divina_end)+len(divina_end)
     divine_comedy = divine_comedy[start:end]
@@ -65,8 +62,9 @@ def remove_cantica_title(divine_comedy):
 
 def remove_puctuation(divine_comedy):
     # remove punctuation
-    divine_comedy = re.sub(r'\'',' ', divine_comedy)
-    divine_comedy = re.sub('[%s]'% re.escape(string.punctuation),'', divine_comedy )
+#    divine_comedy = re.sub(r'\'',' ', divine_comedy)
+#    divine_comedy = re.sub('[%s]'% re.escape(string.punctuation),'', divine_comedy)
+    divine_comedy = re.sub('[%s]'% re.escape('!"#$%&()*+,-./:;<=>?@[\]^_`{|}~'),'', divine_comedy)
     divine_comedy = re.sub(r' +',' ', divine_comedy)
     return divine_comedy
 
@@ -86,11 +84,6 @@ def add_special_tokens(divine_comedy, special_tokens):
     # add special tokens to text
 
     divine_comedy = divine_comedy + "\n" + special_tokens['END_OF_CANTO']
-    # if you want to keep cantica title
-#    divine_comedy = divine_comedy + "\n" + special_tokens['END_OF_CANTICA']
-#    divine_comedy = divine_comedy.replace("INFERNO", special_tokens['START_OF_CANTICA'])
-#    divine_comedy = divine_comedy.replace("PURGATORIO", special_tokens['END_OF_CANTO']+"\n"+special_tokens['END_OF_CANTICA']+"\n"+special_tokens['START_OF_CANTICA'])
-#    divine_comedy = divine_comedy.replace("PARADISO", special_tokens['END_OF_CANTO']+"\n"+special_tokens['END_OF_CANTICA']+"\n"+special_tokens['START_OF_CANTICA'])
 
     divine_comedy_list = divine_comedy.split("\n")
     
@@ -100,7 +93,7 @@ def add_special_tokens(divine_comedy, special_tokens):
     divine_comedy = "\n".join(divine_comedy_list)
     divine_comedy_list = divine_comedy.split("\n")
 
-    del divine_comedy_list[0] # to remove the first end_of_canto token - 0 if not keeping cantica title, 1 if keep cantica title
+    del divine_comedy_list[0] # to remove the first end_of_canto token
 
     divine_comedy_list = [line if line == "" or line in special_tokens.values() else line + ' ' + special_tokens['END_OF_VERSO'] for line in divine_comedy_list]
 
@@ -109,10 +102,10 @@ def add_special_tokens(divine_comedy, special_tokens):
         if line != "":
             temp.append(line)
         else:
-#            if i >= 3 and divine_comedy_list[i-1].endswith(special_tokens['END_OF_VERSO']) \
-#                    and divine_comedy_list[i-2].endswith(special_tokens['END_OF_VERSO']) \
-#                    and divine_comedy_list[i-3].endswith(special_tokens['END_OF_VERSO']):
-#                temp.append(special_tokens['END_OF_TERZINA'])
+            if i >= 3 and divine_comedy_list[i-1].endswith(special_tokens['END_OF_VERSO']) \
+                    and divine_comedy_list[i-2].endswith(special_tokens['END_OF_VERSO']) \
+                    and divine_comedy_list[i-3].endswith(special_tokens['END_OF_VERSO']):
+                temp.append(special_tokens['END_OF_TERZINA'])
             if i < len(divine_comedy_list) - 3 \
                     and divine_comedy_list[i+1].endswith(special_tokens['END_OF_VERSO']) \
                     and divine_comedy_list[i+2].endswith(special_tokens['END_OF_VERSO']) \
@@ -131,12 +124,10 @@ def remove_newlines(divine_comedy):
 def prettify_text(text, special_tokens):
     text = text.replace(special_tokens['END_OF_VERSO'], "\n")
     text = text.replace(special_tokens['START_OF_TERZINA'], "\n")
-    text = text.replace(special_tokens['END_OF_TERZINA'], "")
+    text = text.replace(special_tokens['END_OF_TERZINA'], "\n")
     text = text.replace(special_tokens['START_OF_CANTO'], "\nCANTO\n")
     text = text.replace(special_tokens['END_OF_CANTO'], "")
 #    text = text.replace(special_tokens['WORD_SEP'], " ")
-#    text = text.replace(special_tokens['START_OF_CANTICA'], "\nCANTICA\n")
-#    text = text.replace(special_tokens['END_OF_CANTICA'], "")
     text_list = text.split("\n")
     text_list = [line.strip() for line in text_list]
     text = "\n".join(text_list)
