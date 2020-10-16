@@ -13,7 +13,7 @@ def build_vocab(text):
 
 def build_dataset(text, vocab, idx2word, word2idx, seq_length, single_output=False):
     
-    step_length = 4
+    step_length = 8
     
     text_as_int = np.array([word2idx[c] for c in text.split()])
 

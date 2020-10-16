@@ -27,7 +27,7 @@ def build_vocab(text):
 
 def build_dataset(text, vocab, idx2syl, syl2idx, seq_length, single_output=False):
     
-    step_length = 8 
+    step_length = 16 
     
     text_as_int = np.array([syl2idx[s] for s in text_in_syls(text)])
 
