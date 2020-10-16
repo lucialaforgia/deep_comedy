@@ -11,7 +11,7 @@ from dante_by_char.data_preparation import build_vocab
 from dante_by_char.text_processing import clean_comedy, prettify_text, special_tokens
 from dante_by_char.generate_dante import generate_text
 
-SEQ_LENGTH = 350
+SEQ_LENGTH = 250
 
 working_dir = os.path.abspath('dante_by_char')
 
@@ -37,8 +37,8 @@ vocab_size = len(vocab)
 
 model.summary()
 
-#start_string = divine_comedy[:21]
-start_string = special_tokens['START_OF_CANTO']
+start_string = divine_comedy[:105]
+#start_string = special_tokens['START_OF_CANTO']
 
 #print(start_string)
 

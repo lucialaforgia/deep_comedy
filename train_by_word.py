@@ -9,7 +9,7 @@ tf.get_logger().setLevel('ERROR')
 
 from dante_by_word.data_preparation import build_vocab, build_dataset, split_dataset
 from dante_by_word.text_processing import clean_comedy, prettify_text, special_tokens
-from dante_model import build_model
+from dante_by_word.dante_model import build_model
 from dante_by_word.training_dante import train_model
 
 working_dir = os.path.abspath('dante_by_word')

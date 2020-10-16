@@ -9,7 +9,7 @@ tf.get_logger().setLevel('ERROR')
 
 from dante_by_char.data_preparation import build_vocab, build_dataset, split_dataset
 from dante_by_char.text_processing import clean_comedy, prettify_text, special_tokens
-from dante_model import build_model
+from dante_by_char.dante_model import build_model
 from dante_by_char.training_dante import train_model
 
 working_dir = os.path.abspath('dante_by_char')
@@ -29,9 +29,9 @@ divine_comedy = clean_comedy(divine_comedy, special_tokens)
 
 BATCH_SIZE = 32
 EPOCHS = 50
-SEQ_LENGTH = 150
-EMBEDDING_DIM = 128
-RNN_UNITS = 512
+SEQ_LENGTH = 250
+EMBEDDING_DIM = 32
+RNN_UNITS = 1024
 RNN_TYPE = 'lstm'
 SINGLE_OUTPUT = False
 
@@ -39,19 +39,19 @@ SINGLE_OUTPUT = False
 #
 #BATCH_SIZE = 32
 #EPOCHS = 50
-#SEQ_LENGTH = 350
-#EMBEDDING_DIM = 128
-#RNN_UNITS = 1024
-#RNN_TYPE = 'lstm'
+#SEQ_LENGTH = 250
+#EMBEDDING_DIM = 32
+#RNN_UNITS = 512
+#RNN_TYPE = '2lstm'
 #SINGLE_OUTPUT = False
 #
 ## VERSION 3
 #
 #BATCH_SIZE = 32
 #EPOCHS = 50
-#SEQ_LENGTH = 150
-#EMBEDDING_DIM = 128
-#RNN_UNITS = 512
+#SEQ_LENGTH = 250
+#EMBEDDING_DIM = 32
+#RNN_UNITS = 1024
 #RNN_TYPE = 'lstm'
 #SINGLE_OUTPUT = True
 #
@@ -59,10 +59,10 @@ SINGLE_OUTPUT = False
 #
 #BATCH_SIZE = 32
 #EPOCHS = 50
-#SEQ_LENGTH = 350
-#EMBEDDING_DIM = 128
-#RNN_UNITS = 1024
-#RNN_TYPE = 'lstm'
+#SEQ_LENGTH = 250
+#EMBEDDING_DIM = 32
+#RNN_UNITS = 512
+#RNN_TYPE = '2lstm'
 #SINGLE_OUTPUT = True
 
 ##############################

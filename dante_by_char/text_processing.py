@@ -2,8 +2,6 @@ import re
 import string
 
 special_tokens = {
-#    'START_OF_CANTICA' : '<start_of_cantica>',
-#    'END_OF_CANTICA'   : '<end_of_cantica>',
     'START_OF_CANTO'   : '+',
     'END_OF_CANTO'     : '@',
     'START_OF_TERZINA' : '$',
