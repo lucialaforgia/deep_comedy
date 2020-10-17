@@ -11,8 +11,6 @@ from dante_by_char.data_preparation import build_vocab
 from dante_by_char.text_processing import clean_comedy, prettify_text, special_tokens
 from dante_by_char.generate_dante import generate_text
 
-SEQ_LENGTH = 250
-
 working_dir = os.path.abspath('dante_by_char')
 
 divine_comedy_file = os.path.join(".", "divina_commedia", "divina_commedia_accent_UTF-8.txt") 
@@ -28,9 +26,17 @@ vocab, idx2char, char2idx = build_vocab(divine_comedy)
 
 models_dir = os.path.join(working_dir, 'models')
 os.makedirs(models_dir, exist_ok = True) 
-model_file = os.path.join(models_dir, "dante_by_char_best_model.h5")
+model_file = os.path.join(models_dir, "dante_by_char_model.h5")
 
 model = tf.keras.models.load_model(model_file)
+
+
+#SEQ_LENGTH = 250
+#SINGLE_OUTPUT = False
+
+SEQ_LENGTH = model.get_layer('embedding').output.shape[1]
+SINGLE_OUTPUT = False if len(model.get_layer('last_lstm').output.shape) == 3 else True
+
 
 # Length of the vocabulary
 vocab_size = len(vocab)
@@ -42,6 +48,6 @@ start_string = divine_comedy[:105]
 
 #print(start_string)
 
-generated_text = generate_text(model, special_tokens, vocab_size, char2idx, idx2char, SEQ_LENGTH, start_string, temperature=1.0)
+generated_text = generate_text(model, special_tokens, vocab_size, char2idx, idx2char, SEQ_LENGTH, SINGLE_OUTPUT, start_string, temperature=1.0)
 
-print(prettify_text(generated_text, special_tokens))
+#print(prettify_text(generated_text, special_tokens))

@@ -7,11 +7,9 @@ import numpy as np
 import tensorflow as tf
 tf.get_logger().setLevel('ERROR')
 
-from dante_by_syl.data_preparation import build_vocab
+from dante_by_syl.data_preparation import build_vocab, text_in_syls
 from dante_by_syl.text_processing import clean_comedy, prettify_text, special_tokens
 from dante_by_syl.generate_dante import generate_text
-
-SEQ_LENGTH = 150
 
 working_dir = os.path.abspath('dante_by_syl')
 
@@ -22,15 +20,20 @@ with open(divine_comedy_file,"r") as f:
 
 divine_comedy = clean_comedy(divine_comedy, special_tokens)
 
-#divine_comedy = divine_comedy[:10000]
+#divine_comedy = divine_comedy[:100000]
 
 vocab, idx2syl, syl2idx = build_vocab(divine_comedy)
-
 models_dir = os.path.join(working_dir, 'models')
 os.makedirs(models_dir, exist_ok = True) 
-model_file = os.path.join(models_dir, "dante_by_syl_best_model.h5")
+model_file = os.path.join(models_dir, "dante_by_syl_model.h5")
 
 model = tf.keras.models.load_model(model_file)
+
+#SEQ_LENGTH = 250
+#SINGLE_OUTPUT = False
+
+SEQ_LENGTH = model.get_layer('embedding').output.shape[1]
+SINGLE_OUTPUT = False if len(model.get_layer('last_lstm').output.shape) == 3 else True
 
 # Length of the vocabulary
 vocab_size = len(vocab)
@@ -38,13 +41,13 @@ vocab_size = len(vocab)
 model.summary()
 
 
-#start_string = divine_comedy[:21]
-start_string = special_tokens['START_OF_CANTO']
+start_string = divine_comedy[:374]
+#start_string = special_tokens['START_OF_CANTO']
 
 #print(start_string)
 
-generated_text = generate_text(model, special_tokens, vocab_size, syl2idx, idx2syl, SEQ_LENGTH, start_string, temperature=1.0)
+generated_text = generate_text(model, special_tokens, vocab_size, syl2idx, idx2syl, SEQ_LENGTH, SINGLE_OUTPUT, start_string, temperature=1.0)
 
-print(prettify_text(generated_text, special_tokens))
+#print(prettify_text(generated_text, special_tokens))
 
 

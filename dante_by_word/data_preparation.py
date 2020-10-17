@@ -5,8 +5,8 @@ def build_vocab(text):
 
     vocab = sorted(list(set(text.split())))
     
-    idx2word = { i : c for (i, c) in enumerate(vocab) }
-    word2idx = { c : i for (i, c) in enumerate(vocab) }
+    idx2word = { i : w for (i, w) in enumerate(vocab) }
+    word2idx = { w : i for (i, w) in enumerate(vocab) }
     
     return vocab, idx2word, word2idx
 
@@ -15,7 +15,7 @@ def build_dataset(text, vocab, idx2word, word2idx, seq_length, single_output=Fal
     
     step_length = 8
     
-    text_as_int = np.array([word2idx[c] for c in text.split()])
+    text_as_int = np.array([word2idx[w] for w in text.split()])
 
     dataset = tf.data.Dataset.from_tensor_slices(text_as_int)
     dataset = dataset.window(seq_length + 1, shift=step_length, stride=1, drop_remainder=True)

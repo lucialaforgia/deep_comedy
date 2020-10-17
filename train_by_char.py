@@ -25,43 +25,44 @@ divine_comedy = clean_comedy(divine_comedy, special_tokens)
 
 ##############################
 # Training's hyper-parameters
-# VERSION 1
 
+## VERSION 1
+#
 BATCH_SIZE = 32
 EPOCHS = 50
-SEQ_LENGTH = 250
+SEQ_LENGTH = 200
 EMBEDDING_DIM = 32
-RNN_UNITS = 1024
+RNN_UNITS = 512
 RNN_TYPE = 'lstm'
 SINGLE_OUTPUT = False
 
 ## VERSION 2
-#
+
 #BATCH_SIZE = 32
 #EPOCHS = 50
-#SEQ_LENGTH = 250
+#SEQ_LENGTH = 200
 #EMBEDDING_DIM = 32
-#RNN_UNITS = 512
+#RNN_UNITS = 256
 #RNN_TYPE = '2lstm'
 #SINGLE_OUTPUT = False
-#
+
 ## VERSION 3
-#
+
 #BATCH_SIZE = 32
 #EPOCHS = 50
-#SEQ_LENGTH = 250
-#EMBEDDING_DIM = 32
-#RNN_UNITS = 1024
-#RNN_TYPE = 'lstm'
-#SINGLE_OUTPUT = True
-#
-## VERSION 4
-#
-#BATCH_SIZE = 32
-#EPOCHS = 50
-#SEQ_LENGTH = 250
+#SEQ_LENGTH = 200
 #EMBEDDING_DIM = 32
 #RNN_UNITS = 512
+#RNN_TYPE = 'lstm'
+#SINGLE_OUTPUT = True
+
+## VERSION 4
+
+#BATCH_SIZE = 32
+#EPOCHS = 50
+#SEQ_LENGTH = 200
+#EMBEDDING_DIM = 32
+#RNN_UNITS = 256
 #RNN_TYPE = '2lstm'
 #SINGLE_OUTPUT = True
 
@@ -69,18 +70,19 @@ SINGLE_OUTPUT = False
 
 vocab, idx2char, char2idx = build_vocab(divine_comedy)
 
-dataset = build_dataset(divine_comedy, vocab, idx2char, char2idx, seq_length=SEQ_LENGTH)
+dataset = build_dataset(divine_comedy, vocab, idx2char, char2idx, seq_length=SEQ_LENGTH, single_output=SINGLE_OUTPUT)
 
 print("Corpus length: {} characters".format(len(divine_comedy)))
 print("Vocab size:", len(vocab))
 
 dataset_train, dataset_val = split_dataset(dataset)
 
+#for s in dataset_train.take(1).as_numpy_iterator():
+#    print(s)
+
 dataset_train = dataset_train.batch(BATCH_SIZE, drop_remainder=True)
 dataset_val = dataset_val.batch(BATCH_SIZE, drop_remainder=True)
 
-#for s in dataset_train.take(1).as_numpy_iterator():
-#    print(s)
 
 model = build_model(
     vocab_size = len(vocab),

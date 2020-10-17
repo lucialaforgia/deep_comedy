@@ -123,10 +123,10 @@ def remove_newlines(divine_comedy):
 
 def prettify_text(text, special_tokens):
     text = text.replace(special_tokens['END_OF_VERSO'], "\n")
-    text = text.replace(special_tokens['START_OF_TERZINA'], "\n")
+    text = text.replace(special_tokens['START_OF_TERZINA'], "")
     text = text.replace(special_tokens['END_OF_TERZINA'], "\n")
     text = text.replace(special_tokens['START_OF_CANTO'], "\nCANTO\n")
-    text = text.replace(special_tokens['END_OF_CANTO'], "")
+    text = text.replace(special_tokens['END_OF_CANTO'], "\n")
 #    text = text.replace(special_tokens['WORD_SEP'], " ")
     text_list = text.split("\n")
     text_list = [line.strip() for line in text_list]

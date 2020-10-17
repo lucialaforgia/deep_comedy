@@ -1,6 +1,7 @@
 import pyphen
 import re
 import string
+from dante_by_syl.text_processing import remove_puctuation
 
 special_tokens = {
     'START_OF_CANTO'   : '<start_of_canto>',
@@ -11,12 +12,12 @@ special_tokens = {
     'WORD_SEP'         : '<word_sep>'
 }
 
-def remove_puctuation(text):
-    # remove punctuation
-    # text = re.sub('[%s]'% re.escape(string.punctuation),'', text )
-    text = re.sub('[%s]'% re.escape('!"#$%&()*+,-./:;=?@[\]^`{|}~'),'', text )
-    text = re.sub(r' +',' ', text)
-    return text
+#def remove_puctuation(text):
+#    # remove punctuation
+#    # text = re.sub('[%s]'% re.escape(string.punctuation),'', text )
+#    text = re.sub('[%s]'% re.escape('!"#$%&()*+,-./:;=?@[\]^`{|}~'),'', text )
+#    text = re.sub(r' +',' ', text)
+#    return text
 
 def syllabify_verse(verse, special_tokens, synalepha=True, dieresis=True):
     
@@ -40,7 +41,7 @@ def syllabify_verse(verse, special_tokens, synalepha=True, dieresis=True):
     #["l'a", 'mor', '<word_sep>', 'che', '<word_sep>', 'mo', 've', '<word_sep>', 'il', '<word_sep>', 'so', 'le', '<word_sep>', 'e', '<word_sep>', "l'al", 'tre', '<word_sep>', 'stel', 'le.']
     #print(syllables)
 
-    syllables = [ remove_puctuation(s) for s in syllables ]
+#    syllables = [ remove_puctuation(s) for s in syllables ]
     #["l'a", 'mor', '<word_sep>', 'che', '<word_sep>', 'mo', 've', '<word_sep>', 'il', '<word_sep>', 'so', 'le', '<word_sep>', 'e', '<word_sep>', "l'al", 'tre', '<word_sep>', 'stel', 'le']
     #print(syllables)
 
@@ -102,16 +103,19 @@ if __name__ == "__main__":
 
     divine_comedy_list = divine_comedy.split("\n")
     count = 0
-    for line in divine_comedy_list[:25]:
-    #    if line.strip() not in special_tokens.values():
-        print("\n"+line)
+    for line in divine_comedy_list[:]:
         syllables = syllabify_verse(line, special_tokens)
-        print(syllables)
+#        print(syllables)
+        syllables = [ syl for syl in syllables if syl != special_tokens['WORD_SEP'] ]
+        syllables = [ syl for syl in syllables if syl != special_tokens['END_OF_VERSO'] ]
         size = len(syllables)
-        print(size)
-    #        if size != 11:
-    #            print(line)
-    #            print(size, syllables)
-    #            count+=1
 
-    #print(str(count)+'/'+str(len(divine_comedy_list)) + " verses still wrong")
+        if line.strip() not in special_tokens.values():
+#            print("\n"+line)
+#            if size < 10 or size > 12:
+            if size != 11:
+                print(line)
+                print(size, syllables)
+                count+=1
+
+    print(str(count)+'/'+str(len(divine_comedy_list)) + " verses still wrong")
