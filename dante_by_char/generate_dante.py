@@ -6,8 +6,8 @@ from dante_by_char.text_processing import prettify_text, special_tokens
 def generate_text(model, special_tokens, vocab_size, char2idx, idx2char, seq_length, single_output, start_string, temperature=1.0):
     generated_text = start_string
     print(prettify_text(generated_text, special_tokens), end='', flush=True)
-#    sequence = start_string
-    sequence = [ char2idx[ch] for ch in start_string[-seq_length:] ]
+    sequence = start_string
+#    sequence = [ char2idx[ch] for ch in start_string[-seq_length:] ]
     prediction = ''
     model.reset_states()
     i = 0
@@ -16,7 +16,7 @@ def generate_text(model, special_tokens, vocab_size, char2idx, idx2char, seq_len
             and generated_text.count(special_tokens['END_OF_VERSO']) < 136 \
             and i < 1500:
         
-#        sequence = [ char2idx[ch] for ch in generated_text[-seq_length:] ]
+        sequence = [ char2idx[ch] for ch in generated_text[-seq_length:] ]
         sequence = tf.keras.preprocessing.sequence.pad_sequences([sequence], maxlen=seq_length)
         x = np.array(sequence, dtype='int64')
 #        print(x)
@@ -43,7 +43,7 @@ def generate_text(model, special_tokens, vocab_size, char2idx, idx2char, seq_len
 
         prediction = idx2char[index]
         generated_text += prediction
-        sequence = sequence[1:] + [index]
+#        sequence = sequence[1:] + [index]
 
         print(prettify_text(prediction, special_tokens), end='', flush=True)
 #        print(prediction, end='', flush=True)
