@@ -11,6 +11,7 @@ from dante_by_word.data_preparation import build_vocab, build_dataset, split_dat
 from dante_by_word.text_processing import clean_comedy, prettify_text, special_tokens
 from dante_by_word.dante_model import build_model
 from dante_by_word.training_dante import train_model
+from utils import save_vocab, load_vocab
 
 working_dir = os.path.abspath('dante_by_word')
 
@@ -21,7 +22,7 @@ with open(divine_comedy_file,"r") as f:
 
 divine_comedy = clean_comedy(divine_comedy, special_tokens)
 
-#divine_comedy = divine_comedy[:10000]
+divine_comedy = divine_comedy[:10000]
 
 ##############################
 # Training's hyper-parameters
@@ -69,9 +70,17 @@ SINGLE_OUTPUT = False
 ##############################
 
 
-vocab, idx2char, char2idx = build_vocab(divine_comedy)
+vocab, idx2word, word2idx = build_vocab(divine_comedy)
 
-dataset = build_dataset(divine_comedy, vocab, idx2char, char2idx, seq_length=SEQ_LENGTH, single_output=SINGLE_OUTPUT)
+# Path where the vocab will be saved
+logs_dir = os.path.join(working_dir, 'logs')
+os.makedirs(logs_dir, exist_ok = True) 
+vocab_file = os.path.join(working_dir, 'logs', 'vocab.json')
+
+save_vocab(vocab, idx2word, word2idx, vocab_file)
+
+
+dataset = build_dataset(divine_comedy, vocab, idx2word, word2idx, seq_length=SEQ_LENGTH, single_output=SINGLE_OUTPUT)
 
 print("Corpus length: {} words".format(len(divine_comedy)))
 print("Vocab size:", len(vocab))

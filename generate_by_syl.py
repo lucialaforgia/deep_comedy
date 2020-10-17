@@ -10,6 +10,7 @@ tf.get_logger().setLevel('ERROR')
 from dante_by_syl.data_preparation import build_vocab, text_in_syls
 from dante_by_syl.text_processing import clean_comedy, prettify_text, special_tokens
 from dante_by_syl.generate_dante import generate_text
+from utils import save_vocab, load_vocab
 
 working_dir = os.path.abspath('dante_by_syl')
 
@@ -22,7 +23,19 @@ divine_comedy = clean_comedy(divine_comedy, special_tokens)
 
 #divine_comedy = divine_comedy[:100000]
 
-vocab, idx2syl, syl2idx = build_vocab(divine_comedy)
+
+#vocab, idx2syl, syl2idx = build_vocab(divine_comedy)
+
+
+# Path where the vocab is saved
+logs_dir = os.path.join(working_dir, 'logs')
+os.makedirs(logs_dir, exist_ok = True) 
+vocab_file = os.path.join(working_dir, 'logs', 'vocab.json')
+
+vocab, idx2syl, syl2idx = load_vocab(vocab_file)
+
+
+# Path where the model is saved
 models_dir = os.path.join(working_dir, 'models')
 os.makedirs(models_dir, exist_ok = True) 
 model_file = os.path.join(models_dir, "dante_by_syl_model.h5")

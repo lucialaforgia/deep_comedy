@@ -11,6 +11,7 @@ from dante_by_char.data_preparation import build_vocab, build_dataset, split_dat
 from dante_by_char.text_processing import clean_comedy, prettify_text, special_tokens
 from dante_by_char.dante_model import build_model
 from dante_by_char.training_dante import train_model
+from utils import save_vocab, load_vocab
 
 working_dir = os.path.abspath('dante_by_char')
 
@@ -75,6 +76,15 @@ dataset = build_dataset(divine_comedy, vocab, idx2char, char2idx, seq_length=SEQ
 print("Corpus length: {} characters".format(len(divine_comedy)))
 print("Vocab size:", len(vocab))
 
+
+# Path where the vocab will be saved
+logs_dir = os.path.join(working_dir, 'logs')
+os.makedirs(logs_dir, exist_ok = True) 
+vocab_file = os.path.join(working_dir, 'logs', 'vocab.json')
+
+save_vocab(vocab, idx2char, char2idx, vocab_file)
+
+
 dataset_train, dataset_val = split_dataset(dataset)
 
 #for s in dataset_train.take(1).as_numpy_iterator():
@@ -95,6 +105,7 @@ model = build_model(
     )
 
 model_filename = 'model_by_char_seq{}_emb{}_{}{}_singleoutput{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS, SINGLE_OUTPUT)
+
 
 train_model(working_dir, 
         model, 

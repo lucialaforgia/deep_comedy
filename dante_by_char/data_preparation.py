@@ -1,5 +1,6 @@
 import numpy as np
 import tensorflow as tf
+import json
 
 def build_vocab(text):
 
@@ -9,7 +10,6 @@ def build_vocab(text):
     char2idx = { c : i for (i, c) in enumerate(vocab) }
     
     return vocab, idx2char, char2idx
-
 
 
 def build_dataset(text, vocab, idx2char, char2idx, seq_length, single_output=False):

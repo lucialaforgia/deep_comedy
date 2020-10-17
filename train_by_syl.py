@@ -12,6 +12,7 @@ from dante_by_syl.data_preparation import text_in_syls, build_vocab, build_datas
 from dante_by_syl.text_processing import clean_comedy, prettify_text, special_tokens
 from dante_by_syl.dante_model import build_model
 from dante_by_syl.training_dante import train_model
+from utils import save_vocab, load_vocab
 
 working_dir = os.path.abspath('dante_by_syl')
 
@@ -78,6 +79,14 @@ dataset = build_dataset(divine_comedy, vocab, idx2syl, syl2idx, seq_length=SEQ_L
 
 print("Corpus length: {} syllables".format(len(text_in_syls(divine_comedy))))
 print("Vocab size:", len(vocab))
+
+# Path where the vocab will be saved
+logs_dir = os.path.join(working_dir, 'logs')
+os.makedirs(logs_dir, exist_ok = True) 
+vocab_file = os.path.join(working_dir, 'logs', 'vocab.json')
+
+save_vocab(vocab, idx2syl, syl2idx, vocab_file)
+
 
 dataset_train, dataset_val = split_dataset(dataset)
 
