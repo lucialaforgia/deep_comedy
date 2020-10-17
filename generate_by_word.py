@@ -45,7 +45,31 @@ model = tf.keras.models.load_model(model_file)
 #SINGLE_OUTPUT = False
 
 SEQ_LENGTH = model.get_layer('embedding').output.shape[1]
-SINGLE_OUTPUT = False if len(model.get_layer('last_lstm').output.shape) == 3 else True
+EMBEDDING_DIM = model.get_layer('embedding').output.shape[2]
+for l in model.layers:
+    if l.name == 'first_lstm':
+        RNN_TYPE = '2lstm'
+        break
+    if l.name == 'last_lstm':
+        RNN_TYPE = 'lstm' 
+        break
+    if l.name == 'first_gru':
+        RNN_TYPE = '2gru' 
+        break
+    if l.name == 'last_gru':
+        RNN_TYPE = 'gru' 
+        break
+if 'lstm' in RNN_TYPE:
+    RNN_UNITS = model.get_layer('last_lstm').output.shape[-1]
+    SINGLE_OUTPUT = False if len(model.get_layer('last_lstm').output.shape) == 3 else True
+if 'gru' in RNN_TYPE:
+    RNN_UNITS = model.get_layer('last_gru').output.shape[-1]
+    SINGLE_OUTPUT = False if len(model.get_layer('last_gru').output.shape) == 3 else True
+
+model_filename = 'model_by_char_seq{}_emb{}_{}{}_singleoutput{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS, SINGLE_OUTPUT)
+
+output_file = os.path.join(logs_dir, model_filename, "output")
+
 
 # Length of the vocabulary
 vocab_size = len(vocab)
@@ -60,3 +84,7 @@ start_string = " ".join(divine_comedy.split()[:25])
 generated_text = generate_text(model, special_tokens, vocab_size, word2idx, idx2word, SEQ_LENGTH, SINGLE_OUTPUT, start_string, temperature=1.0)
 
 #print(prettify_text(generated_text, special_tokens))
+
+
+with open(output_file,"w") as f:
+    f.write(prettify_text(generated_text, special_tokens))

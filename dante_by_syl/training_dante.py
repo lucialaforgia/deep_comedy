@@ -73,7 +73,7 @@ def train_model(working_dir, model, model_filename, dataset_train, dataset_val, 
     shutil.rmtree(logs_dir, ignore_errors=True)
     os.makedirs(logs_dir, exist_ok = True) 
 
-    log_file = os.path.join(logs_dir, "dante_by_syl_training_logs.csv")
+    log_file = os.path.join(logs_dir, "training_logs.csv")
 
     # Path where the tensorboard logs will be saved
     tb_logs_dir = os.path.join(logs_dir, 'tensorboard')
