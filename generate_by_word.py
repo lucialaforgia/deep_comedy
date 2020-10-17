@@ -24,7 +24,7 @@ divine_comedy = clean_comedy(divine_comedy, special_tokens)
 #divine_comedy = divine_comedy[:10000]
 
 
-#vocab, idx2word, word2idx = build_vocab(divine_comedy)
+vocab, idx2word, word2idx = build_vocab(divine_comedy)
 
 # Path where the vocab is saved
 logs_dir = os.path.join(working_dir, 'logs')
@@ -32,6 +32,9 @@ os.makedirs(logs_dir, exist_ok = True)
 vocab_file = os.path.join(working_dir, 'logs', 'vocab.json')
 
 vocab, idx2word, word2idx = load_vocab(vocab_file)
+
+# Length of the vocabulary
+vocab_size = len(vocab)
 
 
 # Path where the model is saved
@@ -66,17 +69,17 @@ if 'gru' in RNN_TYPE:
     RNN_UNITS = model.get_layer('last_gru').output.shape[-1]
     SINGLE_OUTPUT = False if len(model.get_layer('last_gru').output.shape) == 3 else True
 
+model.summary()
+
 model_filename = 'model_by_char_seq{}_emb{}_{}{}_singleoutput{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS, SINGLE_OUTPUT)
 
 output_file = os.path.join(logs_dir, model_filename, "output")
 
 
-# Length of the vocabulary
-vocab_size = len(vocab)
-
-model.summary()
-
-start_string = " ".join(divine_comedy.split()[:25])
+divine_comedy = divine_comedy.split()
+index_eoc = divine_comedy.index(special_tokens['END_OF_CANTO']) + 1
+start_string = ' '.join(divine_comedy[index_eoc - SEQ_LENGTH:index_eoc])
+#start_string = " ".join(divine_comedy.split()[:25])
 #start_string = special_tokens['START_OF_CANTO']
 
 #print(start_string)

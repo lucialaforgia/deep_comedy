@@ -33,6 +33,8 @@ vocab_file = os.path.join(working_dir, 'logs', 'vocab.json')
 
 vocab, idx2char, char2idx = load_vocab(vocab_file)
 
+# Length of the vocabulary
+vocab_size = len(vocab)
 
 # Path where the model is saved
 models_dir = os.path.join(working_dir, 'models')
@@ -67,16 +69,16 @@ if 'gru' in RNN_TYPE:
     RNN_UNITS = model.get_layer('last_gru').output.shape[-1]
     SINGLE_OUTPUT = False if len(model.get_layer('last_gru').output.shape) == 3 else True
 
+model.summary()
+
 model_filename = 'model_by_char_seq{}_emb{}_{}{}_singleoutput{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS, SINGLE_OUTPUT)
 
 output_file = os.path.join(logs_dir, model_filename, "output")
 
-# Length of the vocabulary
-vocab_size = len(vocab)
 
-model.summary()
-
-start_string = divine_comedy[:105]
+index_eoc = divine_comedy.index(special_tokens['END_OF_CANTO']) + 1
+start_string = divine_comedy[index_eoc - SEQ_LENGTH:index_eoc]
+#start_string = divine_comedy[:105]
 #start_string = special_tokens['START_OF_CANTO']
 
 #print(start_string)

@@ -6,7 +6,7 @@ from dante_by_word.text_processing import prettify_text, special_tokens
 def generate_text(model, special_tokens, vocab_size, word2idx, idx2word, seq_length, single_output, start_string, temperature=1.0):
     generated_text = start_string
     print(prettify_text(generated_text, special_tokens), end='', flush=True)
-    sequence = start_string
+#    sequence = start_string
 #    sequence = [ word2idx[w] for w in start_string.split()[-seq_length:] ]
     prediction = ''
     model.reset_states()
