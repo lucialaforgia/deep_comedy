@@ -85,7 +85,7 @@ def build_model(vocab_size, seq_length, embedding_dim=64, rnn_type='lstm', rnn_u
                               recurrent_initializer='glorot_uniform',
                               name='last_gru')
             )
-    model.add(tf.keras.layers.Dense(128, activation='relu', name='dense'))
+#    model.add(tf.keras.layers.Dense(128, activation='relu', name='dense'))
 
     model.add(tf.keras.layers.Dense(vocab_size, activation='softmax', name='output'))
 
