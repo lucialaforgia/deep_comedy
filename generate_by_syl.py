@@ -74,6 +74,8 @@ model.summary()
 
 model_filename = 'model_by_char_seq{}_emb{}_{}{}_singleoutput{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS, SINGLE_OUTPUT)
 
+print("\nMODEL: {}\n".format(model_filename))
+
 output_file = os.path.join(logs_dir, model_filename, "output")
 
 
