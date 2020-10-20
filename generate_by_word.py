@@ -75,7 +75,7 @@ model_filename = 'model_by_word_seq{}_emb{}_{}{}_singleoutput{}'.format(SEQ_LENG
 
 print("\nMODEL: {}\n".format(model_filename))
 
-output_file = os.path.join(logs_dir, model_filename, "output")
+output_file = os.path.join(logs_dir, model_filename, "output.txt")
 
 
 divine_comedy = divine_comedy.split()

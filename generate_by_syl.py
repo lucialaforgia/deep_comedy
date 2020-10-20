@@ -76,7 +76,7 @@ model_filename = 'model_by_syl_seq{}_emb{}_{}{}_singleoutput{}'.format(SEQ_LENGT
 
 print("\nMODEL: {}\n".format(model_filename))
 
-output_file = os.path.join(logs_dir, model_filename, "output")
+output_file = os.path.join(logs_dir, model_filename, "output.txt")
 
 
 divine_comedy = text_in_syls(divine_comedy)
