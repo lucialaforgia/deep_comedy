@@ -21,9 +21,6 @@ with open(divine_comedy_file,"r") as f:
 
 divine_comedy = clean_comedy(divine_comedy, special_tokens)
 
-#divine_comedy = divine_comedy[:10000]
-
-
 vocab, idx2word, word2idx = build_vocab(divine_comedy)
 
 # Path where the vocab is saved

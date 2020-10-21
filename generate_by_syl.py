@@ -21,7 +21,7 @@ with open(divine_comedy_file,"r") as f:
 
 divine_comedy = clean_comedy(divine_comedy, special_tokens)
 
-#divine_comedy = divine_comedy[:100000]
+divine_comedy = text_in_syls(divine_comedy)
 
 
 #vocab, idx2syl, syl2idx = build_vocab(divine_comedy)
@@ -80,6 +80,8 @@ output_file = os.path.join(logs_dir, model_filename, "output.txt")
 
 
 divine_comedy = text_in_syls(divine_comedy)
+
+
 index_eoc = divine_comedy.index(special_tokens['END_OF_CANTO']) + 1
 start_seq = divine_comedy[index_eoc - SEQ_LENGTH:index_eoc]
 #start_seq = divine_comedy[:374]

@@ -12,12 +12,6 @@ special_tokens = {
     'WORD_SEP'         : '<word_sep>'
 }
 
-#def remove_puctuation(text):
-#    # remove punctuation
-#    # text = re.sub('[%s]'% re.escape(string.punctuation),'', text )
-#    text = re.sub('[%s]'% re.escape('!"#$%&()*+,-./:;=?@[\]^`{|}~'),'', text )
-#    text = re.sub(r' +',' ', text)
-#    return text
 
 def syllabify_verse(verse, special_tokens, synalepha=True, dieresis=True):
     
