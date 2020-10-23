@@ -21,8 +21,6 @@ with open(divine_comedy_file,"r") as f:
 
 divine_comedy = clean_comedy(divine_comedy, special_tokens)
 
-divine_comedy = text_in_syls(divine_comedy)
-
 
 #vocab, idx2syl, syl2idx = build_vocab(divine_comedy)
 
