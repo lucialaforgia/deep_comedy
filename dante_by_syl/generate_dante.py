@@ -5,8 +5,9 @@ from dante_by_syl.data_preparation import text_in_syls
 from dante_by_syl.text_processing import prettify_text, special_tokens
 
 def generate_text(model, special_tokens, vocab_size, syl2idx, idx2syl, seq_length, single_output, start_seq, temperature=1.0):
-    generated_text_list = start_seq
-    print(prettify_text(''.join(generated_text_list), special_tokens), end='', flush=True)
+    text_list = start_seq
+    generated_text_list = []
+    print(prettify_text(''.join(text_list), special_tokens), end='', flush=True)
 #    sequence = start_seq
 #    sequence = [ syl2idx[syl] for syl in text_in_syls(start_string)[-seq_length:] ]
     prediction = ''
@@ -17,7 +18,7 @@ def generate_text(model, special_tokens, vocab_size, syl2idx, idx2syl, seq_lengt
             and generated_text_list.count(special_tokens['END_OF_VERSO']) < 136 \
             and i < 700:
         
-        sequence = [ syl2idx[syl] for syl in generated_text_list[-seq_length:] ]
+        sequence = [ syl2idx[syl] for syl in text_list[-seq_length:] ]
         sequence = tf.keras.preprocessing.sequence.pad_sequences([sequence], maxlen=seq_length)
         x = np.array(sequence, dtype='int64')
 #        print(x)
@@ -44,6 +45,7 @@ def generate_text(model, special_tokens, vocab_size, syl2idx, idx2syl, seq_lengt
 
         prediction = idx2syl[index]
         generated_text_list.append(prediction)
+        text_list.append(prediction)
 #        sequence = sequence[1:] + [index]
 
 #        print(prediction, end='', flush=True)

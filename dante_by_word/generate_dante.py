@@ -4,8 +4,9 @@ import tensorflow as tf
 from dante_by_word.text_processing import prettify_text, special_tokens
 
 def generate_text(model, special_tokens, vocab_size, word2idx, idx2word, seq_length, single_output, start_string, temperature=1.0):
-    generated_text = start_string
-    print(prettify_text(generated_text, special_tokens), end='', flush=True)
+    text = start_string
+    generated_text = ''
+    print(prettify_text(text, special_tokens), end='', flush=True)
 #    sequence = start_string
 #    sequence = [ word2idx[w] for w in start_string.split()[-seq_length:] ]
     prediction = ''
@@ -16,7 +17,7 @@ def generate_text(model, special_tokens, vocab_size, word2idx, idx2word, seq_len
             and generated_text.count(special_tokens['END_OF_VERSO']) < 136 \
             and i < 350:
         
-        sequence = [ word2idx[w] for w in generated_text.split()[-seq_length:] ]
+        sequence = [ word2idx[w] for w in text.split()[-seq_length:] ]
         sequence = tf.keras.preprocessing.sequence.pad_sequences([sequence], maxlen=seq_length)
         x = np.array(sequence, dtype='int64')
 #        print(x)
@@ -43,6 +44,7 @@ def generate_text(model, special_tokens, vocab_size, word2idx, idx2word, seq_len
 
         prediction = idx2word[index]
         generated_text += " "+prediction
+        text += " "+prediction
 #        sequence = sequence[1:] + [index]
 
 #        print(prediction, end=' ', flush=True)
