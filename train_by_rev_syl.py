@@ -37,7 +37,6 @@ SEQ_LENGTH = 32
 EMBEDDING_DIM = 256
 RNN_UNITS = 1024
 RNN_TYPE = 'lstm'
-SINGLE_OUTPUT = False
 
 ## VERSION 2
 #
@@ -48,7 +47,6 @@ SINGLE_OUTPUT = False
 #RNN_UNITS = 512
 ##RNN_UNITS = 1024
 #RNN_TYPE = '2lstm'
-#SINGLE_OUTPUT = False
 
 ## VERSION 3
 #
@@ -58,7 +56,6 @@ SINGLE_OUTPUT = False
 #EMBEDDING_DIM = 256
 #RNN_UNITS = 1024
 #RNN_TYPE = 'lstm'
-#SINGLE_OUTPUT = True
 
 ## VERSION 4
 #
@@ -68,7 +65,6 @@ SINGLE_OUTPUT = False
 #EMBEDDING_DIM = 256
 #RNN_UNITS = 512
 #RNN_TYPE = '2lstm'
-#SINGLE_OUTPUT = True
 
 ##############################
 
@@ -77,7 +73,7 @@ vocab, idx2syl, syl2idx = build_vocab(divine_comedy)
 #x_train, y_train = build_dataset(divine_comedy, vocab, idx2char, char2idx, seq_length)
 #x_train, y_train, x_val, y_val = split_dataset(x_train, y_train)
 
-dataset = build_dataset(divine_comedy, vocab, idx2syl, syl2idx, seq_length=SEQ_LENGTH, single_output=SINGLE_OUTPUT)
+dataset = build_dataset(divine_comedy, vocab, idx2syl, syl2idx, seq_length=SEQ_LENGTH)
 
 print("Corpus length: {} syllables".format(len(text_in_syls(divine_comedy))))
 print("Vocab size:", len(vocab))
@@ -106,11 +102,10 @@ model = build_model(
     rnn_type = RNN_TYPE,
     rnn_units=RNN_UNITS,
     learning_rate=0.001,
-    single_output=SINGLE_OUTPUT,
     )
 
 
-model_filename = 'model_by_rev_syl_seq{}_emb{}_{}{}_singleoutput{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS, SINGLE_OUTPUT)
+model_filename = 'model_by_rev_syl_seq{}_emb{}_{}{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS)
 
 train_model(working_dir, 
         model,

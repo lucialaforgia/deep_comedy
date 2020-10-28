@@ -63,14 +63,12 @@ for l in model.layers:
         break
 if 'lstm' in RNN_TYPE:
     RNN_UNITS = model.get_layer('last_lstm').output.shape[-1]
-    SINGLE_OUTPUT = False if len(model.get_layer('last_lstm').output.shape) == 3 else True
 if 'gru' in RNN_TYPE:
     RNN_UNITS = model.get_layer('last_gru').output.shape[-1]
-    SINGLE_OUTPUT = False if len(model.get_layer('last_gru').output.shape) == 3 else True
 
 model.summary()
 
-model_filename = 'model_by_rev_syl_seq{}_emb{}_{}{}_singleoutput{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS, SINGLE_OUTPUT)
+model_filename = 'model_by_rev_syl_seq{}_emb{}_{}{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS)
 
 print("\nMODEL: {}\n".format(model_filename))
 
@@ -88,7 +86,7 @@ start_seq = divine_comedy[index_eoc - SEQ_LENGTH:index_eoc]
 
 #print(start_seq)
 
-generated_text = generate_text(model, special_tokens, vocab_size, syl2idx, idx2syl, SEQ_LENGTH, SINGLE_OUTPUT, start_seq, temperature=1.0)
+generated_text = generate_text(model, special_tokens, vocab_size, syl2idx, idx2syl, SEQ_LENGTH, start_seq, temperature=1.0)
 
 #print(prettify_text(generated_text, special_tokens))
 
