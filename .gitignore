@@ -131,4 +131,6 @@ dmypy.json
 .vscode
 .DS_Store
 models/
+logs*
+models*
 logs/
