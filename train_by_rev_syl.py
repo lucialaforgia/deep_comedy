@@ -110,7 +110,7 @@ model = build_model(
     )
 
 
-model_filename = 'model_by_syl_seq{}_emb{}_{}{}_singleoutput{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS, SINGLE_OUTPUT)
+model_filename = 'model_by_rev_syl_seq{}_emb{}_{}{}_singleoutput{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS, SINGLE_OUTPUT)
 
 train_model(working_dir, 
         model,

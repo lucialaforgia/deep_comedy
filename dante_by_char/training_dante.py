@@ -117,7 +117,7 @@ def train_model(working_dir, model, model_filename, dataset_train, dataset_val, 
         log_dir=tb_logs_dir,
         histogram_freq=1
         )
-
+    
     print("TRAINING MODEL")
     history = model.fit(dataset_train,
         epochs=epochs, 

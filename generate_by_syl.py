@@ -75,6 +75,7 @@ model_filename = 'model_by_syl_seq{}_emb{}_{}{}_singleoutput{}'.format(SEQ_LENGT
 print("\nMODEL: {}\n".format(model_filename))
 
 output_file = os.path.join(logs_dir, model_filename, "output.txt")
+raw_output_file = os.path.join(logs_dir, model_filename, "raw_output.txt")
 
 
 divine_comedy = text_in_syls(divine_comedy)
@@ -94,3 +95,6 @@ generated_text = generate_text(model, special_tokens, vocab_size, syl2idx, idx2s
 
 with open(output_file,"w") as f:
     f.write(prettify_text(generated_text, special_tokens))
+
+with open(raw_output_file,"w") as f:
+    f.write(generated_text)

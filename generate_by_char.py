@@ -75,6 +75,7 @@ model_filename = 'model_by_char_seq{}_emb{}_{}{}_singleoutput{}'.format(SEQ_LENG
 print("\nMODEL: {}\n".format(model_filename))
 
 output_file = os.path.join(logs_dir, model_filename, "output.txt")
+raw_output_file = os.path.join(logs_dir, model_filename, "raw_output.txt")
 
 
 index_eoc = divine_comedy.index(special_tokens['END_OF_CANTO']) + 1
@@ -90,3 +91,6 @@ generated_text = generate_text(model, special_tokens, vocab_size, char2idx, idx2
 
 with open(output_file,"w") as f:
     f.write(prettify_text(generated_text, special_tokens))
+
+with open(raw_output_file,"w") as f:
+    f.write(generated_text)

@@ -23,7 +23,7 @@ vocab, idx2syl, syl2idx = load_vocab(vocab_file)
 # Path where the model is saved
 models_dir = os.path.join(working_dir, 'models')
 os.makedirs(models_dir, exist_ok = True) 
-model_file = os.path.join(models_dir, "dante_by_syl_model.h5")
+model_file = os.path.join(models_dir, "dante_by_rev_syl_model.h5")
 
 model = tf.keras.models.load_model(model_file)
 
