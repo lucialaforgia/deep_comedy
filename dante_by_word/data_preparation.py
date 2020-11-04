@@ -13,7 +13,8 @@ def build_vocab(text):
 
 def build_dataset(text, vocab, idx2word, word2idx, seq_length, single_output=False):
     
-    step_length = 8
+#    step_length = 4
+    step_length = seq_length + 1
     
     text_as_int = np.array([word2idx[w] for w in text.split()])
 
@@ -23,10 +24,7 @@ def build_dataset(text, vocab, idx2word, word2idx, seq_length, single_output=Fal
 
     def split_input_target(chunk):
         input_text = chunk[:-1]
-        if single_output:
-            target_text = chunk[-1]
-        else:
-            target_text = chunk[1:]
+        target_text = chunk[1:]
         return input_text, target_text
 
     dataset = dataset.map(split_input_target)

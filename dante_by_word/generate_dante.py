@@ -3,7 +3,7 @@ import numpy as np
 import tensorflow as tf
 from dante_by_word.text_processing import prettify_text, special_tokens
 
-def generate_text(model, special_tokens, vocab_size, word2idx, idx2word, seq_length, single_output, start_string, temperature=1.0):
+def generate_text(model, special_tokens, vocab_size, word2idx, idx2word, seq_length, start_string, temperature=1.0):
     text = start_string
     generated_text = ''
     print(prettify_text(text, special_tokens), end='', flush=True)
@@ -23,11 +23,9 @@ def generate_text(model, special_tokens, vocab_size, word2idx, idx2word, seq_len
 #        print(x)
 
         prediction = model.predict(x, verbose=0)
+
+        prediction = tf.squeeze(prediction, 0)[-1]
         
-        if single_output:
-            prediction = tf.squeeze(prediction, 0)
-        else:
-            prediction = tf.squeeze(prediction, 0)[-1]
         prediction = prediction / temperature
 #        prediction = tf.nn.softmax(prediction).numpy()
 #        prediction /= np.sum(prediction)

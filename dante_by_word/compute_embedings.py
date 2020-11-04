@@ -27,7 +27,6 @@ model_file = os.path.join(models_dir, "dante_by_word_model.h5")
 
 model = tf.keras.models.load_model(model_file)
 
-#SEQ_LENGTH = 250
 SEQ_LENGTH = model.get_layer('embedding').output.shape[1]
 EMBEDDING_DIM = model.get_layer('embedding').output.shape[2]
 for l in model.layers:
@@ -45,14 +44,12 @@ for l in model.layers:
         break
 if 'lstm' in RNN_TYPE:
     RNN_UNITS = model.get_layer('last_lstm').output.shape[-1]
-    SINGLE_OUTPUT = False if len(model.get_layer('last_lstm').output.shape) == 3 else True
 if 'gru' in RNN_TYPE:
     RNN_UNITS = model.get_layer('last_gru').output.shape[-1]
-    SINGLE_OUTPUT = False if len(model.get_layer('last_gru').output.shape) == 3 else True
 
 model.summary()
 
-model_filename = 'model_by_word_seq{}_emb{}_{}{}_singleoutput{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS, SINGLE_OUTPUT)
+model_filename = 'model_by_word_seq{}_emb{}_{}{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS)
 
 
 print("\nMODEL: {}\n".format(model_filename))

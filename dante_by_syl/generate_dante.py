@@ -4,7 +4,7 @@ import tensorflow as tf
 from dante_by_syl.data_preparation import text_in_syls
 from dante_by_syl.text_processing import prettify_text, special_tokens
 
-def generate_text(model, special_tokens, vocab_size, syl2idx, idx2syl, seq_length, single_output, start_seq, temperature=1.0):
+def generate_text(model, special_tokens, vocab_size, syl2idx, idx2syl, seq_length, start_seq, temperature=1.0):
     text_list = start_seq
     generated_text_list = []
     print(prettify_text(''.join(text_list), special_tokens), end='', flush=True)
@@ -25,10 +25,8 @@ def generate_text(model, special_tokens, vocab_size, syl2idx, idx2syl, seq_lengt
 
         prediction = model.predict(x, verbose=0)
         
-        if single_output:
-            prediction = tf.squeeze(prediction, 0)
-        else:
-            prediction = tf.squeeze(prediction, 0)[-1]
+        prediction = tf.squeeze(prediction, 0)[-1]
+        
         prediction = prediction / temperature
 #        prediction = tf.nn.softmax(prediction).numpy()
 #        prediction /= np.sum(prediction)

@@ -22,7 +22,7 @@ with open(divine_comedy_file,"r") as f:
 
 divine_comedy = clean_comedy(divine_comedy, special_tokens)
 
-#divine_comedy = divine_comedy[:100000]
+#divine_comedy = divine_comedy[:5000]
 
 ##############################
 # Training's hyper-parameters
@@ -30,48 +30,36 @@ divine_comedy = clean_comedy(divine_comedy, special_tokens)
 ## VERSION 1
 #
 BATCH_SIZE = 32
-EPOCHS = 50
+EPOCHS = 200
 SEQ_LENGTH = 200
-EMBEDDING_DIM = 128
+EMBEDDING_DIM = 64
 RNN_UNITS = 512
 RNN_TYPE = 'lstm'
-SINGLE_OUTPUT = False
 
 ## VERSION 2
 
 #BATCH_SIZE = 32
-#EPOCHS = 50
+#EPOCHS = 200
 #SEQ_LENGTH = 200
-#EMBEDDING_DIM = 128
+#EMBEDDING_DIM = 64
 #RNN_UNITS = 512
 #RNN_TYPE = '2lstm'
-#SINGLE_OUTPUT = False
 
 ## VERSION 3
 
 #BATCH_SIZE = 32
-#EPOCHS = 50
+#EPOCHS = 200
 #SEQ_LENGTH = 200
-#EMBEDDING_DIM = 128
+#EMBEDDING_DIM = 64
 #RNN_UNITS = 512
-#RNN_TYPE = 'lstm'
-#SINGLE_OUTPUT = True
+#RNN_TYPE = 'gru'
 
-## VERSION 4
-
-#BATCH_SIZE = 32
-#EPOCHS = 50
-#SEQ_LENGTH = 200
-#EMBEDDING_DIM = 128
-#RNN_UNITS = 512
-#RNN_TYPE = '2lstm'
-#SINGLE_OUTPUT = True
 
 ##############################
 
 vocab, idx2char, char2idx = build_vocab(divine_comedy)
 
-dataset = build_dataset(divine_comedy, vocab, idx2char, char2idx, seq_length=SEQ_LENGTH, single_output=SINGLE_OUTPUT)
+dataset = build_dataset(divine_comedy, vocab, idx2char, char2idx, seq_length=SEQ_LENGTH)
 
 print("Corpus length: {} characters".format(len(divine_comedy)))
 print("Vocab size:", len(vocab))
@@ -87,9 +75,6 @@ save_vocab(vocab, idx2char, char2idx, vocab_file)
 
 dataset_train, dataset_val = split_dataset(dataset)
 
-#for s in dataset_train.take(1).as_numpy_iterator():
-#    print(s)
-
 dataset_train = dataset_train.batch(BATCH_SIZE, drop_remainder=True)
 dataset_val = dataset_val.batch(BATCH_SIZE, drop_remainder=True)
 
@@ -100,11 +85,10 @@ model = build_model(
     embedding_dim=EMBEDDING_DIM,
     rnn_type = RNN_TYPE,
     rnn_units=RNN_UNITS,
-    learning_rate=0.001,
-    single_output=SINGLE_OUTPUT,
+    learning_rate=0.01,
     )
 
-model_filename = 'model_by_char_seq{}_emb{}_{}{}_singleoutput{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS, SINGLE_OUTPUT)
+model_filename = 'model_by_char_seq{}_emb{}_{}{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS)
 
 
 train_model(working_dir, 

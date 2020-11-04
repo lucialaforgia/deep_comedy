@@ -14,7 +14,7 @@ def text_in_syls_rhyme(text):
 
     return verses_syl
     
-def text_in_syls(text):
+def text_in_rev_syls(text):
     #this LIST's elements will be the verses of the DC
     verses = text.splitlines()
     verses_syl = []
@@ -25,9 +25,9 @@ def text_in_syls(text):
 
     return verses_syl
 
-def build_vocab(text):
+def build_vocab_verse(text):
     
-    vocab = sorted(list(set(text_in_syls(text))))
+    vocab = sorted(list(set(text_in_rev_syls(text))))
     
     idx2syl = { i : s for (i, s) in enumerate(vocab) }
     syl2idx = { s : i for (i, s) in enumerate(vocab) }
@@ -64,11 +64,12 @@ def build_dataset_rhyme(text, vocab, idx2syl, syl2idx, seq_length):
 
     return dataset
 
-def build_dataset(text, vocab, idx2syl, syl2idx, seq_length):
+def build_dataset_verse(text, vocab, idx2syl, syl2idx, seq_length):
     
+#    step_length = 8
     step_length = seq_length + 1
     
-    text_as_int = np.array([syl2idx[s] for s in text_in_syls(text)])
+    text_as_int = np.array([syl2idx[s] for s in text_in_rev_syls(text)])
 
     dataset = tf.data.Dataset.from_tensor_slices(text_as_int)
     dataset = dataset.window(seq_length + 1, shift=step_length, stride=1, drop_remainder=True)

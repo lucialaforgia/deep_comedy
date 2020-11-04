@@ -110,7 +110,7 @@ def train_model(working_dir, model, model_filename, dataset_train, dataset_val, 
         mode='auto', 
         factor=0.5, 
         patience=2, 
-        min_lr=0.0003, 
+        min_lr=0.0001, 
         verbose=1
         )
     tensorboard_callback = tf.keras.callbacks.TensorBoard(
