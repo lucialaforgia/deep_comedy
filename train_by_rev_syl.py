@@ -8,7 +8,7 @@ import tensorflow as tf
 tf.get_logger().setLevel('ERROR')
 
 from dante_by_rev_syl.syllabification import syllabify_verse
-from dante_by_rev_syl.data_preparation import text_in_syls, build_vocab, build_dataset, split_dataset
+from dante_by_rev_syl.data_preparation import text_in_syls, build_vocab, build_dataset, split_dataset, text_in_syls_rhyme, build_vocab_rhyme, build_dataset_rhyme
 from dante_by_rev_syl.text_processing import clean_comedy, prettify_text, special_tokens
 from dante_by_rev_syl.dante_model import build_model
 from dante_by_rev_syl.training_dante import train_model
@@ -69,11 +69,13 @@ RNN_TYPE = 'lstm'
 ##############################
 
 vocab, idx2syl, syl2idx = build_vocab(divine_comedy)
+vocab_rhyme, idx2syl_rhyme, syl2idx_rhyme = build_vocab_rhyme(divine_comedy)
 
 #x_train, y_train = build_dataset(divine_comedy, vocab, idx2char, char2idx, seq_length)
 #x_train, y_train, x_val, y_val = split_dataset(x_train, y_train)
 
 dataset = build_dataset(divine_comedy, vocab, idx2syl, syl2idx, seq_length=SEQ_LENGTH)
+dataset_rhyme = build_dataset_rhyme(divine_comedy, vocab_rhyme, idx2syl_rhyme, syl2idx_rhyme, seq_length=SEQ_LENGTH)
 
 print("Corpus length: {} syllables".format(len(text_in_syls(divine_comedy))))
 print("Vocab size:", len(vocab))
@@ -82,38 +84,60 @@ print("Vocab size:", len(vocab))
 logs_dir = os.path.join(working_dir, 'logs')
 os.makedirs(logs_dir, exist_ok = True) 
 vocab_file = os.path.join(working_dir, 'logs', 'vocab.json')
+vocab_file_rhyme = os.path.join(working_dir, 'logs', 'vocab_rhyme.json')
 
 save_vocab(vocab, idx2syl, syl2idx, vocab_file)
-
+save_vocab(vocab_rhyme, idx2syl_rhyme, syl2idx_rhyme, vocab_file_rhyme)
 
 dataset_train, dataset_val = split_dataset(dataset)
-
+dataset_train_rhyme, dataset_val_rhyme = split_dataset(dataset_rhyme)
 #for s in dataset_train.take(1).as_numpy_iterator():
 #    print(s)
 
 dataset_train = dataset_train.batch(BATCH_SIZE, drop_remainder=True)
 dataset_val = dataset_val.batch(BATCH_SIZE, drop_remainder=True)
+dataset_train_rhyme = dataset_train_rhyme.batch(BATCH_SIZE, drop_remainder=True)
+dataset_val_rhyme = dataset_val_rhyme.batch(BATCH_SIZE, drop_remainder=True)
 
 
-model = build_model(
+model_verse = build_model(
     vocab_size = len(vocab),
-    seq_length = SEQ_LENGTH,
+    seq_length = 20,
     embedding_dim=EMBEDDING_DIM,
     rnn_type = RNN_TYPE,
     rnn_units=RNN_UNITS,
-    learning_rate=0.001,
+    learning_rate=0.1,
+    )
+
+model_rhyme = build_model(
+    vocab_size = len(vocab_rhyme),
+    seq_length = 24,
+    embedding_dim=EMBEDDING_DIM,
+    rnn_type = RNN_TYPE,
+    rnn_units=512,
+    learning_rate=0.1,
     )
 
 
+
 model_filename = 'model_by_rev_syl_seq{}_emb{}_{}{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS)
+model_filename_rhyme = 'model_by_rev_syl_seq{}_emb{}_{}{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS)
 
 train_model(working_dir, 
-        model,
+        model_verse,
         model_filename,
         dataset_train, 
         dataset_val, 
         epochs=EPOCHS, 
         )
+
+# train_model(working_dir, 
+#         model_rhyme,
+#         model_filename_rhyme,
+#         dataset_train_rhyme, 
+#         dataset_val_rhyme, 
+#         epochs=EPOCHS, 
+#         )
 
 
 

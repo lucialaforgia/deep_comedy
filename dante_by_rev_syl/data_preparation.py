@@ -3,7 +3,7 @@ import tensorflow as tf
 from dante_by_rev_syl.syllabification import syllabify_verse
 from dante_by_rev_syl.text_processing import special_tokens
 
-def text_in_syls(text):
+def text_in_syls_rhyme(text):
     #this LIST's elements will be the verses of the DC
     verses = text.splitlines()
     verses_syl = []
@@ -14,6 +14,16 @@ def text_in_syls(text):
 
     return verses_syl
     
+def text_in_syls(text):
+    #this LIST's elements will be the verses of the DC
+    verses = text.splitlines()
+    verses_syl = []
+
+    for i in range(len(verses)):
+        verse = syllabify_verse(verses[i], special_tokens)
+        verses_syl += verse[::-1]
+
+    return verses_syl
 
 def build_vocab(text):
     
@@ -24,10 +34,39 @@ def build_vocab(text):
     
     return vocab, idx2syl, syl2idx
 
+def build_vocab_rhyme(text):
+    
+    vocab = sorted(list(set(text_in_syls_rhyme(text))))
+    
+    idx2syl = { i : s for (i, s) in enumerate(vocab) }
+    syl2idx = { s : i for (i, s) in enumerate(vocab) }
+    
+    return vocab, idx2syl, syl2idx
+
+def build_dataset_rhyme(text, vocab, idx2syl, syl2idx, seq_length):
+    
+    step_length = 1 
+    
+    text_as_int = np.array([syl2idx[s] for s in text_in_syls_rhyme(text)])
+
+    dataset = tf.data.Dataset.from_tensor_slices(text_as_int)
+    dataset = dataset.window(seq_length + 1, shift=step_length, stride=1, drop_remainder=True)
+    dataset = dataset.flat_map(lambda window: window.batch(seq_length + 1))
+
+    def split_input_target(chunk):
+        input_text = chunk[:-1]
+        target_text = chunk[1:]
+        return input_text, target_text
+
+    dataset = dataset.map(split_input_target)
+
+    dataset = dataset.shuffle(1000)
+
+    return dataset
 
 def build_dataset(text, vocab, idx2syl, syl2idx, seq_length):
     
-    step_length = 1 
+    step_length = seq_length + 1
     
     text_as_int = np.array([syl2idx[s] for s in text_in_syls(text)])
 
