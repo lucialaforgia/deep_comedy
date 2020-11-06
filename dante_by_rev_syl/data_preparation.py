@@ -45,7 +45,7 @@ def build_vocab_rhyme(text):
 
 def build_dataset_rhyme(text, vocab, idx2syl, syl2idx, seq_length):
     
-    step_length = 1 
+    step_length = seq_length + 1
     
     text_as_int = np.array([syl2idx[s] for s in text_in_syls_rhyme(text)])
 

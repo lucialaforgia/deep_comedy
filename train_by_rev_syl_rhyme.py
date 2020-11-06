@@ -53,7 +53,7 @@ RNN_TYPE = 'lstm'
 #EPOCHS = 200
 #SEQ_LENGTH = 24
 #EMBEDDING_DIM = 256
-#RNN_UNITS = 1024
+#RNN_UNITS = 512
 #RNN_TYPE = 'gru'
 
 ##############################
@@ -83,7 +83,7 @@ model_rhyme = build_model(
     embedding_dim=EMBEDDING_DIM,
     rnn_type = RNN_TYPE,
     rnn_units=RNN_UNITS,
-    learning_rate=0.01,
+    learning_rate=0.001,
     )
 
 
