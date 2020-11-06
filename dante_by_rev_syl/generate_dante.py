@@ -30,9 +30,10 @@ def generate_text(model, special_tokens, vocab_size, syl2idx, idx2syl, seq_lengt
 #        prediction = tf.nn.softmax(prediction).numpy()
 #        prediction /= np.sum(prediction)
         prediction = prediction.numpy()
-#        index = np.random.choice(len(prediction), size=1, p=prediction)[0]
 
-        index = np.argmax(prediction)
+        index = np.random.choice(len(prediction), size=1, p=prediction)[0]
+
+#        index = np.argmax(prediction)
 
 
 #        prediction = model.predict(x, verbose=0)
