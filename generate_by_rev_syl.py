@@ -7,7 +7,7 @@ import numpy as np
 import tensorflow as tf
 tf.get_logger().setLevel('ERROR')
 
-from dante_by_rev_syl.data_preparation import build_vocab_rhyme, text_in_syls_rhyme
+from dante_by_rev_syl.data_preparation import text_in_rev_syls
 from dante_by_rev_syl.text_processing import clean_comedy, prettify_text, special_tokens
 from dante_by_rev_syl.generate_dante import generate_text
 from utils import save_vocab, load_vocab
@@ -28,7 +28,7 @@ divine_comedy = clean_comedy(divine_comedy, special_tokens)
 # Path where the vocab is saved
 logs_dir = os.path.join(working_dir, 'logs')
 os.makedirs(logs_dir, exist_ok = True) 
-vocab_file = os.path.join(working_dir, 'logs', 'vocab_rhyme.json')
+vocab_file = os.path.join(working_dir, 'logs', 'vocab_verse.json')
 
 vocab, idx2syl, syl2idx = load_vocab(vocab_file)
 
@@ -39,7 +39,7 @@ vocab_size = len(vocab)
 # Path where the model is saved
 models_dir = os.path.join(working_dir, 'models')
 os.makedirs(models_dir, exist_ok = True) 
-model_file = os.path.join(models_dir, "dante_by_rev_syl_model.h5")
+model_file = os.path.join(models_dir, "dante_by_rev_syl_verse_model.h5")
 
 model = tf.keras.models.load_model(model_file)
 
@@ -68,7 +68,7 @@ if 'gru' in RNN_TYPE:
 
 model.summary()
 
-model_filename = 'model_by_rev_syl_seq{}_emb{}_{}{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS)
+model_filename = 'model_by_rev_syl_verse_seq{}_emb{}_{}{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS)
 
 print("\nMODEL: {}\n".format(model_filename))
 
@@ -76,7 +76,7 @@ output_file = os.path.join(logs_dir, model_filename, "output.txt")
 raw_output_file = os.path.join(logs_dir, model_filename, "raw_output.txt")
 
 
-divine_comedy = text_in_syls_rhyme(divine_comedy)
+divine_comedy = text_in_rev_syls(divine_comedy)
 
 
 index_eoc = divine_comedy.index(special_tokens['END_OF_CANTO']) + 1
