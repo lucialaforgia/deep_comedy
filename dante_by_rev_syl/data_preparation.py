@@ -21,9 +21,9 @@ def text_in_rev_syls(text):
 
     for i in range(len(verses)):
         verse = syllabify_verse(verses[i], special_tokens)
-        verses_syl += verse[::-1]
+        verses_syl += verse
 
-    return verses_syl
+    return verses_syl[::-1]
 
 def build_vocab_verse(text):
     
