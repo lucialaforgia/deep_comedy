@@ -1,5 +1,6 @@
 import re
 import string
+import os
 
 special_tokens = {
     'START_OF_CANTO'   : '<start_of_canto>',
@@ -155,13 +156,17 @@ def clean_comedy(divine_comedy, special_tokens):
 
 if __name__ == "__main__":
     #read divine comedy from file
-    with open("../divina_commedia/divina_commedia_accent_UTF-8.txt","r") as f:
+    divine_comedy_file = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "divina_commedia", "divina_commedia_accent_UTF-8.txt")
+    
+    with open(divine_comedy_file,"r") as f:
         divine_comedy = f.read()
 
     divine_comedy = clean_comedy(divine_comedy, special_tokens)
 
+    divine_comedy_file_output = os.path.join(os.path.dirname(os.path.abspath(__file__)), "divina_commedia_accent_cleaned.txt") 
+
 #   save cleaned divine comedy in a new file
-    with open("divina_commedia_accent_cleaned.txt","w") as f:
+    with open(divine_comedy_file_output,"w") as f:
         f.write(divine_comedy)
 
 

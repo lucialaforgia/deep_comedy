@@ -1,6 +1,6 @@
 import os
 import sys
-sys.path.append(os.path.abspath(".."))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 import numpy as np
@@ -11,7 +11,7 @@ import csv
 import string
 from utils import save_vocab, load_vocab
 
-working_dir = os.path.abspath('.')
+working_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Path where the vocab is saved
 logs_dir = os.path.join(working_dir, 'logs')
@@ -27,7 +27,6 @@ model_file = os.path.join(models_dir, "dante_by_rev_syl_model.h5")
 
 model = tf.keras.models.load_model(model_file)
 
-#SEQ_LENGTH = 250
 SEQ_LENGTH = model.get_layer('embedding').output.shape[1]
 EMBEDDING_DIM = model.get_layer('embedding').output.shape[2]
 for l in model.layers:
