@@ -43,8 +43,6 @@ model_file_rhyme = os.path.join(models_dir, "dante_by_rev_syl_rhyme_model.h5")
 
 model_rhyme = tf.keras.models.load_model(model_file_rhyme)
 
-#SEQ_LENGTH = 250
-#SINGLE_OUTPUT = False
 
 SEQ_LENGTH = model_rhyme.get_layer('embedding').output.shape[1]
 EMBEDDING_DIM = model_rhyme.get_layer('embedding').output.shape[2]

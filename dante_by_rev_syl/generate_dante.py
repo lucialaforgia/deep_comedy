@@ -4,7 +4,9 @@ import tensorflow as tf
 from dante_by_syl.data_preparation import text_in_syls
 from dante_by_syl.text_processing import prettify_text, special_tokens
 
-def generate_text(model, special_tokens, vocab_size, syl2idx, idx2syl, seq_length, start_seq, temperature=1.0):
+
+
+def generate_text(model_rhyme, model_verse, special_tokens, vocab_size_rhyme, vocab_size_verse, syl2idx_rhyme, idx2syl_rhyme, syl2idx_verse, idx2syl_verse, seq_length_rhyme, seq_length_verse, start_seq_rhyme, start_seq_verse, temperature=1.0):
     text_list = start_seq
     generated_text_list = []
     print(prettify_text(''.join(text_list), special_tokens), end='', flush=True)

@@ -28,7 +28,7 @@ divine_comedy = clean_comedy(divine_comedy, special_tokens)
 # Path where the vocab is saved
 logs_dir = os.path.join(working_dir, 'logs')
 os.makedirs(logs_dir, exist_ok = True) 
-vocab_file = os.path.join(working_dir, 'logs', 'vocab_verse.json')
+vocab_file_verse = os.path.join(working_dir, 'logs', 'vocab_verse.json')
 
 vocab, idx2syl, syl2idx = load_vocab(vocab_file)
 
@@ -43,8 +43,6 @@ model_file_verse = os.path.join(models_dir, "dante_by_rev_syl_verse_model.h5")
 
 model_verse = tf.keras.models.load_model(model_file_verse)
 
-#SEQ_LENGTH = 250
-#SINGLE_OUTPUT = False
 
 SEQ_LENGTH = model_verse.get_layer('embedding').output.shape[1]
 EMBEDDING_DIM = model_verse.get_layer('embedding').output.shape[2]

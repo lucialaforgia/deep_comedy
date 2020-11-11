@@ -30,7 +30,7 @@ divine_comedy = clean_comedy(divine_comedy, special_tokens)
 # Training's hyper-parameters
 
 ## VERSION 1
-#
+
 BATCH_SIZE = 32
 EPOCHS = 200
 SEQ_LENGTH = 50
