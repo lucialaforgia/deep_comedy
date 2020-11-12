@@ -9,7 +9,7 @@ tf.get_logger().setLevel('ERROR')
 
 from dante_by_rev_syl.data_preparation import text_in_rev_syls
 from dante_by_rev_syl.text_processing import clean_comedy, prettify_text, special_tokens
-from dante_by_rev_syl.generate_dante import generate_text
+from dante_by_syl.generate_dante import generate_text
 from utils import save_vocab, load_vocab
 
 working_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dante_by_rev_syl')
@@ -28,7 +28,7 @@ divine_comedy = clean_comedy(divine_comedy, special_tokens)
 # Path where the vocab is saved
 logs_dir = os.path.join(working_dir, 'logs')
 os.makedirs(logs_dir, exist_ok = True) 
-vocab_file_verse = os.path.join(working_dir, 'logs', 'vocab_verse.json')
+vocab_file = os.path.join(logs_dir, 'vocab_verse.json')
 
 vocab, idx2syl, syl2idx = load_vocab(vocab_file)
 
@@ -69,6 +69,8 @@ model_verse.summary()
 model_filename = 'model_by_rev_syl_verse_seq{}_emb{}_{}{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS)
 
 print("\nMODEL: {}\n".format(model_filename))
+
+os.makedirs(os.path.join(logs_dir, model_filename), exist_ok = True) 
 
 output_file = os.path.join(logs_dir, model_filename, "output.txt")
 raw_output_file = os.path.join(logs_dir, model_filename, "raw_output.txt")

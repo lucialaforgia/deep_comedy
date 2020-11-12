@@ -20,10 +20,11 @@ def text_in_rev_syls(text):
     verses_syl = []
 
     for i in range(len(verses)):
-        verse = syllabify_verse(verses[i], special_tokens)
-        verses_syl += verse
+        if len(verses[i]) > 1:
+            verse = syllabify_verse(verses[i], special_tokens)
+            verses_syl += verse[::-1]
 
-    return verses_syl[::-1]
+    return verses_syl
 
 def build_vocab_verse(text):
     

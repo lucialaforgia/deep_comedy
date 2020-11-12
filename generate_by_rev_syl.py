@@ -4,6 +4,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 import numpy as np
+import random
 import tensorflow as tf
 tf.get_logger().setLevel('ERROR')
 
@@ -28,8 +29,8 @@ divine_comedy = clean_comedy(divine_comedy, special_tokens)
 # Path where the vocab is saved
 logs_dir = os.path.join(working_dir, 'logs')
 os.makedirs(logs_dir, exist_ok = True) 
-vocab_file_rhyme = os.path.join(working_dir, 'logs', 'vocab_rhyme.json')
-vocab_file_verse = os.path.join(working_dir, 'logs', 'vocab_verse.json')
+vocab_file_rhyme = os.path.join(logs_dir, 'vocab_rhyme.json')
+vocab_file_verse = os.path.join(logs_dir,  'vocab_verse.json')
 
 vocab_rhyme, idx2syl_rhyme, syl2idx_rhyme = load_vocab(vocab_file_rhyme)
 vocab_verse, idx2syl_verse, syl2idx_verse = load_vocab(vocab_file_verse)
@@ -75,9 +76,12 @@ SEQ_LENGTH_VERSE = model_verse.get_layer('embedding').output.shape[1]
 model_verse.summary()
 model_rhyme.summary()
 
-#model_filename = 'model_by_rev_syl_verse_seq{}_emb{}_{}{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS)
+#model_filename = 'model_by_rev_syl_seq{}_emb{}_{}{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS)
+model_filename = 'model_by_rev_syl'
 
 print("\nMODEL: {}\n".format(model_filename))
+
+os.makedirs(os.path.join(logs_dir, model_filename), exist_ok = True) 
 
 output_file = os.path.join(logs_dir, model_filename, "output.txt")
 raw_output_file = os.path.join(logs_dir, model_filename, "raw_output.txt")
@@ -85,27 +89,26 @@ raw_output_file = os.path.join(logs_dir, model_filename, "raw_output.txt")
 
 
 divine_comedy_rhyme = text_in_syls_rhyme(divine_comedy)
-index_eoc = divine_comedy_rhyme.index(special_tokens['END_OF_CANTO']) + 1
+#index_eoc = divine_comedy_rhyme.index(special_tokens['END_OF_CANTO']) + 1
+indexes = [i for i, x in enumerate(divine_comedy_rhyme) if x == special_tokens['END_OF_CANTO']]
+index_eoc = random.choice(indexes) + 1
 start_seq_rhyme = divine_comedy_rhyme[index_eoc - SEQ_LENGTH_RHYME:index_eoc]
 
 
 divine_comedy_verse = text_in_rev_syls(divine_comedy)
+indexes = [i for i, x in enumerate(divine_comedy_verse) if x == special_tokens['END_OF_CANTO']]
+index_eoc = divine_comedy_verse.index(special_tokens['END_OF_CANTO']) + 1
+start_seq_verse = divine_comedy_verse[index_eoc - SEQ_LENGTH_VERSE:index_eoc]
 
 
-index_eoc = divine_comedy.index(special_tokens['END_OF_CANTO']) + 1
-start_seq = divine_comedy[index_eoc - SEQ_LENGTH_VERSE:index_eoc]
-#start_seq = divine_comedy[:374]
-#start_seq = special_tokens['START_OF_CANTO']
 
-#print(start_seq)
 
 generated_text = generate_text(model_rhyme, model_verse, special_tokens, vocab_size_rhyme, vocab_size_verse, syl2idx_rhyme, idx2syl_rhyme, syl2idx_verse, idx2syl_verse, SEQ_LENGTH_RHYME, SEQ_LENGTH_VERSE, start_seq_rhyme, start_seq_verse, temperature=1.0)
 
 #print(prettify_text(generated_text, special_tokens))
 
+with open(output_file,"w") as f:
+    f.write(prettify_text(generated_text, special_tokens))
 
-# with open(output_file,"w") as f:
-#     f.write(prettify_text(generated_text, special_tokens))
-
-# with open(raw_output_file,"w") as f:
-#     f.write(generated_text)
+with open(raw_output_file,"w") as f:
+    f.write(generated_text)

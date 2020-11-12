@@ -27,7 +27,7 @@ divine_comedy = clean_comedy(divine_comedy, special_tokens)
 # Path where the vocab is saved
 logs_dir = os.path.join(working_dir, 'logs')
 os.makedirs(logs_dir, exist_ok = True) 
-vocab_file = os.path.join(working_dir, 'logs', 'vocab.json')
+vocab_file = os.path.join(logs_dir, 'vocab.json')
 
 vocab, idx2char, char2idx = load_vocab(vocab_file)
 
@@ -68,6 +68,8 @@ model_filename = 'model_by_char_seq{}_emb{}_{}{}'.format(SEQ_LENGTH, EMBEDDING_D
 
 
 print("\nMODEL: {}\n".format(model_filename))
+
+os.makedirs(os.path.join(logs_dir, model_filename), exist_ok = True) 
 
 output_file = os.path.join(logs_dir, model_filename, "output.txt")
 raw_output_file = os.path.join(logs_dir, model_filename, "raw_output.txt")
