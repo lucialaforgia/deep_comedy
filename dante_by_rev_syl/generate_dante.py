@@ -99,32 +99,9 @@ def generate_text(model_rhyme, model_verse, special_tokens, vocab_size_rhyme, vo
         print(prettify_text(''.join(whole_verse_list), special_tokens),  end='', flush=True)
 
 
-
-
         generated_text_list += whole_verse_list
-
-
-
-
-
-
-
-
-
-
-
-
-#         generated_text_list.append(next_syl_verse)
-#         text_list.append(next_syl_verse)
-
-# #        print(prediction, end='', flush=True)
-
-
-
-
-#         print(prettify_text(prediction, special_tokens), end='', flush=True)
     
-    print('\n')        
+   
     return ''.join(generated_text_list)
 
 
