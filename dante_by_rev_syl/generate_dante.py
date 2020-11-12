@@ -12,10 +12,8 @@ def generate_text(model_rhyme, model_verse, special_tokens, vocab_size_rhyme, vo
 
     generated_text_list = []
 
-
     model_rhyme.reset_states()
     model_verse.reset_states()
-    next_syl_rhyme = ''
     end_of_canto = False
     while not end_of_canto:
         #     and generated_text_list.count(special_tokens['START_OF_TERZINA']) < 45 \
@@ -87,21 +85,16 @@ def generate_text(model_rhyme, model_verse, special_tokens, vocab_size_rhyme, vo
                         seq_text_verse.append(next_syl_verse)
                         rest_revese_verse_list.append(next_syl_verse)
 
-                
+        
 
-
-        # print('struc', structure_list)
-        # print('rest', rest_revese_verse_list[::-1])
-        # print('end', end_verse_list)
-        print(prettify_text(''.join(structure_list), special_tokens),  end='', flush=True)
 
         whole_verse_list = rest_revese_verse_list[::-1] + end_verse_list
-        print(prettify_text(''.join(whole_verse_list), special_tokens),  end='', flush=True)
-
 
         generated_text_list += whole_verse_list
     
-   
+        print(prettify_text(''.join(structure_list), special_tokens),  end='', flush=True)
+        print(prettify_text(''.join(whole_verse_list), special_tokens),  end='', flush=True)
+    
     return ''.join(generated_text_list)
 
 
