@@ -53,33 +53,56 @@ SEQ_LENGTH_RHYME = model_rhyme.get_layer('embedding').output.shape[1]
 SEQ_LENGTH_VERSE = model_verse.get_layer('embedding').output.shape[1]
 
 
-# EMBEDDING_DIM = model.get_layer('embedding').output.shape[2]
-# for l in model.layers:
-#     if l.name == 'first_lstm':
-#         RNN_TYPE = '2lstm'
-#         break
-#     if l.name == 'last_lstm':
-#         RNN_TYPE = 'lstm' 
-#         break
-#     if l.name == 'first_gru':
-#         RNN_TYPE = '2gru' 
-#         break
-#     if l.name == 'last_gru':
-#         RNN_TYPE = 'gru' 
-#         break
-# if 'lstm' in RNN_TYPE:
-#     RNN_UNITS = model.get_layer('last_lstm').output.shape[-1]
-# if 'gru' in RNN_TYPE:
-#     RNN_UNITS = model.get_layer('last_gru').output.shape[-1]
+EMBEDDING_DIM_RHYME  = model_rhyme.get_layer('embedding').output.shape[2]
+for l in model_rhyme.layers:
+    if l.name == 'first_lstm':
+        RNN_TYPE_RHYME  = '2lstm'
+        break
+    if l.name == 'last_lstm':
+        RNN_TYPE_RHYME  = 'lstm' 
+        break
+    if l.name == 'first_gru':
+        RNN_TYPE_RHYME  = '2gru' 
+        break
+    if l.name == 'last_gru':
+        RNN_TYPE_RHYME  = 'gru' 
+        break
+if 'lstm' in RNN_TYPE_RHYME :
+    RNN_UNITS_RHYME  = model_rhyme.get_layer('last_lstm').output.shape[-1]
+if 'gru' in RNN_TYPE:
+    RNN_UNITS_RHYME  = model_rhyme.get_layer('last_gru').output.shape[-1]
 
 
-model_verse.summary()
+EMBEDDING_DIM_VERSE  = model_verse.get_layer('embedding').output.shape[2]
+for l in model_verse.layers:
+    if l.name == 'first_lstm':
+        RNN_TYPE_VERSE  = '2lstm'
+        break
+    if l.name == 'last_lstm':
+        RNN_TYPE_VERSE  = 'lstm' 
+        break
+    if l.name == 'first_gru':
+        RNN_TYPE_VERSE  = '2gru' 
+        break
+    if l.name == 'last_gru':
+        RNN_TYPE_VERSE  = 'gru' 
+        break
+if 'lstm' in RNN_TYPE_VERSE :
+    RNN_UNITS_VERSE  = model_verse.get_layer('last_lstm').output.shape[-1]
+if 'gru' in RNN_TYPE_VERSE:
+    RNN_UNITS_VERSE  = model_verse.get_layer('last_gru').output.shape[-1]
+
 model_rhyme.summary()
+model_verse.summary()
 
-#model_filename = 'model_by_rev_syl_seq{}_emb{}_{}{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS)
+model_filename_rhyme = 'model_by_rev_syl_rhyme_seq{}_emb{}_{}{}'.format(SEQ_LENGTH_RHYME , EMBEDDING_DIM_RHYME , RNN_TYPE_RHYME , RNN_UNITS_RHYME )
+model_filename_verse = 'model_by_rev_syl_verse_seq{}_emb{}_{}{}'.format(SEQ_LENGTH_VERSE, EMBEDDING_DIM_VERSE, RNN_TYPE_VERSE, RNN_UNITS_VERSE)
+
+
+print("\nMODEL RHYME: {}\n".format(model_filename_rhyme))
+print("\nMODEL VERSE: {}\n".format(model_filename_verse))
+
 model_filename = 'model_by_rev_syl'
-
-print("\nMODEL: {}\n".format(model_filename))
 
 os.makedirs(os.path.join(logs_dir, model_filename), exist_ok = True) 
 
