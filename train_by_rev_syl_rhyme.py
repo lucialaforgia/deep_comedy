@@ -81,7 +81,7 @@ model_rhyme = build_model(
     embedding_dim=EMBEDDING_DIM,
     rnn_type = RNN_TYPE,
     rnn_units=RNN_UNITS,
-    learning_rate=0.001,
+    learning_rate=0.01,
     )
 
 
