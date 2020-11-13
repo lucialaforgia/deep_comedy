@@ -11,7 +11,6 @@ def text_in_syls_rhyme(text):
     for i in range(len(verses)):
         verse = syllabify_verse(verses[i], special_tokens)
         verses_syl += verse[-3:]
-
     return verses_syl
     
 def text_in_rev_syls(text):
@@ -20,8 +19,8 @@ def text_in_rev_syls(text):
     verses_syl = []
 
     for i in range(len(verses)):
-        if len(verses[i]) > 1:
-            verse = syllabify_verse(verses[i], special_tokens)
+        verse = syllabify_verse(verses[i], special_tokens)
+        if len(verse) > 1:
             verses_syl += verse[::-1]
 
     return verses_syl
@@ -46,6 +45,7 @@ def build_vocab_rhyme(text):
 
 def build_dataset_rhyme(text, vocab, idx2syl, syl2idx, seq_length):
     
+#    step_length = 32
     step_length = seq_length + 1
     
     text_as_int = np.array([syl2idx[s] for s in text_in_syls_rhyme(text)])

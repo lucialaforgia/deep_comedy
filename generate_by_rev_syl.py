@@ -4,7 +4,6 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 import numpy as np
-import random
 import tensorflow as tf
 tf.get_logger().setLevel('ERROR')
 
@@ -73,6 +72,7 @@ SEQ_LENGTH_VERSE = model_verse.get_layer('embedding').output.shape[1]
 # if 'gru' in RNN_TYPE:
 #     RNN_UNITS = model.get_layer('last_gru').output.shape[-1]
 
+
 model_verse.summary()
 model_rhyme.summary()
 
@@ -91,15 +91,14 @@ raw_output_file = os.path.join(logs_dir, model_filename, "raw_output.txt")
 divine_comedy_rhyme = text_in_syls_rhyme(divine_comedy)
 #index_eoc = divine_comedy_rhyme.index(special_tokens['END_OF_CANTO']) + 1
 indexes = [i for i, x in enumerate(divine_comedy_rhyme) if x == special_tokens['END_OF_CANTO']]
-index_eoc = random.choice(indexes) + 1
+index_eoc = np.random.choice(indexes) + 1
 start_seq_rhyme = divine_comedy_rhyme[index_eoc - SEQ_LENGTH_RHYME:index_eoc]
 
 
 divine_comedy_verse = text_in_rev_syls(divine_comedy)
-indexes = [i for i, x in enumerate(divine_comedy_verse) if x == special_tokens['END_OF_CANTO']]
-index_eoc = divine_comedy_verse.index(special_tokens['END_OF_CANTO']) + 1
-start_seq_verse = divine_comedy_verse[index_eoc - SEQ_LENGTH_VERSE:index_eoc]
-
+indexes = [i for i, x in enumerate(divine_comedy_verse) if x == special_tokens['END_OF_VERSO'] and i > SEQ_LENGTH_VERSE]
+index_eov = np.random.choice(indexes)
+start_seq_verse = divine_comedy_verse[index_eov - SEQ_LENGTH_VERSE:index_eov]
 
 
 

@@ -22,13 +22,12 @@ with open(divine_comedy_file,"r") as f:
 
 divine_comedy = clean_comedy(divine_comedy, special_tokens)
 
-#divine_comedy = divine_comedy[:5000]
 
 ##############################
 # Training's hyper-parameters
 
 ## VERSION 1
-#
+
 BATCH_SIZE = 32
 EPOCHS = 200
 SEQ_LENGTH = 200
@@ -38,21 +37,21 @@ RNN_TYPE = 'lstm'
 
 ## VERSION 2
 
-BATCH_SIZE = 32
-EPOCHS = 200
-SEQ_LENGTH = 200
-EMBEDDING_DIM = 64
-RNN_UNITS = 512
-RNN_TYPE = '2lstm'
+# BATCH_SIZE = 32
+# EPOCHS = 200
+# SEQ_LENGTH = 200
+# EMBEDDING_DIM = 64
+# RNN_UNITS = 512
+# RNN_TYPE = '2lstm'
 
 ## VERSION 3
 
-#BATCH_SIZE = 32
-#EPOCHS = 200
-#SEQ_LENGTH = 200
-#EMBEDDING_DIM = 64
-#RNN_UNITS = 512
-#RNN_TYPE = 'gru'
+# BATCH_SIZE = 32
+# EPOCHS = 200
+# SEQ_LENGTH = 200
+# EMBEDDING_DIM = 64
+# RNN_UNITS = 512
+# RNN_TYPE = 'gru'
 
 
 ##############################

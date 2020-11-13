@@ -57,15 +57,15 @@ def generate_text(model_rhyme, model_verse, special_tokens, vocab_size_rhyme, vo
 
         reverse_rhyme_list = end_verse_list[::-1]
 
-#        seq_text_verse += structure_list
+##        seq_text_verse += structure_list
         seq_text_verse += reverse_rhyme_list
 
         next_syl_verse = ''
 
         rest_revese_verse_list = []
 
-#        while not end_of_canto and next_syl_verse != special_tokens['END_OF_VERSO']:
-        while not end_of_canto and (next_syl_verse == special_tokens['WORD_SEP'] or next_syl_verse not in special_tokens.values()):
+        while not end_of_canto and next_syl_verse != special_tokens['END_OF_VERSO']:
+##        while not end_of_canto and (next_syl_verse == special_tokens['WORD_SEP'] or next_syl_verse not in special_tokens.values()):
 
             seq_text_verse = seq_text_verse[-seq_length_verse:]
 
@@ -82,23 +82,21 @@ def generate_text(model_rhyme, model_verse, special_tokens, vocab_size_rhyme, vo
             index_verse = np.random.choice(len(prediction_verse), size=1, p=prediction_verse)[0]
 
             next_syl_verse = idx2syl_verse[index_verse]
-            if next_syl_verse == special_tokens['WORD_SEP'] or next_syl_verse not in special_tokens.values():
-#            if next_syl_verse != special_tokens['END_OF_VERSO']:
+##            if next_syl_verse == special_tokens['WORD_SEP'] or next_syl_verse not in special_tokens.values():
+            if next_syl_verse != special_tokens['END_OF_VERSO']:
                     seq_text_verse.append(next_syl_verse)
                     rest_revese_verse_list.append(next_syl_verse)
-
-
-        
 
 
         whole_verse_list = rest_revese_verse_list[::-1] + end_verse_list
 
         generated_text_list += whole_verse_list
     
-#        print(prettify_text(''.join(structure_list), special_tokens),  end='', flush=True)
-#        print(prettify_text(''.join(whole_verse_list), special_tokens),  end='', flush=True)
-        print(''.join(structure_list),  end='\n', flush=True)
-        print(''.join(whole_verse_list),  end='\n', flush=True)    
+        print(prettify_text(''.join(structure_list), special_tokens),  end='', flush=True)
+        print(prettify_text(''.join(whole_verse_list), special_tokens),  end='', flush=True)
+#        print(''.join(structure_list),  end='\n', flush=True)
+#        print(''.join(whole_verse_list),  end='\n', flush=True)
+
     return ''.join(generated_text_list)
 
 
