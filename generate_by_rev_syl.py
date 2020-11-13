@@ -50,8 +50,6 @@ vocab_size_verse = len(vocab_verse)
 
 
 SEQ_LENGTH_RHYME = model_rhyme.get_layer('embedding').output.shape[1]
-SEQ_LENGTH_VERSE = model_verse.get_layer('embedding').output.shape[1]
-
 
 EMBEDDING_DIM_RHYME  = model_rhyme.get_layer('embedding').output.shape[2]
 for l in model_rhyme.layers:
@@ -69,9 +67,11 @@ for l in model_rhyme.layers:
         break
 if 'lstm' in RNN_TYPE_RHYME :
     RNN_UNITS_RHYME  = model_rhyme.get_layer('last_lstm').output.shape[-1]
-if 'gru' in RNN_TYPE:
+if 'gru' in RNN_TYPE_RHYME:
     RNN_UNITS_RHYME  = model_rhyme.get_layer('last_gru').output.shape[-1]
 
+
+SEQ_LENGTH_VERSE = model_verse.get_layer('embedding').output.shape[1]
 
 EMBEDDING_DIM_VERSE  = model_verse.get_layer('embedding').output.shape[2]
 for l in model_verse.layers:
