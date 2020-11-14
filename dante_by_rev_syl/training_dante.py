@@ -110,7 +110,7 @@ def train_model(working_dir, model, model_filename, dataset_train, dataset_val, 
         monitor='val_loss', 
         mode='auto', 
         factor=0.5, 
-        patience=2, 
+        patience=3, 
         min_lr=0.0005, 
         verbose=1
         )
