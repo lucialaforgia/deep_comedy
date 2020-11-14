@@ -94,7 +94,7 @@ def train_model(working_dir, model, model_filename, dataset_train, dataset_val, 
 
     early_stopping_callback = tf.keras.callbacks.EarlyStopping(
         restore_best_weights=True, 
-        patience=5,
+        patience=7,
         monitor='val_loss', 
         mode='auto', 
         verbose=1
