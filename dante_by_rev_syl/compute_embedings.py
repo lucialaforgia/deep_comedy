@@ -16,60 +16,63 @@ working_dir = os.path.dirname(os.path.abspath(__file__))
 # Path where the vocab is saved
 logs_dir = os.path.join(working_dir, 'logs')
 os.makedirs(logs_dir, exist_ok = True) 
-vocab_file = os.path.join(working_dir, 'logs', 'vocab.json')
+vocab_file_rhyme = os.path.join(logs_dir, 'vocab_rhyme.json')
 
-vocab, idx2syl, syl2idx = load_vocab(vocab_file)
+vocab_rhyme, idx2syl_rhyme, syl2idx_rhyme = load_vocab(vocab_file_rhyme)
+
+# Length of the vocabulary
+vocab_size = len(vocab_rhyme)
+
 
 # Path where the model is saved
 models_dir = os.path.join(working_dir, 'models')
 os.makedirs(models_dir, exist_ok = True) 
-model_file = os.path.join(models_dir, "dante_by_rev_syl_model.h5")
+model_file_rhyme = os.path.join(models_dir, "dante_by_rev_syl_rhyme_model.h5")
 
-model = tf.keras.models.load_model(model_file)
+model_rhyme = tf.keras.models.load_model(model_file_rhyme)
+SEQ_LENGTH_RHYME = model_rhyme.get_layer('embedding').output.shape[1]
 
-SEQ_LENGTH = model.get_layer('embedding').output.shape[1]
-EMBEDDING_DIM = model.get_layer('embedding').output.shape[2]
-for l in model.layers:
+EMBEDDING_DIM_RHYME  = model_rhyme.get_layer('embedding').output.shape[2]
+for l in model_rhyme.layers:
     if l.name == 'first_lstm':
-        RNN_TYPE = '2lstm'
+        RNN_TYPE_RHYME  = '2lstm'
         break
     if l.name == 'last_lstm':
-        RNN_TYPE = 'lstm' 
+        RNN_TYPE_RHYME  = 'lstm' 
         break
     if l.name == 'first_gru':
-        RNN_TYPE = '2gru' 
+        RNN_TYPE_RHYME  = '2gru' 
         break
     if l.name == 'last_gru':
-        RNN_TYPE = 'gru' 
+        RNN_TYPE_RHYME  = 'gru' 
         break
-if 'lstm' in RNN_TYPE:
-    RNN_UNITS = model.get_layer('last_lstm').output.shape[-1]
-if 'gru' in RNN_TYPE:
-    RNN_UNITS = model.get_layer('last_gru').output.shape[-1]
+if 'lstm' in RNN_TYPE_RHYME :
+    RNN_UNITS_RHYME  = model_rhyme.get_layer('last_lstm').output.shape[-1]
+if 'gru' in RNN_TYPE_RHYME:
+    RNN_UNITS_RHYME  = model_rhyme.get_layer('last_gru').output.shape[-1]
 
-model.summary()
+model_rhyme.summary()
 
-model_filename = 'model_by_syl_seq{}_emb{}_{}{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS)
-
-
-print("\nMODEL: {}\n".format(model_filename))
+model_filename_rhyme = 'model_by_rev_syl_rhyme_seq{}_emb{}_{}{}'.format(SEQ_LENGTH_RHYME , EMBEDDING_DIM_RHYME , RNN_TYPE_RHYME , RNN_UNITS_RHYME )
 
 
-embedding_layer = model.get_layer('embedding')
+print("\nMODEL RHYME: {}\n".format(model_filename_rhyme))
+
+embedding_layer_rhyme = model_rhyme.get_layer('embedding')
 
 
-embedding_file = os.path.join(logs_dir, model_filename, "embedding.tsv")
-metadata_file = os.path.join(logs_dir, model_filename, "metadata.tsv")
+embedding_file_rhyme = os.path.join(logs_dir, model_filename_rhyme, "embedding.tsv")
+metadata_file_rhyme = os.path.join(logs_dir, model_filename_rhyme, "metadata.tsv")
 
 
-f_e = open(embedding_file, "w")
-f_m = open(metadata_file, "w")
+f_e = open(embedding_file_rhyme, "w")
+f_m = open(metadata_file_rhyme, "w")
 
 #f_m.write("{}\n".format('syl'))
 writer = csv.writer(f_e, delimiter='\t', lineterminator='\n')             
-for s in vocab:
+for s in vocab_rhyme:
     f_m.write('"{}"\n'.format(s))
-    emb = embedding_layer(np.array(syl2idx[s])).numpy()
+    emb = embedding_layer_rhyme(np.array(syl2idx_rhyme[s])).numpy()
     writer.writerow(emb)
 
 f_e.close()

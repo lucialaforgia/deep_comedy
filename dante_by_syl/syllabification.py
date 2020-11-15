@@ -1,3 +1,6 @@
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import pyphen
 import re
 import string
@@ -102,14 +105,17 @@ if __name__ == "__main__":
 #        print(syllables)
         syllables = [ syl for syl in syllables if syl != special_tokens['WORD_SEP'] ]
         syllables = [ syl for syl in syllables if syl != special_tokens['END_OF_VERSO'] ]
+        syllables = [ syl.replace(special_tokens['WORD_SEP'], ' ') for syl in syllables ]
+
         size = len(syllables)
 
         if line.strip() not in special_tokens.values():
 #            print("\n"+line)
 #            if size < 10 or size > 12:
             if size != 11:
-                print(line)
-                print(size, syllables)
+                print(line.replace(special_tokens['WORD_SEP'], '').replace(special_tokens['END_OF_VERSO'], ''))
+                print(size, '-'.join(syllables))
+                print()
                 count+=1
 
     print(str(count)+'/'+str(len(divine_comedy_list)) + " verses still wrong")

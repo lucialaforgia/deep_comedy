@@ -99,8 +99,8 @@ model_filename_rhyme = 'model_by_rev_syl_rhyme_seq{}_emb{}_{}{}'.format(SEQ_LENG
 model_filename_verse = 'model_by_rev_syl_verse_seq{}_emb{}_{}{}'.format(SEQ_LENGTH_VERSE, EMBEDDING_DIM_VERSE, RNN_TYPE_VERSE, RNN_UNITS_VERSE)
 
 
-print("\nMODEL RHYME: {}\n".format(model_filename_rhyme))
-print("\nMODEL VERSE: {}\n".format(model_filename_verse))
+print("\nMODEL RHYME: {}".format(model_filename_rhyme))
+print("MODEL VERSE: {}\n".format(model_filename_verse))
 
 model_filename = 'model_by_rev_syl'
 

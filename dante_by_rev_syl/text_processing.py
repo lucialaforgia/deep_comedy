@@ -120,20 +120,22 @@ def add_special_tokens(divine_comedy, special_tokens):
 
 def remove_newlines(divine_comedy):
     divine_comedy_list = divine_comedy.split("\n")
-#    divine_comedy = "".join(divine_comedy_list)
-    divine_comedy = " ".join(divine_comedy_list)
+    divine_comedy = "".join(divine_comedy_list)
+#    divine_comedy = " ".join(divine_comedy_list)
     return divine_comedy
 
 def prettify_text(text, special_tokens):
+    text = remove_newlines(text)
     text = text.replace(special_tokens['END_OF_VERSO'], "\n")
     text = text.replace(special_tokens['START_OF_TERZINA'], "")
     text = text.replace(special_tokens['END_OF_TERZINA'], "\n")
     text = text.replace(special_tokens['START_OF_CANTO'], "CANTO\n")
     text = text.replace(special_tokens['END_OF_CANTO'], "\n")
     text = text.replace(special_tokens['WORD_SEP'], " ")
-#    text_list = text.split("\n")
-#    text_list = [line.strip() for line in text_list]
-#    text = "\n".join(text_list)
+    text = re.sub(r' +',' ', text)
+    # text_list = text.split("\n")
+    # text_list = [line.strip() for line in text_list]
+    # text = "\n".join(text_list)
 
     return text
 

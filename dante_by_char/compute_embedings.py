@@ -16,7 +16,7 @@ working_dir = os.path.dirname(os.path.abspath(__file__))
 # Path where the vocab is saved
 logs_dir = os.path.join(working_dir, 'logs')
 os.makedirs(logs_dir, exist_ok = True) 
-vocab_file = os.path.join(working_dir, 'logs', 'vocab.json')
+vocab_file = os.path.join(logs_dir, 'vocab.json')
 
 vocab, idx2char, char2idx = load_vocab(vocab_file)
 
