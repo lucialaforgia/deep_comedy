@@ -31,8 +31,8 @@ if __name__ == '__main__':
     
     generated_canto = generated_canto.replace('CANTO', '')
 
-    print(divine_comedy)
-#    print(generated_canto)
+#    print(divine_comedy)
+    print(generated_canto)
 
 
     evaluation_results = {}
