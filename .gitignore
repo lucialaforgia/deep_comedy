@@ -136,3 +136,4 @@ models*
 logs/
 data.zip
 data/
+*.zip
