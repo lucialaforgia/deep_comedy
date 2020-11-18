@@ -18,28 +18,40 @@ special_tokens = {
 def is_toned_vowel(c):
     return c in "ÄäËëÏïÖöÜüÁÀàáÉÈèéÍÌíìOÓÒóòÚÙúù"
 
+def is_iato(c1, c2):
+    aeo  = "ÄäËëÖöÁÀaAàáÉÈEeèéÓÒOoóò"
+    vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoÓÒóòÚÙUuúù"
+#    if c1 in aeo and c2 in aeo:
+#        return True
+    if c1 in aeo and c2 in vowels:
+        return True
+    if is_toned_vowel(c1) and c2 in vowels:
+        return True
+
+    return False
+
+
+# def is_diphthong(c1, c2):
+#     vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoÓÒóòÚÙUuúù'"
+#     if c1 in vowels and c2 =="'":
+#         return True
+#     if c2 in vowels and c1 =="'":
+#         return True
+#     if not is_toned_vowel(c1) and c2 in vowels and (c1 + c2) in ('ia', 'ie', 'iè', 'ié', 'uè', 'ué','io', 'iu', 'ua', 'ue', 'uo', 'ui', 'iú', 'iù', 'uò', 'uò'):
+#         return True
+#     return False
+
 
 def is_diphthong(c1, c2):
-    vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoóòÚÙUuúù'"
+    vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoÓÒóòÚÙUuúù'"
     if c1 in vowels and c2 =="'":
         return True
     if c2 in vowels and c1 =="'":
         return True
-    if not is_toned_vowel(c1) and c2 in vowels:
+    if not is_toned_vowel(c1) and c2 in vowels and (c1 + c2) in ('ia', 'ie', 'io', 'iu', 'ua', 'ue', 'uo', 'ui', 'ai', 'ei', 'oi', 'ui', 'au', 'eu', 'ïe', 'iú', 'iù'):
         return True
-    return (c1 + c2) in ('ia', 'ie', 'iè', 'ié', 'uè', 'ué','io', 'iu', 'ua', 'ue', 'uo', 'ui', 'iú', 'iù', 'uò', 'uò')
-
-def is_iato(c1, c2):
-    aeo  = "ÄäËëÖöÁÀaAàáÉÈEeèéÓÒOoóò"
-    vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoÓÒóòÚÙUuúù"
-    if c1 in aeo and c2 in aeo:
-        return True
-    # if c1 in aeo and c2 in vowels:
-    #     return True
-    # if is_toned_vowel(c1) and c2 in vowels:
-    #     return True
-
     return False
+
 
 
 def contains_iato(syl):
@@ -94,7 +106,7 @@ def syllabify_verse(verse, special_tokens, synalepha=True, dieresis=True):
             if syllables[i] == special_tokens['WORD_SEP']:
                 pre_syl = syllables[i-1]
                 next_syl = syllables[i+1]
-                if pre_syl[-1] in vowels and next_syl[0] in vowels and is_diphthong(pre_syl[-1], next_syl[0]):
+                if pre_syl[-1] in vowels and next_syl[0] in vowels and is_iato(pre_syl[-1], next_syl[0]):
                     result.append(result[-1] + syllables[i] + next_syl)
                     del result[-2]
                     i += 1
@@ -108,48 +120,33 @@ def syllabify_verse(verse, special_tokens, synalepha=True, dieresis=True):
 
 
 
+#     result = []
+#     for syl in syllables:
+#         if special_tokens['WORD_SEP'] not in syl and contains_iato(syl):
+#             new_syl = ''
 
+#             i = 0
+#             while i < len(syl) - 1 : 
+#                 c1 = syl[i]
+#                 c2 = syl[i+1]
 
-
-
-    result = []
-    for syl in syllables:
-        if special_tokens['WORD_SEP'] not in syl and contains_iato(syl):
-            new_syl = ''
-
-            i = 0
-            while i < len(syl) - 1 : 
-                c1 = syl[i]
-                c2 = syl[i+1]
-
-                if is_iato(c1, c2): # va staccato
-                    new_syl+=c1
-#                    print("new syl is iato", new_syl)
-                    result.append(new_syl)
-                    new_syl = c2
+#                 if is_iato(c1, c2): # va staccato
+#                     new_syl+=c1
+# #                    print("new syl is iato", new_syl)
+#                     result.append(new_syl)
+#                     new_syl = c2
                     
-                else: # non va staccato
-                    new_syl+=c1
-#                    new_syl+=c2
-#                    print("new syl else", new_syl)
+#                 else: # non va staccato
+#                     new_syl+=c1
+# #                    new_syl+=c2
+# #                    print("new syl else", new_syl)
 
-                i+=1
-            result.append(new_syl)
-        else:
-            result.append(syl)       
+#                 i+=1
+#             result.append(new_syl)
+#         else:
+#             result.append(syl)       
     
-    syllables = result
-
-
-
-
-
-
-
-
-
-
-
+#     syllables = result
 
 
 #    print("synalepha", syllables)
