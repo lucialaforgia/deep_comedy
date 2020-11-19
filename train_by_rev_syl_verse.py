@@ -64,7 +64,7 @@ dataset_verse = build_dataset_verse(divine_comedy, vocab_verse, idx2syl_verse, s
 # Path where the vocab will be saved
 logs_dir = os.path.join(working_dir, 'logs')
 os.makedirs(logs_dir, exist_ok = True) 
-vocab_file_verse = os.path.join(working_dir, 'logs', 'vocab_verse.json')
+vocab_file_verse = os.path.join(logs_dir, 'vocab_verse.json')
 
 save_vocab(vocab_verse, idx2syl_verse, syl2idx_verse, vocab_file_verse)
 

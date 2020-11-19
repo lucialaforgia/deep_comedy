@@ -64,7 +64,7 @@ dataset_rhyme = build_dataset_rhyme(divine_comedy, vocab_rhyme, idx2syl_rhyme, s
 # Path where the vocab will be saved
 logs_dir = os.path.join(working_dir, 'logs')
 os.makedirs(logs_dir, exist_ok = True) 
-vocab_file_rhyme = os.path.join(working_dir, 'logs', 'vocab_rhyme.json')
+vocab_file_rhyme = os.path.join(logs_dir, 'vocab_rhyme.json')
 
 save_vocab(vocab_rhyme, idx2syl_rhyme, syl2idx_rhyme, vocab_file_rhyme)
 

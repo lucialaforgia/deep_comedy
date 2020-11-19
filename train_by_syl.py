@@ -67,7 +67,7 @@ print("Vocab size:", len(vocab))
 # Path where the vocab will be saved
 logs_dir = os.path.join(working_dir, 'logs')
 os.makedirs(logs_dir, exist_ok = True) 
-vocab_file = os.path.join(working_dir, 'logs', 'vocab.json')
+vocab_file = os.path.join(logs_dir, 'vocab.json')
 
 save_vocab(vocab, idx2syl, syl2idx, vocab_file)
 
