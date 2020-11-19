@@ -16,28 +16,39 @@ special_tokens = {
 }
 
 def is_toned_vowel(c):
-    return c in "ÄäËëÏïÖöÜüÁÀàáÉÈèéÍÌíìOÓÒóòÚÙúù"
+    toned_vowels = "ÄäÁÀàáËëÉÈèéÏïÍÌíìÖöÓÒóòÜüÚÙúù"
+    return c in toned_vowels
 
 
 def is_diphthong(c1, c2):
-    vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoóòÚÙUuúù'"
+    aeo  = "ÄäÁÀàáAaËëÉÈèéEeÖöÓÒóòOo"
+    vowels = "ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu"
     if c1 in vowels and c2 =="'":
         return True
     if c2 in vowels and c1 =="'":
         return True
-    if not is_toned_vowel(c1) and c2 in vowels:
+#    if c1 in aeo and c2 in aeo:
+#        return False
+#    if c1 == c2:
+#        return True
+    if is_toned_vowel(c1) and c2 in vowels:
+        return False
+    if not is_toned_vowel(c1) and c2 in vowels: #secondo me questo e' sbagliato "ae" abbiamo deciso che e' sicuramente uno iato ma qua verra' sempre considerato come dittongo
         return True
-    return (c1 + c2) in ('ia', 'ie', 'iè', 'ié', 'uè', 'ué','io', 'iu', 'ua', 'ue', 'uo', 'ui', 'iú', 'iù', 'uò', 'uò')
+    return (c1 + c2) in ('ia', 'ie', 'iè', 'ié', 'io', 'iu', 'iú', 'iù',
+                        'ua', 'uè', 'ué', 'ue', 'ui', 'uo',  'uò', 'uò',)
+
 
 def is_iato(c1, c2):
-    aeo  = "ÄäËëÖöÁÀaAàáÉÈEeèéÓÒOoóò"
-    vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoÓÒóòÚÙUuúù"
+    aeo  = "ÄäÁÀàáAaËëÉÈèéEeÖöÓÒóòOo"
+    iu = "ÏïÍÌíìIiÜüÚÙúùUu"
+    vowels = "ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu"
     if c1 in aeo and c2 in aeo:
         return True
-    # if c1 in aeo and c2 in vowels:
-    #     return True
-    # if is_toned_vowel(c1) and c2 in vowels:
-    #     return True
+#    if c1 in aeo and c2 in iu:
+#        return True
+    if is_toned_vowel(c1) and c2 in vowels:
+        return True
 
     return False
 
@@ -57,10 +68,10 @@ def syllabify_verse(verse, special_tokens, synalepha=True, dieresis=True):
     if verse in special_tokens.values():
         return [verse]
 
-    dic = pyphen.Pyphen(lang='it_IT',left=1, right=2, cache=True)
+    dic = pyphen.Pyphen(lang='it_IT',left=1, right=1, cache=True)
 
     words = [ w  for w in verse.split() if w.strip() not in special_tokens.values() ]
-    
+
     syllables = [ dic.inserted(w) for w in words ]
     #["l'a-mor", 'che', 'mo-ve', 'il', 'so-le', 'e', "l'al-tre", 'stel-le.']
     #print(syllables)
