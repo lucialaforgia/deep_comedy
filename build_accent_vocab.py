@@ -9,6 +9,7 @@ import re
 import pyphen
 import spacy
 import time
+import traceback 
 
 from dante_by_word.text_processing import clean_comedy, prettify_text, special_tokens, remove_all_punctuation
 #from utils import save_vocab, load_vocab
@@ -49,7 +50,7 @@ writer = csv.writer(f_accents_vocab, delimiter='\t', lineterminator='\n')
 row = ['word', 'searched_word', 'found_word', 'syllables', 'toned_word', 'mode']
 writer.writerow(row)
 
-sl_t = 0.5
+sl_t = 1
 
 to_lemmatize = []
 
@@ -58,9 +59,11 @@ for w in vocab:
     print('Searching '+ searched_word+'...')
     try:
         json_response = requests.get(api_url.format(word=searched_word), headers=headers)
+        print(json_response.content)
         dic = json.loads(json_response.content)
     except:
         to_lemmatize.append(w)
+        traceback.print_exc() 
         continue
     if 'No Definitions Found' not in str(json_response.content):
         for d in dic:
@@ -74,6 +77,7 @@ for w in vocab:
                         print('{}\t{}\t{}\t{}\t{}\t{}'.format(*row))
                         writer.writerow(row)
                     except:
+                        traceback.print_exc() 
                         try:
                             syls = d['phonetics'][0]['text'].replace('·', '-')
                             toned_word = d['phonetics'][0]['text'].replace('·', '')
@@ -81,6 +85,7 @@ for w in vocab:
                             print('{}\t{}\t{}\t{}\t{}\t{}'.format(*row))
                             writer.writerow(row)
                         except:
+                            traceback.print_exc() 
                             to_lemmatize.append(w)
 #                            syls = pyphen_dic.inserted(w)
 #                            toned_word = 'no_toned_word'
@@ -90,6 +95,7 @@ for w in vocab:
     #                row = ['_error', 'search '+to_search, 'found '+found_word]
     #                writer.writerow(row)
             except:
+                traceback.print_exc() 
                 to_lemmatize.append(w)
 #                row = [w, '_error', '_error', '_error', '_error']
 #                writer.writerow(row)
@@ -119,6 +125,7 @@ for w in to_lemmatize:
         dic = json.loads(json_response.content)
     except:
         to_search.append(w)
+        traceback.print_exc() 
         continue
 
     if 'No Definitions Found' not in str(json_response.content):
@@ -133,6 +140,7 @@ for w in to_lemmatize:
                         writer.writerow(row)
                         print('{}\t{}\t{}\t{}\t{}\t{}'.format(*row))
                     except:
+                        traceback.print_exc() 
                         try:
                             syls = d['phonetics'][0]['text'].replace('·', '-')
                             toned_word = d['phonetics'][0]['text'].replace('·', '')
@@ -140,6 +148,7 @@ for w in to_lemmatize:
                             writer.writerow(row)
                             print('{}\t{}\t{}\t{}\t{}\t{}'.format(*row))
                         except:
+                            traceback.print_exc() 
                             to_search.append(w)
 #                            syls = pyphen_dic.inserted(w)
 #                            toned_word = 'no_toned_word'
@@ -147,6 +156,7 @@ for w in to_lemmatize:
                 else:
                     to_search.append(w)
             except:
+                traceback.print_exc() 
                 to_search.append(w)
 #                row = [w, '_error', '_error', '_error', '_error']
 #                writer.writerow(row)
@@ -171,6 +181,7 @@ for w in to_search:
         dic = json.loads(json_response.content)
     except:
         to_split.append(w)
+        traceback.print_exc() 
         continue
     if 'No Definitions Found' not in str(json_response.content):
         for d in dic:
@@ -183,6 +194,7 @@ for w in to_search:
                     print('{}\t{}\t{}\t{}\t{}\t{}'.format(*row))
                     writer.writerow(row)
                 except:
+                    traceback.print_exc() 
                     try:
                         syls = d['phonetics'][0]['text'].replace('·', '-')
                         toned_word = d['phonetics'][0]['text'].replace('·', '')
@@ -191,10 +203,12 @@ for w in to_search:
                         writer.writerow(row)
                     except:
                         to_split.append(w)
+                        traceback.print_exc() 
 #                        syls = pyphen_dic.inserted(w)
 #                        toned_word = 'no_toned_word'
             except:
                 to_split.append(w)
+                traceback.print_exc() 
 #                row = [w, searched_word, found_word, '_error', '_error']
 #                writer.writerow(row)
 #                print('{}\t{}\t{}\t{}\t{}'.format(*row))
