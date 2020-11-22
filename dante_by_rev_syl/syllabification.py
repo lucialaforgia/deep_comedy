@@ -4,7 +4,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import pyphen
 import re
 import string
-from dante_by_rev_syl.text_processing import remove_puctuation
+from dante_by_rev_syl.text_processing import remove_punctuation
 
 special_tokens = {
     'START_OF_CANTO'   : '<start_of_canto>',
@@ -85,7 +85,7 @@ def syllabify_verse(verse, special_tokens, synalepha=True, dieresis=True):
     #["l'a", 'mor', '<word_sep>', 'che', '<word_sep>', 'mo', 've', '<word_sep>', 'il', '<word_sep>', 'so', 'le', '<word_sep>', 'e', '<word_sep>', "l'al", 'tre', '<word_sep>', 'stel', 'le.']
     #print(syllables)
 
-#    syllables = [ remove_puctuation(s) for s in syllables ]
+#    syllables = [ remove_punctuation(s) for s in syllables ]
     #["l'a", 'mor', '<word_sep>', 'che', '<word_sep>', 'mo', 've', '<word_sep>', 'il', '<word_sep>', 'so', 'le', '<word_sep>', 'e', '<word_sep>', "l'al", 'tre', '<word_sep>', 'stel', 'le']
     #print(syllables)
 

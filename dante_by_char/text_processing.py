@@ -61,7 +61,14 @@ def remove_cantica_title(divine_comedy):
     divine_comedy = divine_comedy.replace("PARADISO", "")
     return divine_comedy
 
-def remove_puctuation(divine_comedy):
+def remove_all_punctuation(divine_comedy):
+    # remove all punctuation
+#    divine_comedy = re.sub(r'\'',' ', divine_comedy)
+    divine_comedy = re.sub('[%s]'% re.escape(string.punctuation),' ', divine_comedy )
+    divine_comedy = re.sub(r' +',' ', divine_comedy)
+    return divine_comedy
+
+def remove_punctuation(divine_comedy):
     # remove punctuation
 #    divine_comedy = re.sub(r'\'',' ', divine_comedy)
 #    divine_comedy = re.sub('[%s]'% re.escape(string.punctuation),'', divine_comedy )
@@ -143,7 +150,7 @@ def clean_comedy(divine_comedy, special_tokens):
     divine_comedy = replace_chars(divine_comedy)
     divine_comedy = get_corpus(divine_comedy)
     divine_comedy = remove_cantica_title(divine_comedy)
-#    divine_comedy = remove_puctuation(divine_comedy)
+#    divine_comedy = remove_punctuation(divine_comedy)
     divine_comedy = remove_empty_lines(divine_comedy)
     divine_comedy = add_special_tokens(divine_comedy, special_tokens)
 
