@@ -27,8 +27,8 @@ tone_dataframe = pd.read_csv(tone_dataset_file, sep='\t', encoding='utf-8')
 BATCH_SIZE = 8
 EPOCHS = 100
 MAX_WORD_LENGTH = 30
-EMBEDDING_DIM = 64
-RNN_UNITS = 512
+EMBEDDING_DIM = 32
+RNN_UNITS = 256
 RNN_TYPE = 'lstm'
 
 ## VERSION 2
