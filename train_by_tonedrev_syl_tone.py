@@ -15,7 +15,8 @@ from utils import save_vocab, load_vocab
 
 working_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dante_by_tonedrev_syl')
 
-tone_dataset_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'toned_dataset_file.csv') 
+tone_dataset_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tone_dataset_final.csv') 
+#tone_dataset_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tone_dataset_file.csv') 
 
 tone_dataframe = pd.read_csv(tone_dataset_file, sep='\t', encoding='utf-8')
 
@@ -34,7 +35,7 @@ RNN_TYPE = 'lstm'
 ##############################
 
 vocab_tone, idx2char_tone, char2idx_tone = build_vocab_tone(tone_dataframe)
-
+print(vocab_tone)
 dataset_tone = build_dataset_tone(tone_dataframe, vocab_tone, idx2char_tone, char2idx_tone, MAX_WORD_LENGTH)
 
 # Path where the vocab will be saved
