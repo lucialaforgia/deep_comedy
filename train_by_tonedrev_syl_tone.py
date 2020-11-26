@@ -31,7 +31,6 @@ EMBEDDING_DIM = 32
 RNN_UNITS = 256
 RNN_TYPE = 'lstm'
 
-
 ##############################
 
 vocab_tone, idx2char_tone, char2idx_tone = build_vocab_tone(tone_dataframe)
