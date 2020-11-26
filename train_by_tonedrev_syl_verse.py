@@ -31,7 +31,7 @@ divine_comedy = clean_comedy(divine_comedy, special_tokens)
 
 BATCH_SIZE = 32
 EPOCHS = 200
-SEQ_LENGTH = 50
+SEQ_LENGTH = 100
 EMBEDDING_DIM = 256
 RNN_UNITS = 1024
 RNN_TYPE = 'lstm'
@@ -49,7 +49,7 @@ RNN_TYPE = 'lstm'
 
 # BATCH_SIZE = 32
 # EPOCHS = 200
-# SEQ_LENGTH = 100
+# SEQ_LENGTH = 50
 # EMBEDDING_DIM = 256
 # RNN_UNITS = 1024
 # RNN_TYPE = 'lstm'
