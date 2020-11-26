@@ -25,29 +25,12 @@ tone_dataframe = pd.read_csv(tone_dataset_file, sep='\t', encoding='utf-8')
 ## VERSION 1
 
 BATCH_SIZE = 8
-EPOCHS = 100
+EPOCHS = 10
 MAX_WORD_LENGTH = 30
 EMBEDDING_DIM = 32
 RNN_UNITS = 256
 RNN_TYPE = 'lstm'
 
-## VERSION 2
-
-# BATCH_SIZE = 32
-# EPOCHS = 200
-# MAX_WORD_LENGTH = 25
-# EMBEDDING_DIM = 64
-# RNN_UNITS = 512
-# RNN_TYPE = 'lstm'
-
-## VERSION 3
-
-# BATCH_SIZE = 32
-# EPOCHS = 200
-# MAX_WORD_LENGTH = 100
-# EMBEDDING_DIM = 64
-# RNN_UNITS = 512
-# RNN_TYPE = 'lstm'
 
 ##############################
 
@@ -72,7 +55,7 @@ dataset_val_tone = dataset_val_tone.batch(BATCH_SIZE, drop_remainder=True)
 model_tone = build_tonenet_model(
     name='ToneNetwork',
     vocab_size = len(vocab_tone),
-    output_size = MAX_WORD_LENGTH,
+    max_word_len = MAX_WORD_LENGTH,
     embedding_dim=EMBEDDING_DIM,
     rnn_type = RNN_TYPE,
     rnn_units=RNN_UNITS,
@@ -92,14 +75,3 @@ train_model(working_dir,
         )
 
 
-
-word = 'abate'
-
-word_as_int = [ char2idx_tone[c] for c in word ]
-word_as_int = tf.keras.preprocessing.sequence.pad_sequences([word_as_int], padding='post', maxlen=MAX_WORD_LENGTH)
-#word_as_int = np.expand_dims(word_as_int, axis=0)
-print(word_as_int.shape)
-output = model_tone.predict(word_as_int)
-print(output.shape)
-print(output)
-print(np.argmax(output, axis=1))

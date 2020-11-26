@@ -49,7 +49,9 @@ def syllabify_verse(verse, special_tokens, synalepha=True, dieresis=True):
 #    print("syl", syllables)
 #    print(len(syllables))
     if synalepha:
-        vowels = "AaàEeèIiìOoòUuù"
+        vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoóòÚÙUuúù'"
+#        vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoóòÚÙUuúù"
+
         result = [syllables[0]]
         i = 1
         while i < (len(syllables) - 1):

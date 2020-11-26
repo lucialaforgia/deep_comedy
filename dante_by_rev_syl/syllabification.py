@@ -15,63 +15,16 @@ special_tokens = {
     'WORD_SEP'         : '<word_sep>'
 }
 
-def is_toned_vowel(c):
-    toned_vowels = "ÄäÁÀàáËëÉÈèéÏïÍÌíìÖöÓÒóòÜüÚÙúù"
-    return c in toned_vowels
-
-
-def is_diphthong(c1, c2):
-    aeo  = "ÄäÁÀàáAaËëÉÈèéEeÖöÓÒóòOo"
-    vowels = "ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu"
-    if c1 in vowels and c2 =="'":
-        return True
-    if c2 in vowels and c1 =="'":
-        return True
-#    if c1 in aeo and c2 in aeo:
-#        return False
-#    if c1 == c2:
-#        return True
-    if is_toned_vowel(c1) and c2 in vowels:
-        return False
-    if not is_toned_vowel(c1) and c2 in vowels: #secondo me questo e' sbagliato "ae" abbiamo deciso che e' sicuramente uno iato ma qua verra' sempre considerato come dittongo
-        return True
-    return (c1 + c2) in ('ia', 'ie', 'iè', 'ié', 'io', 'iu', 'iú', 'iù',
-                        'ua', 'uè', 'ué', 'ue', 'ui', 'uo',  'uò', 'uò',)
-
-
-def is_iato(c1, c2):
-    aeo  = "ÄäÁÀàáAaËëÉÈèéEeÖöÓÒóòOo"
-    iu = "ÏïÍÌíìIiÜüÚÙúùUu"
-    vowels = "ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu"
-    if c1 in aeo and c2 in aeo:
-        return True
-#    if c1 in aeo and c2 in iu:
-#        return True
-    if is_toned_vowel(c1) and c2 in vowels:
-        return True
-
-    return False
-
-
-def contains_iato(syl):
-    vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoóòÚÙUuúù'"
-    for i in range(len(syl) - 1):
-        c1 = syl[i]
-        c2 = syl[i+1]
-        if c1 in vowels and c2 in vowels and is_iato(c1, c2):
-            return True
-    return False
-
 
 def syllabify_verse(verse, special_tokens, synalepha=True, dieresis=True):
     
     if verse in special_tokens.values():
         return [verse]
 
-    dic = pyphen.Pyphen(lang='it_IT',left=1, right=1, cache=True)
+    dic = pyphen.Pyphen(lang='it_IT',left=1, right=2, cache=True)
 
     words = [ w  for w in verse.split() if w.strip() not in special_tokens.values() ]
-
+    
     syllables = [ dic.inserted(w) for w in words ]
     #["l'a-mor", 'che', 'mo-ve', 'il', 'so-le', 'e', "l'al-tre", 'stel-le.']
     #print(syllables)
@@ -105,7 +58,7 @@ def syllabify_verse(verse, special_tokens, synalepha=True, dieresis=True):
             if syllables[i] == special_tokens['WORD_SEP']:
                 pre_syl = syllables[i-1]
                 next_syl = syllables[i+1]
-                if pre_syl[-1] in vowels and next_syl[0] in vowels and is_diphthong(pre_syl[-1], next_syl[0]):
+                if pre_syl[-1] in vowels and next_syl[0] in vowels :
                     result.append(result[-1] + syllables[i] + next_syl)
                     del result[-2]
                     i += 1
@@ -116,52 +69,6 @@ def syllabify_verse(verse, special_tokens, synalepha=True, dieresis=True):
             i+=1
         result.append(syllables[-1])
         syllables = result
-
-
-
-
-
-
-
-    result = []
-    for syl in syllables:
-        if special_tokens['WORD_SEP'] not in syl and contains_iato(syl):
-            new_syl = ''
-
-            i = 0
-            while i < len(syl) - 1 : 
-                c1 = syl[i]
-                c2 = syl[i+1]
-
-                if is_iato(c1, c2): # va staccato
-                    new_syl+=c1
-#                    print("new syl is iato", new_syl)
-                    result.append(new_syl)
-                    new_syl = c2
-                    
-                else: # non va staccato
-                    new_syl+=c1
-#                    new_syl+=c2
-#                    print("new syl else", new_syl)
-
-                i+=1
-            result.append(new_syl)
-        else:
-            result.append(syl)       
-    
-    syllables = result
-
-
-
-
-
-
-
-
-
-
-
-
 
 #    print("synalepha", syllables)
 #    print(len(syllables))

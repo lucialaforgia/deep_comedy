@@ -67,11 +67,11 @@ def build_model(name, vocab_size, seq_length, embedding_dim=64, rnn_type='lstm',
     return model
 
 
-def build_tonenet_model(name, vocab_size, output_size, embedding_dim=64, rnn_type='lstm', rnn_units=512, learning_rate=0.01):
+def build_tonenet_model(name, vocab_size, max_word_len, embedding_dim=64, rnn_type='lstm', rnn_units=512, learning_rate=0.01):
 
     model = tf.keras.Sequential(name=name)
 
-    model.add(tf.keras.layers.Input((None,), name='input'))
+    model.add(tf.keras.layers.Input((max_word_len,), name='input'))
     model.add(tf.keras.layers.Embedding(vocab_size, embedding_dim, name='embedding'))
     if rnn_type == 'lstm':
 #         model.add(tf.keras.layers.LSTM(rnn_units,
@@ -84,27 +84,29 @@ def build_tonenet_model(name, vocab_size, output_size, embedding_dim=64, rnn_typ
 #                          return_sequences=True,
                           dropout=0.3,
 #                          recurrent_initializer='glorot_uniform',
-                          name='last_lstm')
-        ))
-    elif rnn_type == 'gru':
-        model.add(tf.keras.layers.GRU(rnn_units,
-#                          return_sequences=True,
-                          dropout=0.3,
-#                          recurrent_initializer='glorot_uniform',
-                          name='last_gru')
+                          name='last_lstm'
+                        ), name='bidirectional'
+                    )
         )
+#     elif rnn_type == 'gru':
+#         model.add(tf.keras.layers.GRU(rnn_units,
+# #                          return_sequences=True,
+#                           dropout=0.3,
+# #                          recurrent_initializer='glorot_uniform',
+#                           name='last_gru')
+#         )
    
 #    model.add(tf.keras.layers.Dense(128, activation='relu', name='dense'))
 
-    model.add(tf.keras.layers.Dense(output_size, activation='softmax', name='output'))    
-#    model.add(tf.keras.layers.Dense(output_size, activation='softmax', name='output'))    
+    model.add(tf.keras.layers.Dense(max_word_len, activation='softmax', name='output'))    
+#    model.add(tf.keras.layers.Dense(max_word_len, activation='softmax', name='output'))    
 
     
     optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
 
 #    model.compile(loss=loss, metrics="accuracy", optimizer=optimizer)
     
-    model.compile(loss="binary_crossentropy", metrics="accuracy", optimizer=optimizer)
+    model.compile(loss="categorical_crossentropy", metrics="accuracy", optimizer=optimizer)
 #    model.compile(loss="sparse_categorical_crossentropy", metrics="accuracy", optimizer=optimizer)
     model.summary()
 
