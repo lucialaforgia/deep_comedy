@@ -1,6 +1,6 @@
 import os
 import sys
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 import numpy as np
@@ -12,9 +12,11 @@ from dante_by_rev_syl.text_processing import clean_comedy, prettify_text, specia
 from dante_by_rev_syl.generate_dante import generate_text
 from utils import save_vocab, load_vocab
 
-working_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dante_by_rev_syl')
 
-divine_comedy_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "divina_commedia", "divina_commedia_accent_UTF-8.txt") 
+working_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'dante_by_rev_syl')
+
+divine_comedy_file = os.path.join(os.path.dirname(working_dir), "divina_commedia", "divina_commedia_accent_UTF-8.txt") 
+
 
 with open(divine_comedy_file,"r") as f:
     divine_comedy = f.read()

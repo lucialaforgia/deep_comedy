@@ -1,7 +1,7 @@
 import os
 import sys
 import pandas as pd
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 import numpy as np
@@ -13,8 +13,7 @@ from dante_by_tonedrev_syl.dante_model import build_tonenet_model
 from dante_by_tonedrev_syl.training_dante import train_model
 from utils import save_vocab, load_vocab
 
-working_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dante_by_tonedrev_syl')
-
+working_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'dante_by_tonedrev_syl')
 tone_dataset_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tone_dataset_final.csv') 
 #tone_dataset_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tone_dataset_file.csv') 
 

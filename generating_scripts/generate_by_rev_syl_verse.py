@@ -1,21 +1,21 @@
 import os
 import sys
-sys.path.append(os.path.abspath("."))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 import numpy as np
 import tensorflow as tf
 tf.get_logger().setLevel('ERROR')
 
-from dante_by_tonedrev_syl.data_preparation import text_in_syls_rhyme
-from dante_by_tonedrev_syl.text_processing import clean_comedy, prettify_text, special_tokens
+from dante_by_rev_syl.data_preparation import text_in_rev_syls
+from dante_by_rev_syl.text_processing import clean_comedy, prettify_text, special_tokens
 from dante_by_syl.generate_dante import generate_text
 from utils import save_vocab, load_vocab
 
+working_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'dante_by_rev_syl')
 
-working_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dante_by_tonedrev_syl')
+divine_comedy_file = os.path.join(os.path.dirname(working_dir), "divina_commedia", "divina_commedia_accent_UTF-8.txt") 
 
-divine_comedy_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "divina_commedia", "divina_commedia_accent_UTF-8.txt") 
 
 with open(divine_comedy_file,"r") as f:
     divine_comedy = f.read()
@@ -29,7 +29,7 @@ divine_comedy = clean_comedy(divine_comedy, special_tokens)
 # Path where the vocab is saved
 logs_dir = os.path.join(working_dir, 'logs')
 os.makedirs(logs_dir, exist_ok = True) 
-vocab_file = os.path.join(logs_dir, 'vocab_rhyme.json')
+vocab_file = os.path.join(logs_dir, 'vocab_verse.json')
 
 vocab, idx2syl, syl2idx = load_vocab(vocab_file)
 
@@ -40,14 +40,13 @@ vocab_size = len(vocab)
 # Path where the model is saved
 models_dir = os.path.join(working_dir, 'models')
 os.makedirs(models_dir, exist_ok = True) 
-model_file_rhyme = os.path.join(models_dir, "dante_by_rev_syl_rhyme_model.h5")
+model_file_verse = os.path.join(models_dir, "dante_by_rev_syl_verse_model.h5")
 
-model_rhyme = tf.keras.models.load_model(model_file_rhyme)
+model_verse = tf.keras.models.load_model(model_file_verse)
 
-
-SEQ_LENGTH = model_rhyme.get_layer('embedding').output.shape[1]
-EMBEDDING_DIM = model_rhyme.get_layer('embedding').output.shape[2]
-for l in model_rhyme.layers:
+SEQ_LENGTH = model_verse.get_layer('embedding').output.shape[1]
+EMBEDDING_DIM = model_verse.get_layer('embedding').output.shape[2]
+for l in model_verse.layers:
     if l.name == 'first_lstm':
         RNN_TYPE = '2lstm'
         break
@@ -61,13 +60,13 @@ for l in model_rhyme.layers:
         RNN_TYPE = 'gru' 
         break
 if 'lstm' in RNN_TYPE:
-    RNN_UNITS = model_rhyme.get_layer('last_lstm').output.shape[-1]
+    RNN_UNITS = model_verse.get_layer('last_lstm').output.shape[-1]
 if 'gru' in RNN_TYPE:
-    RNN_UNITS = model_rhyme.get_layer('last_gru').output.shape[-1]
+    RNN_UNITS = model_verse.get_layer('last_gru').output.shape[-1]
 
-model_rhyme.summary()
+model_verse.summary()
 
-model_filename = 'model_by_rev_syl_rhyme_seq{}_emb{}_{}{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS)
+model_filename = 'model_by_rev_syl_verse_seq{}_emb{}_{}{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS)
 
 print("\nMODEL: {}\n".format(model_filename))
 
@@ -77,15 +76,14 @@ output_file = os.path.join(logs_dir, model_filename, "output.txt")
 raw_output_file = os.path.join(logs_dir, model_filename, "raw_output.txt")
 
 
-divine_comedy_rhyme = text_in_syls_rhyme(divine_comedy)
-#index_eoc = divine_comedy_rhyme.index(special_tokens['END_OF_CANTO']) + 1
-indexes = [i for i, x in enumerate(divine_comedy_rhyme) if x == special_tokens['END_OF_CANTO']]
-index_eoc = np.random.choice(indexes) + 1
-start_seq = divine_comedy_rhyme[index_eoc - SEQ_LENGTH:index_eoc]
+divine_comedy_verse = text_in_rev_syls(divine_comedy)
+indexes = [i for i, x in enumerate(divine_comedy_verse) if x == special_tokens['END_OF_VERSO'] and i > SEQ_LENGTH]
+index_eov = np.random.choice(indexes)
+start_seq = divine_comedy_verse[index_eov - SEQ_LENGTH:index_eov]
 
 #print(start_seq)
 
-generated_text = generate_text(model_rhyme, special_tokens, vocab_size, syl2idx, idx2syl, SEQ_LENGTH, start_seq, temperature=1.0)
+generated_text = generate_text(model_verse, special_tokens, vocab_size, syl2idx, idx2syl, SEQ_LENGTH, start_seq, temperature=1.0)
 
 #print(prettify_text(generated_text, special_tokens))
 

@@ -8,16 +8,16 @@ import shutil
 if __name__ == '__main__':
 
     models_dirs = [
-#        'dante_by_char',
-#        'dante_by_syl',
-#        'dante_by_word',
+        'dante_by_char',
+        'dante_by_syl',
+        'dante_by_word',
         'dante_by_rev_syl',
     ]
 
     working_dir = os.path.dirname(os.path.abspath(__file__))
 
 #    data_zip = os.path.join(working_dir, 'data.zip')
-    data_dir = os.path.join(working_dir, 'data')
+    data_dir = os.path.join(working_dir, 'pretrained_models')
 
     for m in models_dirs:
         zip_name = '{}.zip'.format(m)
@@ -31,11 +31,11 @@ if __name__ == '__main__':
             repo = 'deep_comedy'
 
 
-            url = 'https://github.com/{owner}/{repo}/releases/download/pretrained/{zip_name}'.format(owner=owner, repo=repo, zip_name=zip_name)
-            print("DOWNLOADING {} MODELS... ".format(m))
+            url = 'https://github.com/{owner}/{repo}/releases/download/pretrained_models/{zip_name}'.format(owner=owner, repo=repo, zip_name=zip_name)
+            print("DOWNLOADING {} PRETRAINED MODELS... ".format(m))
             try:
                 zip_file = wget.download(url, os.path.join(working_dir, data_zip))
-                print("DONE!")
+                print("\nDONE!")
 
             except:
                 print("ERROR!")
@@ -52,7 +52,7 @@ if __name__ == '__main__':
 
 
             if os.path.exists(os.path.join(data_dir, m)):
-                print("MOVING {} DATA...".format(m), end='\r')
+                print("MOVING {} DATA TO DESTINATION FOLDER...".format(m), end='\r')
 
                 log_dir_src = os.path.join(data_dir, m, 'logs')
                 models_dir_src = os.path.join(data_dir, m, 'models')
@@ -66,7 +66,7 @@ if __name__ == '__main__':
                     shutil.move(log_dir_src, log_dir_dest)
                 if os.path.exists(models_dir_src):
                     shutil.move(models_dir_src, models_dir_dest)
-                print("MOVING {} DATA... DONE!".format(m))
+                print("MOVING {} DATA TO DESTINATION FOLDER... DONE!".format(m))
 
             shutil.rmtree(data_dir, ignore_errors=True)
 

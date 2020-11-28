@@ -1,22 +1,24 @@
 import os
 import sys
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 import numpy as np
 import tensorflow as tf
 tf.get_logger().setLevel('ERROR')
 
-from dante_by_rev_syl.syllabification import syllabify_verse
-from dante_by_rev_syl.data_preparation import split_dataset, text_in_syls_rhyme, build_vocab_rhyme, build_dataset_rhyme
-from dante_by_rev_syl.text_processing import clean_comedy, prettify_text, special_tokens
-from dante_by_rev_syl.dante_model import build_model
-from dante_by_rev_syl.training_dante import train_model
+from dante_by_tonedrev_syl.syllabification import syllabify_verse
+from dante_by_tonedrev_syl.data_preparation import split_dataset, text_in_syls_rhyme, build_vocab_rhyme, build_dataset_rhyme
+from dante_by_tonedrev_syl.text_processing import clean_comedy, prettify_text, special_tokens
+from dante_by_tonedrev_syl.dante_model import build_model
+from dante_by_tonedrev_syl.training_dante import train_model
 from utils import save_vocab, load_vocab
 
-working_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dante_by_rev_syl')
 
-divine_comedy_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "divina_commedia", "divina_commedia_accent_UTF-8.txt") 
+working_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'dante_by_tonedrev_syl')
+
+divine_comedy_file = os.path.join(os.path.dirname(working_dir), "divina_commedia", "divina_commedia_accent_UTF-8.txt") 
+
 
 with open(divine_comedy_file,"r") as f:
     divine_comedy = f.read()

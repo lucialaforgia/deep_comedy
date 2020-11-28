@@ -1,6 +1,6 @@
 import os
 import sys
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 import numpy as np
@@ -14,14 +14,16 @@ from dante_by_syl.dante_model import build_model
 from dante_by_syl.training_dante import train_model
 from utils import save_vocab, load_vocab
 
-working_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dante_by_syl')
+working_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'dante_by_syl')
 
-divine_comedy_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "divina_commedia", "divina_commedia_accent_UTF-8.txt") 
+divine_comedy_file = os.path.join(os.path.dirname(working_dir), "divina_commedia", "divina_commedia_accent_UTF-8.txt") 
+
 
 with open(divine_comedy_file,"r") as f:
     divine_comedy = f.read()
 
 divine_comedy = clean_comedy(divine_comedy, special_tokens)
+
 
 ##############################
 # Training's hyper-parameters
@@ -29,7 +31,7 @@ divine_comedy = clean_comedy(divine_comedy, special_tokens)
 ## VERSION 1
 #
 BATCH_SIZE = 32
-EPOCHS = 200
+EPOCHS = 1
 SEQ_LENGTH = 125
 EMBEDDING_DIM = 256
 RNN_UNITS = 1024
