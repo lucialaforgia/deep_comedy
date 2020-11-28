@@ -14,8 +14,8 @@ from dante_by_tonedrev_syl.training_dante import train_model
 from utils import save_vocab, load_vocab
 
 working_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'dante_by_tonedrev_syl')
-tone_dataset_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tone_dataset_final.csv') 
-#tone_dataset_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tone_dataset_file.csv') 
+tone_dataset_file = os.path.join(os.path.dirname(working_dir), 'tone_dataset_final.csv') 
+#tone_dataset_file = os.path.join(os.path.dirname(working_dir), 'tone_dataset_file.csv') 
 
 tone_dataframe = pd.read_csv(tone_dataset_file, sep='\t', encoding='utf-8')
 
@@ -33,22 +33,12 @@ RNN_TYPE = 'lstm'
 
 ## VERSION 2
 
-BATCH_SIZE = 8
-EPOCHS = 200
-MAX_WORD_LENGTH = 30
-EMBEDDING_DIM = 32
-RNN_UNITS = 512
-RNN_TYPE = 'lstm'
-
-## VERSION 3 mask
-
-BATCH_SIZE = 8
-EPOCHS = 200
-MAX_WORD_LENGTH = 30
-EMBEDDING_DIM = 32
-RNN_UNITS = 256
-RNN_TYPE = 'lstm'
-
+# BATCH_SIZE = 8
+# EPOCHS = 200
+# MAX_WORD_LENGTH = 30
+# EMBEDDING_DIM = 32
+# RNN_UNITS = 512
+# RNN_TYPE = 'lstm'
 
 ##############################
 

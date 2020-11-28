@@ -4,16 +4,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import pyphen
 import re
 import string
-from dante_by_rev_syl.text_processing import remove_punctuation
+from dante_by_tonedrev_syl.text_processing import remove_punctuation, special_tokens
 
-special_tokens = {
-    'START_OF_CANTO'   : '<start_of_canto>',
-    'END_OF_CANTO'     : '<end_of_canto>',
-    'START_OF_TERZINA' : '<start_of_terzina>',
-    'END_OF_TERZINA'   : '<end_of_terzina>',
-    'END_OF_VERSO'     : '<end_of_verso>',
-    'WORD_SEP'         : '<word_sep>'
-}
 
 def is_toned_vowel(c):
     toned_vowels = "ÄäÁÀàáËëÉÈèéÏïÍÌíìÖöÓÒóòÜüÚÙúù"

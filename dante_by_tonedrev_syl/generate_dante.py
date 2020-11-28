@@ -1,9 +1,8 @@
 import os
 import numpy as np
 import tensorflow as tf
-from dante_by_syl.data_preparation import text_in_syls
-from dante_by_syl.text_processing import prettify_text, special_tokens
-
+from dante_by_tonedrev_syl.data_preparation import text_in_syls
+from dante_by_tonedrev_syl.text_processing import prettify_text, special_tokens
 
 
 def generate_text(model_rhyme, model_verse, special_tokens, vocab_size_rhyme, vocab_size_verse, syl2idx_rhyme, idx2syl_rhyme, syl2idx_verse, idx2syl_verse, seq_length_rhyme, seq_length_verse, start_seq_rhyme, start_seq_verse, temperature=1.0):

@@ -4,16 +4,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import pyphen
 import re
 import string
-from dante_by_syl.text_processing import remove_punctuation
-
-special_tokens = {
-    'START_OF_CANTO'   : '<start_of_canto>',
-    'END_OF_CANTO'     : '<end_of_canto>',
-    'START_OF_TERZINA' : '<start_of_terzina>',
-    'END_OF_TERZINA'   : '<end_of_terzina>',
-    'END_OF_VERSO'     : '<end_of_verso>',
-    'WORD_SEP'         : '<word_sep>'
-}
+from dante_by_syl.text_processing import remove_punctuation, special_tokens
 
 
 def syllabify_verse(verse, special_tokens, synalepha=True, dieresis=True):
@@ -101,6 +92,9 @@ if __name__ == "__main__":
 
 
     divine_comedy_list = divine_comedy.split("\n")
+
+    divine_comedy_list = [ line for line in divine_comedy_list if line.strip() not in special_tokens.values() ]
+
     count = 0
     for line in divine_comedy_list[:]:
         syllables = syllabify_verse(line, special_tokens)

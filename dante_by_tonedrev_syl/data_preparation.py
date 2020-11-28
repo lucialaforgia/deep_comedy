@@ -1,36 +1,8 @@
 import numpy as np
 import tensorflow as tf
-from dante_by_rev_syl.syllabification import syllabify_verse
-from dante_by_rev_syl.text_processing import special_tokens
+from dante_by_tonedrev_syl.syllabification import syllabify_verse
+from dante_by_tonedrev_syl.text_processing import special_tokens
 
-
-def annotate_accent(model_tone, word, char2idx, max_word_len):
-    word_as_int = [ char2idx[c] if c in char2idx.keys() else 0 for c in word ]
-    word_as_int = tf.keras.preprocessing.sequence.pad_sequences([word_as_int], padding='post', maxlen=max_word_len)
-    #word_as_int = np.expand_dims(word_as_int, axis=0)
-    output = model_tone.predict(word_as_int)
-
-
-#    print(output.shape)
-#    print(output)
-
-    toned_vowels = {
-        'a': 'à',
-        'e': 'è',
-        'i': 'ì',
-        'o': 'ò',
-        'u': 'ù',
-    }
-    tone_index = np.argmax(output, axis=1)[0] - 1
-
-    if tone_index >= len(word):
-        return word
-    if word[tone_index] in toned_vowels.keys():
-        toned_word = list(word)
-        toned_word[tone_index] = toned_vowels[word[tone_index]]
-        return ''.join(toned_word)
-    else:
-        return word
 
 def text_in_syls_rhyme(text):
     #this LIST's elements will be the verses of the DC

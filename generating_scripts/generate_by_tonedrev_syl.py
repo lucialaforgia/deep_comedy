@@ -7,9 +7,9 @@ import numpy as np
 import tensorflow as tf
 tf.get_logger().setLevel('ERROR')
 
-from dante_by_rev_syl.data_preparation import text_in_rev_syls, text_in_syls_rhyme
-from dante_by_rev_syl.text_processing import clean_comedy, prettify_text, special_tokens
-from dante_by_rev_syl.generate_dante import generate_text
+from dante_by_tonedrev_syl.data_preparation import text_in_rev_syls, text_in_syls_rhyme
+from dante_by_tonedrev_syl.text_processing import clean_comedy, prettify_text, special_tokens
+from dante_by_tonedrev_syl.generate_dante import generate_text
 from utils import save_vocab, load_vocab
 
 
