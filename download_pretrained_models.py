@@ -12,6 +12,7 @@ if __name__ == '__main__':
         'dante_by_syl',
         'dante_by_word',
         'dante_by_rev_syl',
+        'dante_by_tonedrev_syl',
     ]
 
     working_dir = os.path.dirname(os.path.abspath(__file__))

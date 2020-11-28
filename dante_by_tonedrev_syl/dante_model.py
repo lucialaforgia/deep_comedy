@@ -72,7 +72,7 @@ def build_tonenet_model(name, vocab_size, max_word_len, embedding_dim=64, rnn_ty
     model = tf.keras.Sequential(name=name)
 
     model.add(tf.keras.layers.Input((max_word_len,), name='input'))
-    model.add(tf.keras.layers.Embedding(vocab_size, embedding_dim, name='embedding'))
+    model.add(tf.keras.layers.Embedding(vocab_size, embedding_dim, mask_zero=True, name='embedding'))
     if rnn_type == 'lstm':
 #         model.add(tf.keras.layers.LSTM(rnn_units,
 # #                          return_sequences=True,
@@ -83,7 +83,6 @@ def build_tonenet_model(name, vocab_size, max_word_len, embedding_dim=64, rnn_ty
         model.add(tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(rnn_units,
 #                          return_sequences=True,
                           dropout=0.3,
-#                          recurrent_initializer='glorot_uniform',
                           name='last_lstm'
                         ), name='bidirectional'
                     )
@@ -99,14 +98,12 @@ def build_tonenet_model(name, vocab_size, max_word_len, embedding_dim=64, rnn_ty
 #    model.add(tf.keras.layers.Dense(128, activation='relu', name='dense'))
 
     model.add(tf.keras.layers.Dense(max_word_len, activation='softmax', name='output'))    
-#    model.add(tf.keras.layers.Dense(max_word_len, activation='softmax', name='output'))    
-
     
     optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
 
-#    model.compile(loss=loss, metrics="accuracy", optimizer=optimizer)
-    
-    model.compile(loss="categorical_crossentropy", metrics="accuracy", optimizer=optimizer)
+    model.compile(loss="categorical_crossentropy", metrics="accuracy", optimizer=optimizer) 
+    # anche qui non so se e' corretta la categorical crossentropy...
+
 #    model.compile(loss="sparse_categorical_crossentropy", metrics="accuracy", optimizer=optimizer)
     model.summary()
 
