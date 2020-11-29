@@ -3,7 +3,6 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
-
 from dante_by_rev_syl.syllabification import syllabify_verse_prettify
 from dante_by_rev_syl.text_processing import special_tokens
 #from dante_by_tonedrev_syl.syllabification import syllabify_verse #dovremo usare questo appena scritto :)
@@ -25,7 +24,7 @@ def eval(generated_canto, synalepha=True, dieresis=True):
         'Number of well formed terzine': n_well_formed_terzine,
         'Last single verse': last_single_verse,
         'Average syllables per verse': round(avg_verse_len, 2),
-        'Correct hendecasyllabicness by tone': '{}/{}'.format(correct_endecasyllables,n_verses),
+        'Correct hendecasyllabicness by tone': '{}/{}'.format(correct_endecasyllables, n_verses),
         'Number of rhymes': n_rhymes_verses,
     }
 def get_terzine(generated_canto):

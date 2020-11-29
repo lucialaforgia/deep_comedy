@@ -11,6 +11,7 @@ def text_in_syls_rhyme(text):
 
     for i in range(len(verses)):
         verse = syllabify_verse(verses[i], special_tokens)
+        # get last syllables from tone one???
         verses_syl += verse[-3:]
     return verses_syl
     
