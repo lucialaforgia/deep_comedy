@@ -72,13 +72,34 @@ if __name__ == '__main__':
     divine_comedy = remove_all_punctuation(divine_comedy)
     
 #    print(divine_comedy)
-    print(generated_canto)
+#    print(generated_canto)
 
 
+    # Test on divine comedy
 
+    evaluation_results = evaluate_our_metrics(divine_comedy, divine_comedy)
+
+    print('\nOUR METRICS ON DIVINE COMEDY:')
+    for k, v in evaluation_results.items():
+        print('{}: {}'.format(k, v))
+    
+    # Test on one canto of divine comedy
+    n_canto = 1
+    divine_comedy_canto_list = divine_comedy.split('CANTO')
+    divine_comedy_canto_list = [line.strip() for line in divine_comedy_canto_list if line != '']
+    
+    evaluation_results = evaluate_our_metrics(divine_comedy_canto_list[n_canto-1], divine_comedy)
+
+    print('\nOUR METRICS ON {} CANTO OF DIVINE COMEDY:'.format(n_canto))
+    for k, v in evaluation_results.items():
+        print('{}: {}'.format(k, v))
+    
+    
+    
+    # Evaluation on generated canto 
     evaluation_results = evaluate_other_metrics(generated_canto, divine_comedy)
 
-    print('\nOTHER METRICS:')
+    print('\nOTHER METRICS ON GENERATED CANTO:')
     for k, v in evaluation_results.items():
         print('{}: {}'.format(k, v))
 
@@ -86,10 +107,6 @@ if __name__ == '__main__':
 
     evaluation_results = evaluate_our_metrics(generated_canto, divine_comedy)
 
-    print('\nOUR METRICS:')
+    print('\nOUR METRICS ON GENERATED CANTO:')
     for k, v in evaluation_results.items():
         print('{}: {}'.format(k, v))
-
-
-
-
