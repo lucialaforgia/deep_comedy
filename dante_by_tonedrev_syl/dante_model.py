@@ -67,7 +67,7 @@ def build_model(name, vocab_size, seq_length, embedding_dim=64, rnn_type='lstm',
     return model
 
 
-def build_tonenet_model(name, vocab_size, max_word_len, embedding_dim=64, rnn_type='lstm', rnn_units=512, learning_rate=0.01):
+def build_tonenet_model(name, vocab_size, max_word_len, embedding_dim=32, rnn_type='lstm', rnn_units=512, learning_rate=0.01):
 
     model = tf.keras.Sequential(name=name)
 

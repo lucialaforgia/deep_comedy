@@ -9,10 +9,12 @@ import re
 import other_metrics.metrics as om
 from other_metrics.ngrams_plagiarism import ngrams_plagiarism
 
+import our_metrics.metrics as m
+
 #from dante_by_char.text_processing import clean_comedy, prettify_text, special_tokens
 #from dante_by_syl.text_processing import clean_comedy, prettify_text, special_tokens
 #from dante_by_word.text_processing import clean_comedy, prettify_text, special_tokens
-from dante_by_rev_syl.text_processing import clean_comedy, prettify_text, special_tokens
+from dante_by_rev_syl.text_processing import clean_comedy, prettify_text, special_tokens, remove_all_punctuation
 
 
 
@@ -26,8 +28,6 @@ def evaluate_other_metrics(generated_canto, divine_comedy):
     divine_comedy_list = [line.strip() for line in divine_comedy_list if line != 'CANTO']
     divine_comedy = "\n".join(divine_comedy_list)
 
-#    print(divine_comedy)
-    print(generated_canto)
 
 
     evaluation_results = {}
@@ -40,6 +40,21 @@ def evaluate_other_metrics(generated_canto, divine_comedy):
     return evaluation_results
 
 
+def evaluate_our_metrics(generated_canto, divine_comedy):
+
+    generated_canto_list = generated_canto.split("\n")
+    generated_canto_list = [line.strip() for line in generated_canto_list if line != 'CANTO']
+    generated_canto = "\n".join(generated_canto_list)
+
+    divine_comedy_list = divine_comedy.split("\n")
+    divine_comedy_list = [line.strip() for line in divine_comedy_list if line != 'CANTO']
+    divine_comedy = "\n".join(divine_comedy_list)
+
+    evaluation_results = {}
+
+    evaluation_results = m.eval(generated_canto, synalepha=True, dieresis=True)
+
+    return evaluation_results
 
 if __name__ == '__main__':
 
@@ -54,17 +69,26 @@ if __name__ == '__main__':
 
     divine_comedy = clean_comedy(divine_comedy, special_tokens)
     divine_comedy = prettify_text(divine_comedy, special_tokens)
+    divine_comedy = remove_all_punctuation(divine_comedy)
     
+#    print(divine_comedy)
+    print(generated_canto)
+
+
+
     evaluation_results = evaluate_other_metrics(generated_canto, divine_comedy)
 
-
+    print('\nOTHER METRICS:')
     for k, v in evaluation_results.items():
         print('{}: {}'.format(k, v))
 
 
 
+    evaluation_results = evaluate_our_metrics(generated_canto, divine_comedy)
 
-
+    print('\nOUR METRICS:')
+    for k, v in evaluation_results.items():
+        print('{}: {}'.format(k, v))
 
 
 

@@ -31,7 +31,7 @@ divine_comedy = clean_comedy(divine_comedy, special_tokens)
 ## VERSION 1
 #
 BATCH_SIZE = 32
-EPOCHS = 1
+EPOCHS = 200
 SEQ_LENGTH = 125
 EMBEDDING_DIM = 256
 RNN_UNITS = 1024
