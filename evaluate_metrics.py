@@ -29,7 +29,6 @@ def evaluate_other_metrics(generated_canto, divine_comedy):
     divine_comedy = "\n".join(divine_comedy_list)
 
 
-
     evaluation_results = {}
     evaluation_results = om.eval(generated_canto, verbose=False, synalepha=True, permissive=False, rhyme_threshold=1.0)
 
@@ -79,7 +78,7 @@ if __name__ == '__main__':
 
     evaluation_results = evaluate_our_metrics(divine_comedy, divine_comedy)
 
-    print('\nOUR METRICS ON DIVINE COMEDY:')
+    print('\nOUR METRICS ON WHOLE DIVINE COMEDY:')
     for k, v in evaluation_results.items():
         print('{}: {}'.format(k, v))
     

@@ -41,7 +41,7 @@ def get_n_strophes(generated_canto):
     return len(get_terzine(generated_canto))
 
 def get_well_formed_terzine(generated_canto):
-    terzine = generated_canto.split('\n\n')
+    terzine = get_terzine(generated_canto)
     n_well_formed_terzine = 0
     for t in terzine:
         if len(t.split('\n')) == 3:
