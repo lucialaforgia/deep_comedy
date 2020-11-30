@@ -77,6 +77,8 @@ def build_dataset_tone(tone_dataframe, vocab_tone, idx2char, char2idx, max_lengt
     dataset = tf.data.Dataset.from_tensor_slices((words_as_int, toned_index))
 #    print(list(dataset.take(1).as_numpy_iterator()))
 
+    dataset = dataset.shuffle(1000)
+
     return dataset
 
 def build_dataset_rhyme(text, vocab, idx2syl, syl2idx, seq_length):
