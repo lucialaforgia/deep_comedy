@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import tensorflow as tf
-from dante_by_syl.data_preparation import text_in_syls
+#from dante_by_syl.data_preparation import text_in_syls
 from dante_by_syl.text_processing import prettify_text, special_tokens
 
 def generate_text(model, special_tokens, vocab_size, syl2idx, idx2syl, seq_length, start_seq, temperature=1.0):

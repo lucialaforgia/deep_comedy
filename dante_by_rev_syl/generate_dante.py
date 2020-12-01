@@ -1,7 +1,6 @@
 import os
 import numpy as np
 import tensorflow as tf
-from dante_by_rev_syl.data_preparation import text_in_syls
 from dante_by_rev_syl.text_processing import prettify_text, special_tokens
 
 
