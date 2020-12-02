@@ -2,6 +2,7 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow as tf
 tf.get_logger().setLevel('ERROR')
 import numpy as np
@@ -98,10 +99,12 @@ class ToneTagger():
         tone_index = np.argmax(output, axis=1)[0] - 1
 
         if tone_index >= len(word):
+            # se e' una consonante gentiamo come parola piana
             return word
         if word[tone_index] in self.toned_vowels.keys():
             toned_word = list(word)
             toned_word[tone_index] = self.toned_vowels[word[tone_index]]
             return ''.join(toned_word)
         else:
+            # se e' una consonante gentiamo come parola piana
             return word
