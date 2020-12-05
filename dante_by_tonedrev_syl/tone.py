@@ -88,6 +88,10 @@ class ToneTagger():
         for c in word:
             if c in self.toned_vowels.values():
                 return word
+        # or exclude some words
+        if len(word) < 3:
+            return word
+
         word_as_int = [ self.char2idx[c] if c in self.char2idx.keys() else self.char2idx['#'] for c in word ]
         word_as_int = tf.keras.preprocessing.sequence.pad_sequences([word_as_int], padding='post', maxlen=self.max_word_len)
         #word_as_int = np.expand_dims(word_as_int, axis=0)
