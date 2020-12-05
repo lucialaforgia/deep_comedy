@@ -232,7 +232,7 @@ if __name__ == "__main__":
 
     tone_tagger = ToneTagger()
     count = 0
-    for line in divine_comedy_list[:100]:
+    for line in divine_comedy_list[:200]:
         syllables = syllabify_verse(line, special_tokens, tone_tagger)
 #        print(syllables)
         syllables = [ syl for syl in syllables if syl != special_tokens['WORD_SEP'] ]

@@ -88,7 +88,11 @@ class ToneTagger():
         for c in word:
             if c in self.toned_vowels.values():
                 return word
-        # or exclude some words
+        # do not tone some words
+        not_tone = ['che']
+        if word in not_tone:
+            return word
+        # do not tone word of 2 letters
         if len(word) < 3:
             return word
 
