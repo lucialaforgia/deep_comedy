@@ -28,7 +28,6 @@ def eval(text, verbose=False, synalepha=False, permissive=True, rhyme_threshold=
             print(terzina)
             print("Hendecasyllabicness: {}, Rhymeness: {}".format(hendecasyllabicness, rhymeness))
 
-    print()
     if len(terzine) > 0:
         # Each "optimal" terzina has 5 lines, the last of which is shared with the next one
         # (therefore a file with n perfect terzine has 4n + 2 lines, due to the final stray verse and empty line).

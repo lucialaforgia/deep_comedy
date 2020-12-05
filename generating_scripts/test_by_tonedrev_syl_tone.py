@@ -30,7 +30,7 @@ print("\nMODEL: {}\n".format(tone_tagger.model_filename))
 # raw_output_file = os.path.join(logs_dir, model_filename, "raw_output.txt")
 
 
-divine_comedy_words = divine_comedy.split()[:500]
+divine_comedy_words = divine_comedy.split()[:500] + ['']
 
 for w in divine_comedy_words:
     print(tone_tagger.tone(w), flush=True, end=' ')
