@@ -69,8 +69,8 @@ def _split_hiatus(text):
 
 # Prevents splitting of diphthongs and triphthongs.
 def _clump_diphthongs(text):
-    diphthong = r"""(?i)(i[,.;:"“”«»?—'`‘’\s]*[aeouàèéòóù]|u[,.;:"“”«»?—'`‘’\s]*[aeioàèéìòó]|[aeouàèéòóù][,.;:"“”«»?—'`‘’\s]*i|[aeàèé][,.;:"“”«»?—'`‘’\s]*u)"""
-    diphthongsep = r"""(\{.[,.;:"“”«»?—'`‘’\s]*)(.\})"""
+    diphthong = r"""(?i)(i[aeouàèéòóù]|u[aeioàèéìòó]|[aeouàèéòóù]i|[aeàèé]u)"""
+    diphthongsep = r"""(\{.)(.\})"""
     triphthong = r"""(?i)(i[àèé]i|u[àòó]i|iu[òó]|ui[èéà])""" #nostra
     triphthongsep = r"""(\{.)(.)(.\})"""
 
