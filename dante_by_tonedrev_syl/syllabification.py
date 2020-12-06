@@ -18,7 +18,8 @@ def _perform_initial_splits(text):
 
 # Performs the second (difficult and heuristic) phase of syllabification.
 def _perform_final_splits(text):
-    cvcv = r"""(?i)([bcdfglmnpqrstvz][ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu]+)([bcdfglmnpqrstvz]+[ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu]+)"""
+    # ho aggiunto l'h -> 'richeggio'
+    cvcv = r"""(?i)([bcdfglmnpqrstvz][ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu]+)([bcdfglmnpqrstvz]+[ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUuHh]+)"""
     vcv = r"""(?i)([ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu]+)([bcdfglmnpqrstvz]+[ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu]+)"""
     vv = r"""(?i)(?<=[ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu])(?=[ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu])"""
 
@@ -65,9 +66,10 @@ def _split_dieresis(text):
 # Splits SURE hiatuses only. Ambiguous ones are heuristically considered diphthongs.
 def _split_hiatus(text):
     # ho tolto cose... i - u caso 'più','guida'
+    # e aggiunto ^
     # hiatus = re.compile(r"""(?i)([aeoàèòóé](?=[aeoàèòóé])|[rbd]i(?=[aeou])|tri(?=[aeou])|[ìù](?=[aeiou])|[aeiou](?=[ìù]))""")
 
-    hiatus = re.compile(r"""(?i)([aeoàèòóé](?=[aeoàèòóé])|[rbd]i(?=[aeou])|tri(?=[aeou])|[ì](?=[aeo])|[aeo](?=[ì])|[ù](?=[aeou])|[aeou](?=[ù]))""")
+    hiatus = re.compile(r"""(?i)([aeoàèòóé](?=[aeoàèòóé])|^[rbd]i(?=[aeou])|^tri(?=[aeou])|[ì](?=[aeo])|[aeo](?=[ì])|[ù](?=[aeou])|[aeou](?=[ù]))""")
     return "#".join(hiatus.sub(r"""\1@""", text).split("@"))
 
 # Prevents splitting of diphthongs and triphthongs.
@@ -93,7 +95,7 @@ def is_diphthong(text):
         return False
 
 def is_hiatus(text):
-    hiatus = re.compile(r"""(?i)([aeoàèòóé](?=[aeoàèòóé])|[rbd]i(?=[aeou])|tri(?=[aeou])|[ì](?=[aeo])|[aeo](?=[ì])|[ù](?=[aeou])|[aeou](?=[ù]))""")
+    hiatus = re.compile(r"""(?i)([aeoàèòóé](?=[aeoàèòóé])|^[rbd]i(?=[aeou])|^tri(?=[aeou])|[ì](?=[aeo])|[aeo](?=[ì])|[ù](?=[aeou])|[aeou](?=[ù]))""")
     if re.search(hiatus, text):
         return True
     else:
@@ -102,12 +104,6 @@ def is_hiatus(text):
 # Apply synalepha by need
 def _apply_synalepha(syllables, special_tokens):
     
-    # out = re.sub(triphthong, r"""{\1}""", text)
-    # out = re.sub(triphthongsep, r"""\1§\2§\3""", out)
-    # out = re.sub(diphthong, r"""{\1}""", out)
-    # out = re.sub(diphthongsep, r"""\1§\2""", out)
-    # out = re.sub(r"""[{}]""", "", out)
-
     vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoóòÚÙUuúù'"
 #        vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoóòÚÙUuúù"
 
@@ -130,6 +126,7 @@ def _apply_synalepha(syllables, special_tokens):
         i+=1
     result.append(syllables[-1])
 
+    # remove WORD_SEP to count the syllables
 
     return result
 
@@ -207,7 +204,7 @@ def syllabify_verse(verse, special_tokens, tone_tagger, synalepha=True):
 #    syllables = remove_tone(syllables, special_tokens)
 #    print('before',syllables)
 #    print()
-#    print(syllables)
+    print(syllables)
     
     if synalepha:
         syllables = _apply_synalepha(syllables, special_tokens)

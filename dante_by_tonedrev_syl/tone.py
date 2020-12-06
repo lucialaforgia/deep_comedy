@@ -6,7 +6,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow as tf
 tf.get_logger().setLevel('ERROR')
 import numpy as np
-
+import re
 from utils import load_vocab
 
 
@@ -85,16 +85,22 @@ class ToneTagger():
 
 
     def tone(self, word):
-        for c in word:
-            if c in self.toned_vowels.values():
-                return word
+        v = r"""(?i)([ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu]{1})"""
+        if len(re.findall(v, word)) == 1:
+            return word
+
+        toned_v = r"""(?i)([ÁÀàáÉÈèéÍÌíìÓÒóòÚÙúù]{1})"""
+        if len(re.findall(toned_v, word)) == 1:
+            return word
+
         # do not tone some words
-        not_tone = ['che']
+        not_tone = ['che', 'la', 'lo', 'le', 'io' ]
         if word in not_tone:
             return word
-        # do not tone word of 2 letters
-        if len(word) < 3:
-            return word
+
+#        # do not tone word of 2 letters
+#        if len(word) < 3:
+#            return word
 
         word_as_int = [ self.char2idx[c] if c in self.char2idx.keys() else self.char2idx['#'] for c in word ]
         word_as_int = tf.keras.preprocessing.sequence.pad_sequences([word_as_int], padding='post', maxlen=self.max_word_len)
