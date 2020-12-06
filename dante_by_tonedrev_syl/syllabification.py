@@ -184,7 +184,8 @@ def syllabify_verse_prettify(verse, special_tokens, tone_tagger, synalepha=True)
 
 
 def syllabify_verse(verse, special_tokens, tone_tagger, synalepha=True):
-    
+#    if verse.strip() == '':
+#        return []
     if verse in special_tokens.values():
         return [verse]
 
@@ -217,15 +218,15 @@ def syllabify_verse(verse, special_tokens, tone_tagger, synalepha=True):
 
 if __name__ == "__main__":
 
-    print(special_tokens)
+#    print(special_tokens)
 
     with open("divina_commedia_accent_cleaned.txt","r") as f:
         divine_comedy = f.read()
 
-
+#    divine_comedy = prettify_text(divine_comedy,special_tokens)
     divine_comedy_list = divine_comedy.split("\n")
 
-    divine_comedy_list = [ line for line in divine_comedy_list if line.strip() not in special_tokens.values() ]
+#    divine_comedy_list = [ line for line in divine_comedy_list if line.strip() not in special_tokens.values() ]
 
     tone_tagger = ToneTagger()
     count = 0
