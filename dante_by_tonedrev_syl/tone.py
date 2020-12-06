@@ -85,16 +85,18 @@ class ToneTagger():
 
 
     def tone(self, word):
+        word = word.lower()
+
         v = r"""(?i)([ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu]{1})"""
         if len(re.findall(v, word)) == 1:
             return word
 
-        toned_v = r"""(?i)([ÁÀàáÉÈèéÍÌíìÓÒóòÚÙúù]{1})"""
-        if len(re.findall(toned_v, word)) == 1:
-            return word
+#        toned_v = r"""(?i)([ÁÀàáÉÈèéÍÌíìÓÒóòÚÙúù]{1})"""
+#        if len(re.findall(toned_v, word)) == 1:
+#            return word
 
         # do not tone some words
-        not_tone = ['che', 'la', 'lo', 'le', 'io' ]
+        not_tone = ['che', 'la', 'lo', 'le', 'io', 'qui']
         if word in not_tone:
             return word
 
@@ -111,14 +113,12 @@ class ToneTagger():
     #    print(output)
 
         tone_index = np.argmax(output, axis=1)[0] - 1
-
+#        print('\ntone', word, tone_index)
         if tone_index >= len(word):
-            # se e' una consonante gentiamo come parola piana
             return word
         if word[tone_index] in self.toned_vowels.keys():
             toned_word = list(word)
             toned_word[tone_index] = self.toned_vowels[word[tone_index]]
             return ''.join(toned_word)
         else:
-            # se e' una consonante gentiamo come parola piana
             return word

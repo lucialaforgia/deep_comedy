@@ -18,7 +18,7 @@ with open(divine_comedy_file,"r") as f:
 
 divine_comedy = clean_comedy(divine_comedy, special_tokens)
 divine_comedy = prettify_text(divine_comedy, special_tokens)
-divine_comedy = remove_all_punctuation(divine_comedy)
+#divine_comedy = remove_all_punctuation(divine_comedy)
 
 tone_tagger = ToneTagger()
 
