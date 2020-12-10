@@ -120,7 +120,7 @@ def is_hendecasyllable(syllables, special_tokens):
     syllables = [ s for s in syllables if s != '' ]
     # ENDECASILLABO A MAIORE O A MINORE
     if len(syllables) > 9:
-        return is_toned_syl(syllables[9])
+        return is_toned_syl(syllables[9]) # aggiungere check max len 12
     else:
         return False
 
@@ -155,7 +155,7 @@ def _apply_synalepha(syllables, special_tokens):
                 n_synalepha+=1
         i+=1
 
-    print(n_synalepha, syllables)
+#    print(n_synalepha, syllables)
 
 
     result = syllables
