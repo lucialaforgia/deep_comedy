@@ -76,7 +76,7 @@ class ToneTagger():
         # if 'gru' in RNN_TYPE:
         #     RNN_UNITS = model_tone.get_layer('last_gru').output.shape[-1]
         
-        model_tone.summary()
+#        model_tone.summary()
         
         model_filename = 'model_by_tonedrev_syl_tone_wlen_{}_emb{}_{}{}'.format(MAX_WORD_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS)
         self.max_word_len = MAX_WORD_LENGTH
