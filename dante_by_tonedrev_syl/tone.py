@@ -96,7 +96,9 @@ class ToneTagger():
 #            return word
 
         # do not tone some words
-        not_tone = ['che', 'la', 'lo', 'le', 'io', 'qui']
+        not_tone = ['che', 'la', 'lo', 'le', 'qui', 'qua', 'quo' 
+                    'tuo', 'tua', 'suo', 'sua', 'mio', 'mia', 
+                    'tue', 'sue', 'mie','io' ] # add sua, tua .... io
         if word in not_tone:
             return word
 

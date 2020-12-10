@@ -21,7 +21,8 @@ def _perform_final_splits(text):
     # ho aggiunto l'h -> 'richeggio'
     cvcv = r"""(?i)([bcdfglmnpqrstvz][ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu]+)([bcdfglmnpqrstvz]+[ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUuHh]+)"""
     vcv = r"""(?i)([ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu]+)([bcdfglmnpqrstvz]+[ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu]+)"""
-    vv = r"""(?i)(?<=[ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu])(?=[ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu])"""
+    vv = r"""(?i)(?<=[AaEeIiOoUu])(?=[AaEeIiOoUu])"""
+#    vv = r"""(?i)(?<=[ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu])(?=[ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu])"""
 
     # Split the contoid vocoid - contoid vocoid case (eg. ca-ne). Deterministic.
     out = re.sub(cvcv, r"""\1#\2""", text)
@@ -68,8 +69,13 @@ def _split_hiatus(text):
     # ho tolto cose... i - u caso 'più','guida'
     # e aggiunto ^
     # hiatus = re.compile(r"""(?i)([aeoàèòóé](?=[aeoàèòóé])|[rbd]i(?=[aeou])|tri(?=[aeou])|[ìù](?=[aeiou])|[aeiou](?=[ìù]))""")
+    
+    # ok
+    # hiatus = re.compile(r"""(?i)([aeoàèòóé](?=[aeoàèòóé])|^[rbd]i(?=[aeou])|^tri(?=[aeou])|[ì](?=[aeo])|[aeo](?=[ì])|[ù](?=[aeo])|[aeo](?=[ù]))""")
 
-    hiatus = re.compile(r"""(?i)([aeoàèòóé](?=[aeoàèòóé])|^[rbd]i(?=[aeou])|^tri(?=[aeou])|[ì](?=[aeo])|[aeo](?=[ì])|[ù](?=[aeou])|[aeou](?=[ù]))""")
+
+    hiatus = re.compile(r"""(?i)([aeo](?=[aeo])|^[rbd]i(?=[aeou])|^tri(?=[aeou])|[ì](?=[aeo])|[aeo](?=[ì])|[ù](?=[aeo])|[aeo](?=[ù]))""")
+
     return "#".join(hiatus.sub(r"""\1@""", text).split("@"))
 
 # Prevents splitting of diphthongs and triphthongs.
@@ -101,8 +107,94 @@ def is_hiatus(text):
     else:
         return False
 
+
+def is_toned_syl(syl):
+    toned_v = r"""(?i)([ÁÀàáÉÈèéÍÌíìÓÒóòÚÙúù]{1})"""
+    if len(re.findall(toned_v, syl)) == 1:
+        return True
+    else:
+        return False
+
+def is_hendecasyllable(syllables, special_tokens):
+    syllables = [ prettify_text(s, special_tokens).strip() for s in syllables ]
+    syllables = [ s for s in syllables if s != '' ]
+    # ENDECASILLABO A MAIORE O A MINORE
+    if len(syllables) > 9:
+        return is_toned_syl(syllables[9])
+    else:
+        return False
+
 # Apply synalepha by need
 def _apply_synalepha(syllables, special_tokens):
+    
+    if is_hendecasyllable(syllables, special_tokens):
+        return syllables
+
+    syllables_cleaned = [ prettify_text(s, special_tokens).strip() for s in syllables ]
+    syllables_cleaned = [ s for s in syllables if s != '' ]
+
+    if len(syllables_cleaned) <= 9:
+        return syllables 
+
+
+    # SMARAGLIATA    
+    vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoóòÚÙUuúù'" # considerare l'H come vocale???????
+
+    n_synalepha = 0
+
+
+    i = 1
+    while i < (len(syllables) - 1):
+        if syllables[i] == special_tokens['WORD_SEP']:
+            pre_syl = syllables[i-1]
+            next_syl = syllables[i+1]
+            if pre_syl[-1] in vowels and next_syl[0] in vowels: # aggiungere is_dittongo (e not is_iato???) NON CORRETTO! USIAMOLI NELLA SMARAGLIATA
+#            if pre_syl[-1] in vowels and next_syl[0] in vowels and is_diphthong(''.join([pre_syl[-1], next_syl[0]])):
+#            if pre_syl[-1] in vowels and next_syl[0] in vowels and not is_hiatus(''.join([pre_syl[-1], next_syl[0]])):
+                i += 1
+                n_synalepha+=1
+        i+=1
+
+    print(n_synalepha, syllables)
+
+
+    result = syllables
+    synalepha_to_apply = 1
+    while not is_hendecasyllable(result, special_tokens) and synalepha_to_apply<=n_synalepha:
+        
+        applied_synalepha = 0
+        result = [syllables[0]]
+        i = 1
+        completed = False
+        while i < (len(syllables) - 1) :
+            
+            if syllables[i] == special_tokens['WORD_SEP']:
+                pre_syl = syllables[i-1]
+                next_syl = syllables[i+1]
+                if completed:
+                    result.append(syllables[i])               
+                else:
+
+                    if pre_syl[-1] in vowels and next_syl[0] in vowels:
+                        result.append(result[-1] + syllables[i] + next_syl)
+                        del result[-2]
+                        i += 1
+                        
+                        applied_synalepha+=1
+                        if applied_synalepha == synalepha_to_apply:
+                            completed = True
+                    else:
+                        result.append(syllables[i])               
+            else:
+                result.append(syllables[i])
+            i+=1
+        result.append(syllables[-1])
+        synalepha_to_apply+=1
+    # remove WORD_SEP to count the syllables
+
+    return result
+
+def _apply_synalepha_backup(syllables, special_tokens):
     
     vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoóòÚÙUuúù'"
 #        vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoóòÚÙUuúù"
@@ -129,7 +221,6 @@ def _apply_synalepha(syllables, special_tokens):
     # remove WORD_SEP to count the syllables
 
     return result
-
 
 def remove_tone(syllables, special_tokens):
     toned_vowels = {
@@ -184,8 +275,8 @@ def syllabify_verse_prettify(verse, special_tokens, tone_tagger, synalepha=True)
 
 
 def syllabify_verse(verse, special_tokens, tone_tagger, synalepha=True):
-#    if verse.strip() == '':
-#        return []
+    if verse.strip() == '':
+        return []
     if verse in special_tokens.values():
         return [verse]
 
@@ -205,13 +296,12 @@ def syllabify_verse(verse, special_tokens, tone_tagger, synalepha=True):
 #    syllables = remove_tone(syllables, special_tokens)
 #    print('before',syllables)
 #    print()
-    print(syllables)
     
     if synalepha:
         syllables = _apply_synalepha(syllables, special_tokens)
 
     # removing usless tones
-    syllables = remove_tone(syllables, special_tokens)
+#    syllables = remove_tone(syllables, special_tokens)
 #    print('after',syllables)
 
     return syllables
@@ -226,12 +316,15 @@ if __name__ == "__main__":
 #    divine_comedy = prettify_text(divine_comedy,special_tokens)
     divine_comedy_list = divine_comedy.split("\n")
 
-#    divine_comedy_list = [ line for line in divine_comedy_list if line.strip() not in special_tokens.values() ]
+    divine_comedy_list = [ line for line in divine_comedy_list if line.strip() not in special_tokens.values() ]
 
     tone_tagger = ToneTagger()
     count = 0
-    for line in divine_comedy_list[:200]:
+    for line in divine_comedy_list[:]:
         syllables = syllabify_verse(line, special_tokens, tone_tagger)
+
+        if not is_hendecasyllable(syllables, special_tokens):
+            count+=1
 #        print(syllables)
         syllables = [ syl for syl in syllables if syl != special_tokens['WORD_SEP'] ]
         syllables = [ syl for syl in syllables if syl != special_tokens['END_OF_VERSO'] ]
@@ -242,10 +335,9 @@ if __name__ == "__main__":
         if line.strip() not in special_tokens.values():
 #            print("\n"+line)
 #            if size < 10 or size > 12:
+
             print(line.replace(special_tokens['WORD_SEP'], '').replace(special_tokens['END_OF_VERSO'], ''))
             print(size, '-'.join(syllables))
             print()
-            if size != 11:
-                count+=1
 
     print(str(count)+'/'+str(len(divine_comedy_list)) + " verses still wrong")
