@@ -33,11 +33,20 @@ RNN_TYPE = 'lstm'
 
 ## VERSION 2
 
+BATCH_SIZE = 16
+EPOCHS = 200
+MAX_WORD_LENGTH = 30
+EMBEDDING_DIM = 32
+RNN_UNITS = 512
+RNN_TYPE = 'lstm'
+
+## VERSION 3
+
 # BATCH_SIZE = 32
 # EPOCHS = 200
 # MAX_WORD_LENGTH = 30
 # EMBEDDING_DIM = 32
-# RNN_UNITS = 512
+# RNN_UNITS = 1024
 # RNN_TYPE = 'lstm'
 
 ##############################
