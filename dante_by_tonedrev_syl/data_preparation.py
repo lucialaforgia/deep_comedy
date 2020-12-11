@@ -73,7 +73,7 @@ def build_dataset_tone(tone_dataframe, vocab_tone, idx2char, char2idx, max_lengt
     # print(toned_index.shape)
 
     # print(toned_index[0])
-    exit(0)
+    
     dataset = tf.data.Dataset.from_tensor_slices((words_as_int, toned_index))
 #    print(list(dataset.take(1).as_numpy_iterator()))
 
