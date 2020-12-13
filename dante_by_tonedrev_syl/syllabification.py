@@ -4,6 +4,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import pyphen
 import re
 import string
+import itertools
 from dante_by_tonedrev_syl.text_processing import remove_punctuation, special_tokens, prettify_text
 from dante_by_tonedrev_syl.tone import ToneTagger
 
@@ -21,8 +22,11 @@ def _perform_final_splits(text):
     # ho aggiunto l'h -> 'richeggio'
     cvcv = r"""(?i)([bcdfglmnpqrstvz][ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu]+)([bcdfglmnpqrstvz]+[ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUuHh]+)"""
     vcv = r"""(?i)([ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu]+)([bcdfglmnpqrstvz]+[ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu]+)"""
-    vv = r"""(?i)(?<=[AaEeIiOoUu])(?=[AaEeIiOoUu])"""
-#    vv = r"""(?i)(?<=[ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu])(?=[ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu])"""
+#    vv = r"""(?i)(?<=[ÄäAaËëEeÏïIiÖöOoÜüUu])(?=[ÄäAaËëEeÏïIiÖöOoÜüUu])"""
+
+#    vv = r"""(?i)(?<=[AaEeIiOoUu])(?=[AaEeIiOoUu])"""
+
+    vv = r"""(?i)(?<=[ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu])(?=[ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu])"""
 
     # Split the contoid vocoid - contoid vocoid case (eg. ca-ne). Deterministic.
     out = re.sub(cvcv, r"""\1#\2""", text)
@@ -71,7 +75,7 @@ def _split_hiatus(text):
     # hiatus = re.compile(r"""(?i)([aeoàèòóé](?=[aeoàèòóé])|[rbd]i(?=[aeou])|tri(?=[aeou])|[ìù](?=[aeiou])|[aeiou](?=[ìù]))""")
     
     # ok
-    # hiatus = re.compile(r"""(?i)([aeoàèòóé](?=[aeoàèòóé])|^[rbd]i(?=[aeou])|^tri(?=[aeou])|[ì](?=[aeo])|[aeo](?=[ì])|[ù](?=[aeo])|[aeo](?=[ù]))""")
+#    hiatus = re.compile(r"""(?i)([aeoàèòóé](?=[aeoàèòóé])|^[rbd]i(?=[aeou])|^tri(?=[aeou])|[ì](?=[aeo])|[aeo](?=[ì])|[ù](?=[aeo])|[aeo](?=[ù]))""")
 
 
     hiatus = re.compile(r"""(?i)([aeo](?=[aeo])|^[rbd]i(?=[aeou])|^tri(?=[aeou])|[ì](?=[aeo])|[aeo](?=[ì])|[ù](?=[aeo])|[aeo](?=[ù]))""")
@@ -82,7 +86,9 @@ def _split_hiatus(text):
 def _clump_diphthongs(text):
     diphthong = r"""(?i)(i[aeouàèéòóù]|u[aeioàèéìòó]|[aeouàèéòóù]i|[aeàèé]u)"""
     diphthongsep = r"""(\{.)(.\})"""
-    triphthong = r"""(?i)(i[àèé]i|u[àòó]i|iu[òó]|ui[èéà])""" #nostra
+    # triphthong = r"""(?i)(i[àèé]i|u[àòó]i|iu[òó]|ui[èéà])""" #nostra
+    triphthong = r"""(?i)(i[àèéòó]i|u[àèéòó]i|iu[òó]|ui[èéà])""" #nostra
+
     triphthongsep = r"""(\{.)(.)(.\})"""
 
     out = re.sub(triphthong, r"""{\1}""", text)
@@ -93,19 +99,19 @@ def _clump_diphthongs(text):
 
     return out
 
-def is_diphthong(text):
-    diphthong = r"""(?i)(i[aeouàèéòóù]|u[aeioàèéìòó]|[aeouàèéòóù]i|[aeàèé]u)"""
-    if re.search(diphthong, text):
-        return True
-    else:
-        return False
+# def is_diphthong(text):
+#     diphthong = r"""(?i)(i[aeouàèéòóù]|u[aeioàèéìòó]|[aeouàèéòóù]i|[aeàèé]u)"""
+#     if re.search(diphthong, text):
+#         return True
+#     else:
+#         return False
 
-def is_hiatus(text):
-    hiatus = re.compile(r"""(?i)([aeoàèòóé](?=[aeoàèòóé])|^[rbd]i(?=[aeou])|^tri(?=[aeou])|[ì](?=[aeo])|[aeo](?=[ì])|[ù](?=[aeou])|[aeou](?=[ù]))""")
-    if re.search(hiatus, text):
-        return True
-    else:
-        return False
+# def is_hiatus(text):
+#     hiatus = re.compile(r"""(?i)([aeoàèòóé](?=[aeoàèòóé])|^[rbd]i(?=[aeou])|^tri(?=[aeou])|[ì](?=[aeo])|[aeo](?=[ì])|[ù](?=[aeou])|[aeou](?=[ù]))""")
+#     if re.search(hiatus, text):
+#         return True
+#     else:
+#         return False
 
 
 def is_toned_syl(syl):
@@ -116,8 +122,7 @@ def is_toned_syl(syl):
         return False
 
 def is_hendecasyllable(syllables, special_tokens):
-    syllables = [ prettify_text(s, special_tokens).strip() for s in syllables ]
-    syllables = [ s for s in syllables if s != '' ]
+    syllables = [ prettify_text(s, special_tokens).strip() for s in syllables if s not in special_tokens.values() ]
     # ENDECASILLABO A MAIORE O A MINORE
     if len(syllables) > 9:
         return is_toned_syl(syllables[9]) # aggiungere check max len 12
@@ -126,6 +131,107 @@ def is_hendecasyllable(syllables, special_tokens):
 
 # Apply synalepha by need
 def _apply_synalepha(syllables, special_tokens):
+    
+    # if is_hendecasyllable(syllables, special_tokens):
+    #     return syllables
+
+    # syllables_cleaned = [ prettify_text(s, special_tokens).strip() for s in syllables ]
+    # syllables_cleaned = [ s for s in syllables if s != '' ]
+    syllables_cleaned = [ prettify_text(s, special_tokens).strip() for s in syllables if s not in special_tokens.values() ]
+    
+    if len(syllables_cleaned) <= 9:
+        return syllables 
+
+    # SMARAGLIATA    
+    vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoóòÚÙUuúù'" # considerare l'H come vocale???????
+
+    n_synalepha = 0
+
+    i = 1
+    while i < (len(syllables) - 1):
+        if syllables[i] == special_tokens['WORD_SEP']:
+            pre_syl = syllables[i-1]
+            next_syl = syllables[i+1]
+            if pre_syl[-1] in vowels and next_syl[0] in vowels: # aggiungere is_dittongo (e not is_iato???) NON CORRETTO! USIAMOLI NELLA SMARAGLIATA
+#            if pre_syl[-1] in vowels and next_syl[0] in vowels and is_diphthong(''.join([pre_syl[-1], next_syl[0]])):
+#            if pre_syl[-1] in vowels and next_syl[0] in vowels and not is_hiatus(''.join([pre_syl[-1], next_syl[0]])):
+                i += 1
+                n_synalepha+=1
+        i+=1
+
+#    print(n_synalepha, syllables)
+    x = ['0', '1']
+    combinations = [''.join(p) for p in itertools.product(x, repeat=n_synalepha)]
+    synalepha_results = { k: [] for k in combinations }
+        
+    for c in combinations:    
+        syn_index = 0
+        result = [syllables[0]]
+        i = 1
+        while i < (len(syllables) - 1) :
+            if syllables[i] == special_tokens['WORD_SEP']:
+                pre_syl = syllables[i-1]
+                next_syl = syllables[i+1]
+                if pre_syl[-1] in vowels and next_syl[0] in vowels:
+                    if c[syn_index] == '1':
+                        result.append(result[-1] + syllables[i] + next_syl)
+                        del result[-2]
+                        i += 1
+                        
+                    else:
+                        result.append(syllables[i])               
+                    syn_index+=1
+                else:
+                    result.append(syllables[i])               
+            else:
+                result.append(syllables[i])
+            i+=1
+        result.append(syllables[-1])
+        synalepha_results[c] = result
+
+    # print(synalepha_results)
+    # remove WORD_SEP to count the syllables
+    
+    best_syllabification = [] 
+    best_score = 0
+    # get best syllabification
+
+    for syllables_list in synalepha_results.values():
+        syllables_cleaned = [ prettify_text(s, special_tokens).strip() for s in syllables_list if s not in special_tokens.values() ]
+        
+        if len(syllables_cleaned) >=10 and len(syllables_cleaned) <= 12 and is_hendecasyllable(syllables_list, special_tokens):
+            if best_score < 5:
+                best_syllabification = syllables_list
+                best_score = 5
+        
+        if is_hendecasyllable(syllables_list, special_tokens):
+            if best_score < 4:
+                best_syllabification = syllables_list
+                best_score = 4
+
+        if len(syllables_cleaned) >=10 and len(syllables_cleaned) <= 12 and is_toned_syl(syllables_cleaned[-2]):
+            if best_score < 3:
+                best_syllabification = syllables_list
+                best_score = 3
+        
+        if len(syllables_cleaned) >=9 and len(syllables_cleaned) <= 12:
+            if best_score < 2:
+                best_syllabification = syllables_list
+                best_score = 2
+        
+        if len(syllables_cleaned) >=5:
+            if best_score < 1:
+                best_syllabification = syllables_list
+                best_score = 1
+
+
+    # if not best_syllabification:
+    #     best_syllabification = syllables
+
+    return best_syllabification
+
+
+def _apply_synalepha_v1(syllables, special_tokens):
     
     if is_hendecasyllable(syllables, special_tokens):
         return syllables
@@ -336,6 +442,7 @@ if __name__ == "__main__":
 #            print("\n"+line)
 #            if size < 10 or size > 12:
 
+            # if not is_hendecasyllable(syllables, special_tokens):
             print(line.replace(special_tokens['WORD_SEP'], '').replace(special_tokens['END_OF_VERSO'], ''))
             print(size, '-'.join(syllables))
             print()

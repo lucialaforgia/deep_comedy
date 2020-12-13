@@ -32,6 +32,7 @@ class ToneTagger():
             'o': 'ò',
             'u': 'ù',
         }
+
         self.load_vocab_tone()
         self.load_tone_model()
     
@@ -87,7 +88,8 @@ class ToneTagger():
     def tone(self, word):
         word = word.lower()
 
-        v = r"""(?i)([ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu]{1})"""
+#        v = r"""(?i)([ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu]{1})"""
+        v = r"""(?i)([ÁÀàáAaÉÈèéEeÍÌíìIiÓÒóòOoÚÙúùUu]{1})"""
         if len(re.findall(v, word)) == 1:
             return word
 
@@ -106,7 +108,19 @@ class ToneTagger():
 #        if len(word) < 3:
 #            return word
 
-        word_as_int = [ self.char2idx[c] if c in self.char2idx.keys() else self.char2idx['#'] for c in word ]
+        dv = r"""(?i)([äëïöü]{1})"""
+        if re.search(dv, word):
+            dieresis_vowels = {
+                'ä': 'a',
+                'ë': 'e',
+                'ï': 'i',
+                'ö': 'o',
+                'ü': 'u',
+            }
+            word_input = ''.join([ dieresis_vowels[c] if c in dieresis_vowels.keys() else c for c in word ])
+        else:
+            word_input = word 
+        word_as_int = [ self.char2idx[c] if c in self.char2idx.keys() else self.char2idx['#'] for c in word_input ]
         word_as_int = tf.keras.preprocessing.sequence.pad_sequences([word_as_int], padding='post', maxlen=self.max_word_len)
         #word_as_int = np.expand_dims(word_as_int, axis=0)
         output = self.model_tone.predict(word_as_int)
