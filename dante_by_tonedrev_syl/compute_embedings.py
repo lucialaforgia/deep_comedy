@@ -16,53 +16,39 @@ working_dir = os.path.dirname(os.path.abspath(__file__))
 # Path where the vocab is saved
 logs_dir = os.path.join(working_dir, 'logs')
 os.makedirs(logs_dir, exist_ok = True) 
-vocab_file_rhyme = os.path.join(logs_dir, 'vocab_rhyme.json')
+vocab_file_tone = os.path.join(logs_dir, 'vocab_tone.json')
 
-vocab_rhyme, idx2syl_rhyme, syl2idx_rhyme = load_vocab(vocab_file_rhyme)
+vocab_tone, idx2cha_tone, char2idx_tone = load_vocab(vocab_file_tone)
 
 # Length of the vocabulary
-vocab_size = len(vocab_rhyme)
-
+vocab_size = len(vocab_tone)
 
 # Path where the model is saved
 models_dir = os.path.join(working_dir, 'models')
 os.makedirs(models_dir, exist_ok = True) 
-model_file_rhyme = os.path.join(models_dir, "dante_by_rev_syl_rhyme_model.h5")
-
-model_rhyme = tf.keras.models.load_model(model_file_rhyme)
-SEQ_LENGTH_RHYME = model_rhyme.get_layer('embedding').output.shape[1]
-
-EMBEDDING_DIM_RHYME  = model_rhyme.get_layer('embedding').output.shape[2]
-for l in model_rhyme.layers:
-    if l.name == 'first_lstm':
-        RNN_TYPE_RHYME  = '2lstm'
-        break
-    if l.name == 'last_lstm':
-        RNN_TYPE_RHYME  = 'lstm' 
-        break
-    if l.name == 'first_gru':
-        RNN_TYPE_RHYME  = '2gru' 
-        break
-    if l.name == 'last_gru':
-        RNN_TYPE_RHYME  = 'gru' 
-        break
-if 'lstm' in RNN_TYPE_RHYME :
-    RNN_UNITS_RHYME  = model_rhyme.get_layer('last_lstm').output.shape[-1]
-if 'gru' in RNN_TYPE_RHYME:
-    RNN_UNITS_RHYME  = model_rhyme.get_layer('last_gru').output.shape[-1]
-
-model_rhyme.summary()
-
-model_filename_rhyme = 'model_by_rev_syl_rhyme_seq{}_emb{}_{}{}'.format(SEQ_LENGTH_RHYME , EMBEDDING_DIM_RHYME , RNN_TYPE_RHYME , RNN_UNITS_RHYME )
+model_file_tone = os.path.join(models_dir, "dante_by_tonedrev_syl_tone_model.h5")
 
 
-print("\nMODEL RHYME: {}\n".format(model_filename_rhyme))
+model_tone = tf.keras.models.load_model(model_file_tone)
 
-embedding_layer_rhyme = model_rhyme.get_layer('embedding')
+MAX_WORD_LENGTH = model_tone.get_layer('output').output.shape[1]
+EMBEDDING_DIM_TONE  = model_tone.get_layer('embedding').output.shape[2]
+
+RNN_TYPE_TONE = 'lstm'
+RNN_UNITS_TONE = model_tone.get_layer('bidirectional').output.shape[-1]//2
+
+model_tone.summary()
+
+model_filename_tone = 'model_by_tonedrev_syl_tone_wlen_{}_emb{}_{}{}'.format(MAX_WORD_LENGTH, EMBEDDING_DIM_TONE, RNN_TYPE_TONE, RNN_UNITS_TONE)
 
 
-embedding_file_rhyme = os.path.join(logs_dir, model_filename_rhyme, "embedding.tsv")
-metadata_file_rhyme = os.path.join(logs_dir, model_filename_rhyme, "metadata.tsv")
+print("\nMODEL TONE: {}\n".format(model_filename_tone))
+
+embedding_layer_tone = model_tone.get_layer('embedding')
+
+
+embedding_file_rhyme = os.path.join(logs_dir, model_filename_tone, "embedding.tsv")
+metadata_file_rhyme = os.path.join(logs_dir, model_filename_tone, "metadata.tsv")
 
 
 f_e = open(embedding_file_rhyme, "w")
@@ -70,9 +56,9 @@ f_m = open(metadata_file_rhyme, "w")
 
 #f_m.write("{}\n".format('syl'))
 writer = csv.writer(f_e, delimiter='\t', lineterminator='\n')             
-for s in vocab_rhyme:
+for s in vocab_tone:
     f_m.write('"{}"\n'.format(s))
-    emb = embedding_layer_rhyme(np.array(syl2idx_rhyme[s])).numpy()
+    emb = embedding_layer_tone(np.array(char2idx_tone[s])).numpy()
     writer.writerow(emb)
 
 f_e.close()
