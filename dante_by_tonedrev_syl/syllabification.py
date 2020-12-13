@@ -143,7 +143,7 @@ def _apply_synalepha(syllables, special_tokens):
         return syllables 
 
     # SMARAGLIATA    
-    vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoóòÚÙUuúù'" # considerare l'H come vocale???????
+    vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoóòÚÙUuúùHh'" # considerare l'H come vocale???????
 
     n_synalepha = 0
 
