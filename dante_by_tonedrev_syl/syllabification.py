@@ -193,27 +193,27 @@ def _apply_synalepha(syllables, special_tokens):
     # remove WORD_SEP to count the syllables
     
     best_syllabification = [] 
-    best_score = 0
+    best_score = -1
     # get best syllabification
 
     for syllables_list in synalepha_results.values():
         syllables_cleaned = [ prettify_text(s, special_tokens).strip() for s in syllables_list if s not in special_tokens.values() ]
         
-        if len(syllables_cleaned) >=10 and len(syllables_cleaned) <= 12 and is_hendecasyllable(syllables_list, special_tokens):
+        if len(syllables_cleaned) >=10 and len(syllables_cleaned) <= 11 and is_hendecasyllable(syllables_list, special_tokens):
             if best_score < 5:
                 best_syllabification = syllables_list
                 best_score = 5
         
-        if is_hendecasyllable(syllables_list, special_tokens):
+        if len(syllables_cleaned) >=10 and len(syllables_cleaned) <= 12 and is_hendecasyllable(syllables_list, special_tokens):
             if best_score < 4:
                 best_syllabification = syllables_list
                 best_score = 4
-
-        if len(syllables_cleaned) >=10 and len(syllables_cleaned) <= 12 and is_toned_syl(syllables_cleaned[-2]):
+        
+        if is_hendecasyllable(syllables_list, special_tokens):
             if best_score < 3:
                 best_syllabification = syllables_list
                 best_score = 3
-        
+
         if len(syllables_cleaned) >=9 and len(syllables_cleaned) <= 12:
             if best_score < 2:
                 best_syllabification = syllables_list
