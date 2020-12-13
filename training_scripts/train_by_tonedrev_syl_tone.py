@@ -40,15 +40,6 @@ RNN_TYPE = 'lstm'
 # RNN_UNITS = 512
 # RNN_TYPE = 'lstm'
 
-## VERSION 3
-
-# BATCH_SIZE = 32
-# EPOCHS = 200
-# MAX_WORD_LENGTH = 30
-# EMBEDDING_DIM = 32
-# RNN_UNITS = 1024
-# RNN_TYPE = 'lstm'
-
 ##############################
 
 vocab_tone, idx2char_tone, char2idx_tone = build_vocab_tone(tone_dataframe)
