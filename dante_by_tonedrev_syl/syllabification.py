@@ -21,7 +21,7 @@ def _perform_initial_splits(text):
 def _perform_final_splits(text):
     # ho aggiunto l'h -> 'richeggio'
     cvcv = r"""(?i)([bcdfglmnpqrstvz][ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu]+)([bcdfglmnpqrstvz]+[ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUuHh]+)"""
-    vcv = r"""(?i)([ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu]+)([bcdfglmnpqrstvz]+[ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu]+)"""
+    vcv = r"""(?i)([ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu]+)([bcdfglmnpqrstvz]+[ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUuHh]+)"""
 #    vv = r"""(?i)(?<=[ÄäAaËëEeÏïIiÖöOoÜüUu])(?=[ÄäAaËëEeÏïIiÖöOoÜüUu])"""
 
 #    vv = r"""(?i)(?<=[AaEeIiOoUu])(?=[AaEeIiOoUu])"""
