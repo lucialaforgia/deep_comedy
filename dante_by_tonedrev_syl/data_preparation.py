@@ -1,18 +1,28 @@
 import numpy as np
 import tensorflow as tf
-from dante_by_tonedrev_syl.syllabification import syllabify_verse
+from dante_by_tonedrev_syl.syllabification import syllabify_verse, is_toned_syl
 from dante_by_tonedrev_syl.text_processing import special_tokens
+from dante_by_tonedrev_syl.tone import ToneTagger
 
 
 def text_in_syls_rhyme(text):
     #this LIST's elements will be the verses of the DC
     verses = text.splitlines()
     verses_syl = []
-
+    tone_tagger = ToneTagger()
     for i in range(len(verses)):
-        verse = syllabify_verse(verses[i], special_tokens)
-        # get last syllables from tone one???
-        verses_syl += verse[-3:]
+        verse = syllabify_verse(verses[i], special_tokens, tone_tagger)
+        if len(verse) > 1:
+            syllables_rev = verse[::-1]
+            for i, syl in enumerate(syllables_rev):
+                if is_toned_syl(syl):
+                    index = len(syllables_rev)-i-1
+                    verses_syl += verse[index:]
+                    break
+
+        else:
+            verses_syl += verse
+
     return verses_syl
     
 def text_in_rev_syls(text):
@@ -20,8 +30,9 @@ def text_in_rev_syls(text):
     verses = text.splitlines()
     verses_syl = []
 
+    tone_tagger = ToneTagger()
     for i in range(len(verses)):
-        verse = syllabify_verse(verses[i], special_tokens)
+        verse = syllabify_verse(verses[i], special_tokens, tone_tagger)
         if len(verse) > 1:
             verses_syl += verse[::-1]
 

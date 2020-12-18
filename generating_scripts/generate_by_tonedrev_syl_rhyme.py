@@ -41,7 +41,7 @@ vocab_size = len(vocab)
 # Path where the model is saved
 models_dir = os.path.join(working_dir, 'models')
 os.makedirs(models_dir, exist_ok = True) 
-model_file_rhyme = os.path.join(models_dir, "dante_by_rev_syl_rhyme_model.h5")
+model_file_rhyme = os.path.join(models_dir, "dante_by_tonedrev_syl_rhyme_model.h5")
 
 model_rhyme = tf.keras.models.load_model(model_file_rhyme)
 
@@ -68,7 +68,7 @@ if 'gru' in RNN_TYPE:
 
 model_rhyme.summary()
 
-model_filename = 'model_by_rev_syl_rhyme_seq{}_emb{}_{}{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS)
+model_filename = 'model_by_tonedrev_syl_rhyme_seq{}_emb{}_{}{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS)
 
 print("\nMODEL: {}\n".format(model_filename))
 
@@ -78,11 +78,13 @@ output_file = os.path.join(logs_dir, model_filename, "output.txt")
 raw_output_file = os.path.join(logs_dir, model_filename, "raw_output.txt")
 
 
+divine_comedy = '\n'.join(divine_comedy.split('\n')[:500])
 divine_comedy_rhyme = text_in_syls_rhyme(divine_comedy)
 #index_eoc = divine_comedy_rhyme.index(special_tokens['END_OF_CANTO']) + 1
-indexes = [i for i, x in enumerate(divine_comedy_rhyme) if x == special_tokens['END_OF_CANTO']]
+indexes = [i for i, x in enumerate(divine_comedy_rhyme) if x == special_tokens['END_OF_CANTO'] and i > SEQ_LENGTH]
 index_eoc = np.random.choice(indexes) + 1
-start_seq = divine_comedy_rhyme[index_eoc - SEQ_LENGTH:index_eoc]
+start_idx = max(0, index_eoc - SEQ_LENGTH)
+start_seq = divine_comedy_rhyme[start_idx:index_eoc]
 
 #print(start_seq)
 

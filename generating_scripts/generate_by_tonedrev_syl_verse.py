@@ -23,7 +23,6 @@ with open(divine_comedy_file,"r") as f:
 
 divine_comedy = clean_comedy(divine_comedy, special_tokens)
 
-
 #vocab, idx2syl, syl2idx = build_vocab(divine_comedy)
 
 
@@ -41,7 +40,7 @@ vocab_size = len(vocab)
 # Path where the model is saved
 models_dir = os.path.join(working_dir, 'models')
 os.makedirs(models_dir, exist_ok = True) 
-model_file_verse = os.path.join(models_dir, "dante_by_rev_syl_verse_model.h5")
+model_file_verse = os.path.join(models_dir, "dante_by_tonedrev_syl_verse_model.h5")
 
 model_verse = tf.keras.models.load_model(model_file_verse)
 
@@ -67,7 +66,7 @@ if 'gru' in RNN_TYPE:
 
 model_verse.summary()
 
-model_filename = 'model_by_rev_syl_verse_seq{}_emb{}_{}{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS)
+model_filename = 'model_by_tonedrev_syl_verse_seq{}_emb{}_{}{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS)
 
 print("\nMODEL: {}\n".format(model_filename))
 
@@ -77,10 +76,12 @@ output_file = os.path.join(logs_dir, model_filename, "output.txt")
 raw_output_file = os.path.join(logs_dir, model_filename, "raw_output.txt")
 
 
+divine_comedy = '\n'.join(divine_comedy.split('\n')[:50])
 divine_comedy_verse = text_in_rev_syls(divine_comedy)
 indexes = [i for i, x in enumerate(divine_comedy_verse) if x == special_tokens['END_OF_VERSO'] and i > SEQ_LENGTH]
 index_eov = np.random.choice(indexes)
-start_seq = divine_comedy_verse[index_eov - SEQ_LENGTH:index_eov]
+start_idx = max(0, index_eov - SEQ_LENGTH)
+start_seq = divine_comedy_verse[start_idx:index_eov]
 
 #print(start_seq)
 

@@ -75,12 +75,13 @@ output_file = os.path.join(logs_dir, model_filename, "output.txt")
 raw_output_file = os.path.join(logs_dir, model_filename, "raw_output.txt")
 
 
-divine_comedy = text_in_syls(divine_comedy)
+divine_comedy_syls = text_in_syls(divine_comedy)
 
-# index_eoc = divine_comedy.index(special_tokens['END_OF_CANTO']) + 1
-indexes = [i for i, x in enumerate(divine_comedy) if x == special_tokens['END_OF_CANTO']]
+# index_eoc = divine_comedy_syls.index(special_tokens['END_OF_CANTO']) + 1
+indexes = [i for i, x in enumerate(divine_comedy_syls) if x == special_tokens['END_OF_CANTO'] and i > SEQ_LENGTH]
 index_eoc = np.random.choice(indexes) + 1
-start_seq = divine_comedy[index_eoc - SEQ_LENGTH:index_eoc]
+start_idx = max(0, index_eoc - SEQ_LENGTH)
+start_seq = divine_comedy_syls[start_idx:index_eoc]
 
 #print(start_seq)
 

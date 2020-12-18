@@ -2,16 +2,22 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+import numpy as np
 
 from dante_by_rev_syl.syllabification import syllabify_verse_prettify
 from dante_by_rev_syl.text_processing import special_tokens
-#from dante_by_tonedrev_syl.syllabification import syllabify_verse #dovremo usare questo appena scritto :)
 
-def eval(generated_canto, synalepha=True, dieresis=True):
+# from dante_by_tonedrev_syl.syllabification import syllabify_verse_prettify
+# from dante_by_tonedrev_syl.text_processing import special_tokens
+
+
+from dante_by_tonedrev_syl.tone import ToneTagger
+
+def eval(generated_canto, synalepha=True):
 
     n_strophes = get_n_strophes(generated_canto)
     n_well_formed_terzine = get_well_formed_terzine(generated_canto)
-    avg_verse_len = get_average_verse_length(generated_canto, synalepha, dieresis)
+    mean_verse_len, std_verse_len = get_mean_std_verse_length(generated_canto, synalepha)
     last_single_verse = is_last_single_verse_present(generated_canto)
 
     n_verses = len(get_verses(generated_canto))
@@ -23,7 +29,7 @@ def eval(generated_canto, synalepha=True, dieresis=True):
         'Number of strophes': n_strophes ,
         'Number of well formed terzine': n_well_formed_terzine,
         'Last single verse': last_single_verse,
-        'Average syllables per verse': round(avg_verse_len, 2),
+        'Average syllables per verse': '{:.2f} ± {:.2f}'.format(mean_verse_len, std_verse_len),
         'Correct hendecasyllabicness by tone': '{}/{}'.format(correct_endecasyllables, n_verses),
         'Number of rhymes': n_rhymes_verses,
     }
@@ -53,10 +59,15 @@ def get_verses(generated_canto):
     verses = [line.strip() for line in generated_canto_list if line != '']
     return verses
 
-def get_average_verse_length(generated_canto, synalepha, dieresis):
+def get_mean_std_verse_length(generated_canto, synalepha):
     verses = get_verses(generated_canto)
-    syls_counter = 0
+    lengths = []
+    # tone_tagger = ToneTagger()
     for v in verses:
-        syls = syllabify_verse_prettify(v, special_tokens, synalepha=synalepha, dieresis=dieresis)
-        syls_counter+=len(syls)
-    return syls_counter/len(verses)
+        # no tone
+        syls = syllabify_verse_prettify(v, special_tokens, synalepha=synalepha)
+        # with tone
+#        syls = syllabify_verse_prettify(v, special_tokens, tone_tagger, synalepha=synalepha)
+        lengths.append(len(syls))
+    lengths = np.array(lengths)
+    return np.mean(lengths), np.std(lengths)

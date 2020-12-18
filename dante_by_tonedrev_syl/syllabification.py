@@ -79,7 +79,7 @@ def _split_hiatus(text):
 
 
     hiatus = re.compile(r"""(?i)([aeo](?=[aeo])|^[rbd]i(?=[aeou])|^tri(?=[aeou])|[ì](?=[aeo])|[aeo](?=[ì])|[ù](?=[aeo])|[aeo](?=[ù]))""")
-
+   
     return "#".join(hiatus.sub(r"""\1@""", text).split("@"))
 
 # Prevents splitting of diphthongs and triphthongs.
@@ -121,16 +121,85 @@ def is_toned_syl(syl):
     else:
         return False
 
+
+def get_last_tonedsyl_index(syllables, special_tokens):
+    # syllables only without <word_sep> token
+    syllables = [ prettify_text(s, special_tokens).strip() for s in syllables if s not in special_tokens.values() ]
+    syllables_rev = syllables[::-1] 
+    for i, syl in enumerate(syllables_rev):
+        if is_toned_syl(syl):
+            return len(syllables_rev)-i-1
+
+
 def is_hendecasyllable(syllables, special_tokens):
     syllables = [ prettify_text(s, special_tokens).strip() for s in syllables if s not in special_tokens.values() ]
     # ENDECASILLABO A MAIORE O A MINORE
     if len(syllables) > 9:
-        return is_toned_syl(syllables[9]) # aggiungere check max len 12
+        return get_last_tonedsyl_index(syllables, special_tokens) == 9
     else:
         return False
 
 # Apply synalepha by need
 def _apply_synalepha(syllables, special_tokens):
+
+    syllables_cleaned = [ prettify_text(s, special_tokens).strip() for s in syllables if s not in special_tokens.values() ]
+    
+    if len(syllables_cleaned) <= 9:
+        return syllables 
+
+    # SMARAGLIATA    
+    vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoóòÚÙUuúùHh'" # considerare l'H come vocale???????
+
+    n_synalepha = 0
+
+    i = 1
+    while i < (len(syllables) - 1):
+        if syllables[i] == special_tokens['WORD_SEP']:
+            pre_syl = syllables[i-1]
+            next_syl = syllables[i+1]
+            if pre_syl[-1] in vowels and next_syl[0] in vowels: # aggiungere is_dittongo (e not is_iato???) NON CORRETTO! USIAMOLI NELLA SMARAGLIATA
+#            if pre_syl[-1] in vowels and next_syl[0] in vowels and is_diphthong(''.join([pre_syl[-1], next_syl[0]])):
+#            if pre_syl[-1] in vowels and next_syl[0] in vowels and not is_hiatus(''.join([pre_syl[-1], next_syl[0]])):
+                i += 1
+                n_synalepha+=1
+        i+=1
+
+    last_tonedrv_index = get_last_tonedsyl_index(syllables, special_tokens)
+
+    n_synalepha_needed = last_tonedrv_index - 9
+
+    n_synalepha_to_apply = min(n_synalepha_needed, n_synalepha)
+
+
+    result = [syllables[0]]
+    i = 1
+    n_synalepha_applied = 0
+    while i < (len(syllables) - 1):
+        if syllables[i] == special_tokens['WORD_SEP']:
+            pre_syl = syllables[i-1]
+            next_syl = syllables[i+1]
+            if pre_syl[-1] in vowels and next_syl[0] in vowels: 
+                
+                if n_synalepha_applied < n_synalepha_to_apply:
+                    result.append(result[-1] + syllables[i] + next_syl)
+                    del result[-2]
+                    n_synalepha_applied+=1
+                    i += 1
+                else:
+                    result.append(syllables[i])
+                
+
+            else:
+                result.append(syllables[i])               
+        else:
+            result.append(syllables[i])
+        i+=1
+    result.append(syllables[-1])
+
+    return result
+
+
+def _apply_synalepha_brute_force(syllables, special_tokens):
     
     # if is_hendecasyllable(syllables, special_tokens):
     #     return syllables
@@ -163,7 +232,7 @@ def _apply_synalepha(syllables, special_tokens):
     x = ['0', '1']
     combinations = [''.join(p) for p in itertools.product(x, repeat=n_synalepha)]
     synalepha_results = { k: [] for k in combinations }
-        
+    print(combinations)
     for c in combinations:    
         syn_index = 0
         result = [syllables[0]]
@@ -242,6 +311,7 @@ def _apply_synalepha_v1(syllables, special_tokens):
     if len(syllables_cleaned) <= 9:
         return syllables 
 
+ 
 
     # SMARAGLIATA    
     vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoóòÚÙUuúù'" # considerare l'H come vocale???????
@@ -428,7 +498,6 @@ if __name__ == "__main__":
     count = 0
     for line in divine_comedy_list[:]:
         syllables = syllabify_verse(line, special_tokens, tone_tagger)
-
         if not is_hendecasyllable(syllables, special_tokens):
             count+=1
 #        print(syllables)

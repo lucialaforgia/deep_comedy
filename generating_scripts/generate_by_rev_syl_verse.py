@@ -79,7 +79,8 @@ raw_output_file = os.path.join(logs_dir, model_filename, "raw_output.txt")
 divine_comedy_verse = text_in_rev_syls(divine_comedy)
 indexes = [i for i, x in enumerate(divine_comedy_verse) if x == special_tokens['END_OF_VERSO'] and i > SEQ_LENGTH]
 index_eov = np.random.choice(indexes)
-start_seq = divine_comedy_verse[index_eov - SEQ_LENGTH:index_eov]
+start_idx = max(0, index_eov - SEQ_LENGTH)
+start_seq = divine_comedy_verse[start_idx:index_eov]
 
 #print(start_seq)
 

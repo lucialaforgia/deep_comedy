@@ -115,15 +115,17 @@ raw_output_file = os.path.join(logs_dir, model_filename, "raw_output.txt")
 
 divine_comedy_rhyme = text_in_syls_rhyme(divine_comedy)
 #index_eoc = divine_comedy_rhyme.index(special_tokens['END_OF_CANTO']) + 1
-indexes = [i for i, x in enumerate(divine_comedy_rhyme) if x == special_tokens['END_OF_CANTO']]
+indexes = [i for i, x in enumerate(divine_comedy_rhyme) if x == special_tokens['END_OF_CANTO'] and i > SEQ_LENGTH_RHYME]
 index_eoc = np.random.choice(indexes) + 1
-start_seq_rhyme = divine_comedy_rhyme[index_eoc - SEQ_LENGTH_RHYME:index_eoc]
+start_idx = max(0, index_eoc - SEQ_LENGTH_RHYME)
+start_seq_rhyme = divine_comedy_rhyme[start_idx:index_eoc]
 
 
 divine_comedy_verse = text_in_rev_syls(divine_comedy)
 indexes = [i for i, x in enumerate(divine_comedy_verse) if x == special_tokens['END_OF_VERSO'] and i > SEQ_LENGTH_VERSE]
 index_eov = np.random.choice(indexes)
-start_seq_verse = divine_comedy_verse[index_eov - SEQ_LENGTH_VERSE:index_eov]
+start_idx = max(0, index_eov - SEQ_LENGTH_VERSE)
+start_seq_verse = divine_comedy_verse[start_idx:index_eov]
 
 
 

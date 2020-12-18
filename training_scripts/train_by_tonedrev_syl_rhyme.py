@@ -57,7 +57,6 @@ dataset_train_rhyme, dataset_val_rhyme = split_dataset(dataset_rhyme)
 dataset_train_rhyme = dataset_train_rhyme.batch(BATCH_SIZE, drop_remainder=True)
 dataset_val_rhyme = dataset_val_rhyme.batch(BATCH_SIZE, drop_remainder=True)
 
-
 model_rhyme = build_model(
     name='RhymeNetwork',
     vocab_size = len(vocab_rhyme),
@@ -70,7 +69,7 @@ model_rhyme = build_model(
 
 
 
-model_filename_rhyme = 'model_by_rev_syl_rhyme_seq{}_emb{}_{}{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS)
+model_filename_rhyme = 'model_by_tonedrev_syl_rhyme_seq{}_emb{}_{}{}'.format(SEQ_LENGTH, EMBEDDING_DIM, RNN_TYPE, RNN_UNITS)
 
 
 

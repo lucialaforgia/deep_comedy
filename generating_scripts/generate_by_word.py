@@ -78,9 +78,10 @@ raw_output_file = os.path.join(logs_dir, model_filename, "raw_output.txt")
 divine_comedy = divine_comedy.split()
 
 # index_eoc = divine_comedy.index(special_tokens['END_OF_CANTO']) + 1
-indexes = [i for i, x in enumerate(divine_comedy) if x == special_tokens['END_OF_CANTO']]
+indexes = [i for i, x in enumerate(divine_comedy) if x == special_tokens['END_OF_CANTO'] and i > SEQ_LENGTH]
 index_eoc = np.random.choice(indexes) + 1
-start_string = ' '.join(divine_comedy[index_eoc - SEQ_LENGTH:index_eoc])
+start_idx = max(0, index_eoc - SEQ_LENGTH)
+start_string = ' '.join(divine_comedy[start_idx:index_eoc])
 
 #print(start_string)
 

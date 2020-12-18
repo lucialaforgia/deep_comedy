@@ -40,8 +40,8 @@ vocab_verse, idx2syl_verse, syl2idx_verse = load_vocab(vocab_file_verse)
 # Path where the model is saved
 models_dir = os.path.join(working_dir, 'models')
 os.makedirs(models_dir, exist_ok = True) 
-model_file_verse = os.path.join(models_dir, "dante_by_rev_syl_verse_model.h5")
-model_file_rhyme = os.path.join(models_dir, "dante_by_rev_syl_rhyme_model.h5")
+model_file_verse = os.path.join(models_dir, "dante_by_tonedrev_syl_verse_model.h5")
+model_file_rhyme = os.path.join(models_dir, "dante_by_rev_tonedsyl_rhyme_model.h5")
 
 model_verse = tf.keras.models.load_model(model_file_verse)
 model_rhyme = tf.keras.models.load_model(model_file_rhyme)
@@ -97,14 +97,14 @@ if 'gru' in RNN_TYPE_VERSE:
 model_rhyme.summary()
 model_verse.summary()
 
-model_filename_rhyme = 'model_by_rev_syl_rhyme_seq{}_emb{}_{}{}'.format(SEQ_LENGTH_RHYME , EMBEDDING_DIM_RHYME , RNN_TYPE_RHYME , RNN_UNITS_RHYME )
-model_filename_verse = 'model_by_rev_syl_verse_seq{}_emb{}_{}{}'.format(SEQ_LENGTH_VERSE, EMBEDDING_DIM_VERSE, RNN_TYPE_VERSE, RNN_UNITS_VERSE)
+model_filename_rhyme = 'model_by_tonedrev_syl_rhyme_seq{}_emb{}_{}{}'.format(SEQ_LENGTH_RHYME , EMBEDDING_DIM_RHYME , RNN_TYPE_RHYME , RNN_UNITS_RHYME )
+model_filename_verse = 'model_by_tonedrev_syl_verse_seq{}_emb{}_{}{}'.format(SEQ_LENGTH_VERSE, EMBEDDING_DIM_VERSE, RNN_TYPE_VERSE, RNN_UNITS_VERSE)
 
 
 print("\nMODEL RHYME: {}".format(model_filename_rhyme))
 print("MODEL VERSE: {}\n".format(model_filename_verse))
 
-model_filename = 'model_by_rev_syl'
+model_filename = 'model_by_tonedrev_syl'
 
 os.makedirs(os.path.join(logs_dir, model_filename), exist_ok = True) 
 
@@ -112,18 +112,21 @@ output_file = os.path.join(logs_dir, model_filename, "output.txt")
 raw_output_file = os.path.join(logs_dir, model_filename, "raw_output.txt")
 
 
-
-divine_comedy_rhyme = text_in_syls_rhyme(divine_comedy)
+divine_comedy_r = '\n'.join(divine_comedy.split('\n')[:500])
+divine_comedy_rhyme = text_in_syls_rhyme(divine_comedy_r)
 #index_eoc = divine_comedy_rhyme.index(special_tokens['END_OF_CANTO']) + 1
-indexes = [i for i, x in enumerate(divine_comedy_rhyme) if x == special_tokens['END_OF_CANTO']]
+indexes = [i for i, x in enumerate(divine_comedy_rhyme) if x == special_tokens['END_OF_CANTO'] and i > SEQ_LENGTH_RHYME]
 index_eoc = np.random.choice(indexes) + 1
-start_seq_rhyme = divine_comedy_rhyme[index_eoc - SEQ_LENGTH_RHYME:index_eoc]
+start_idx = max(0, index_eoc - SEQ_LENGTH_RHYME)
+start_seq_rhyme = divine_comedy_rhyme[start_idx:index_eoc]
 
 
-divine_comedy_verse = text_in_rev_syls(divine_comedy)
+divine_comedy_v = '\n'.join(divine_comedy.split('\n')[:50])
+divine_comedy_verse = text_in_rev_syls(divine_comedy_v)
 indexes = [i for i, x in enumerate(divine_comedy_verse) if x == special_tokens['END_OF_VERSO'] and i > SEQ_LENGTH_VERSE]
 index_eov = np.random.choice(indexes)
-start_seq_verse = divine_comedy_verse[index_eov - SEQ_LENGTH_VERSE:index_eov]
+start_idx = max(0, index_eov - SEQ_LENGTH_VERSE)
+start_seq_verse = divine_comedy_verse[start_idx:index_eov]
 
 
 
