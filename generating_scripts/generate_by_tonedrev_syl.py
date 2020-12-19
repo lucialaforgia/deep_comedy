@@ -112,7 +112,7 @@ output_file = os.path.join(logs_dir, model_filename, "output.txt")
 raw_output_file = os.path.join(logs_dir, model_filename, "raw_output.txt")
 
 
-divine_comedy_r = '\n'.join(divine_comedy.split('\n')[:500])
+divine_comedy_r = '\n'.join(divine_comedy.split('\n')[:700])
 divine_comedy_rhyme = text_in_syls_rhyme(divine_comedy_r)
 #index_eoc = divine_comedy_rhyme.index(special_tokens['END_OF_CANTO']) + 1
 indexes = [i for i, x in enumerate(divine_comedy_rhyme) if x == special_tokens['END_OF_CANTO'] and i > SEQ_LENGTH_RHYME]
