@@ -10,8 +10,18 @@ from dante_by_tonedrev_syl.tone import ToneTagger
 
 
 # Splits a single word into syllables.
-def syllabify_word(text):
-    return _perform_final_splits(_perform_initial_splits(text))
+def syllabify_word(word):
+
+    # some kind of syneresis 
+    not_split = ['tùo', 'tùa', 'tùe', 'sùo', 'sùa', 'sùe', 'mìo', 'mìa', 'mìe',
+                ]
+
+#    not_split = []
+
+    if word.strip() in not_split:
+        return word
+    
+    return _perform_final_splits(_perform_initial_splits(word))
 
 # Performs the first (easy and unambiguous) phase of syllabification.
 def _perform_initial_splits(text):
