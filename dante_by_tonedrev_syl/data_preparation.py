@@ -1,9 +1,11 @@
+import os
+import json
 import numpy as np
 import tensorflow as tf
 from dante_by_tonedrev_syl.syllabification import syllabify_verse, is_toned_syl
 from dante_by_tonedrev_syl.text_processing import special_tokens
 from dante_by_tonedrev_syl.tone import ToneTagger
-
+from utils import save_syls_list, load_syls_list
 
 def text_in_syls_rhyme(text):
     #this LIST's elements will be the verses of the DC
@@ -39,8 +41,16 @@ def text_in_rev_syls(text):
     return verses_syl
 
 def build_vocab_verse(text):
-    
-    vocab = sorted(list(set(text_in_rev_syls(text))))
+
+    text_in_syls_verse_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'text_in_syls_verse.json')
+
+    if os.path.isfile(text_in_syls_verse_file):
+        syls_verse_list = load_syls_list(text_in_syls_verse_file)
+    else:
+        syls_verse_list = text_in_rev_syls(text)
+        save_syls_list(syls_verse_list, text_in_syls_verse_file)
+
+    vocab = sorted(list(set(syls_verse_list)))
     
     idx2syl = { i : s for (i, s) in enumerate(vocab) }
     syl2idx = { s : i for (i, s) in enumerate(vocab) }
@@ -48,8 +58,16 @@ def build_vocab_verse(text):
     return vocab, idx2syl, syl2idx
 
 def build_vocab_rhyme(text):
-    
-    vocab = sorted(list(set(text_in_syls_rhyme(text))))
+
+    text_in_syls_rhyme_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'text_in_syls_rhyme.json')
+
+    if os.path.isfile(text_in_syls_rhyme_file):
+        syls_rhyme_list = load_syls_list(text_in_syls_rhyme_file)
+    else:
+        syls_rhyme_list = text_in_syls_rhyme(text)
+        save_syls_list(syls_rhyme_list, text_in_syls_rhyme_file)
+
+    vocab = sorted(list(set(syls_rhyme_list)))
     
     idx2syl = { i : s for (i, s) in enumerate(vocab) }
     syl2idx = { s : i for (i, s) in enumerate(vocab) }
@@ -96,8 +114,17 @@ def build_dataset_rhyme(text, vocab, idx2syl, syl2idx, seq_length):
     
 #    step_length = 32
     step_length = seq_length + 1
-    
-    text_as_int = np.array([syl2idx[s] for s in text_in_syls_rhyme(text)])
+
+
+    text_in_syls_rhyme_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'text_in_syls_rhyme.json')
+
+    if os.path.isfile(text_in_syls_rhyme_file):
+        syls_rhyme_list = load_syls_list(text_in_syls_rhyme_file)
+    else:
+        syls_rhyme_list = text_in_syls_rhyme(text)
+        save_syls_list(syls_rhyme_list, text_in_syls_rhyme_file)
+
+    text_as_int = np.array([syl2idx[s] for s in syls_rhyme_list])
 
     dataset = tf.data.Dataset.from_tensor_slices(text_as_int)
     dataset = dataset.window(seq_length + 1, shift=step_length, stride=1, drop_remainder=True)
@@ -119,7 +146,15 @@ def build_dataset_verse(text, vocab, idx2syl, syl2idx, seq_length):
 #    step_length = 8
     step_length = seq_length + 1
     
-    text_as_int = np.array([syl2idx[s] for s in text_in_rev_syls(text)])
+    text_in_syls_verse_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'text_in_syls_verse.json')
+
+    if os.path.isfile(text_in_syls_verse_file):
+        syls_verse_list = load_syls_list(text_in_syls_verse_file)
+    else:
+        syls_verse_list = text_in_rev_syls(text)
+        save_syls_list(syls_verse_list, text_in_syls_verse_file)
+
+    text_as_int = np.array([syl2idx[s] for s in syls_verse_list])
 
     dataset = tf.data.Dataset.from_tensor_slices(text_as_int)
     dataset = dataset.window(seq_length + 1, shift=step_length, stride=1, drop_remainder=True)

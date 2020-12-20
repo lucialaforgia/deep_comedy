@@ -10,7 +10,7 @@ tf.get_logger().setLevel('ERROR')
 from dante_by_tonedrev_syl.data_preparation import text_in_rev_syls
 from dante_by_tonedrev_syl.text_processing import clean_comedy, prettify_text, special_tokens
 from dante_by_syl.generate_dante import generate_text
-from utils import save_vocab, load_vocab
+from utils import save_vocab, load_vocab, save_syls_list, load_syls_list
 
 
 working_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'dante_by_tonedrev_syl')
@@ -76,12 +76,23 @@ output_file = os.path.join(logs_dir, model_filename, "output.txt")
 raw_output_file = os.path.join(logs_dir, model_filename, "raw_output.txt")
 
 
-divine_comedy = '\n'.join(divine_comedy.split('\n')[:50])
-divine_comedy_verse = text_in_rev_syls(divine_comedy)
-indexes = [i for i, x in enumerate(divine_comedy_verse) if x == special_tokens['END_OF_VERSO'] and i > SEQ_LENGTH]
+
+# divine_comedy = '\n'.join(divine_comedy.split('\n')[:50])
+
+text_in_syls_verse_file = os.path.join(working_dir, 'text_in_syls_verse.json')
+
+if os.path.isfile(text_in_syls_verse_file):
+    syls_verse_list = load_syls_list(text_in_syls_verse_file)
+else:
+    syls_verse_list = text_in_rev_syls(divine_comedy)
+    save_syls_list(syls_verse_list, text_in_syls_verse_file)
+
+# syls_verse_list = text_in_rev_syls(divine_comedy)
+
+indexes = [i for i, x in enumerate(syls_verse_list) if x == special_tokens['END_OF_VERSO'] and i > SEQ_LENGTH]
 index_eov = np.random.choice(indexes)
 start_idx = max(0, index_eov - SEQ_LENGTH)
-start_seq = divine_comedy_verse[start_idx:index_eov]
+start_seq = syls_verse_list[start_idx:index_eov]
 
 #print(start_seq)
 

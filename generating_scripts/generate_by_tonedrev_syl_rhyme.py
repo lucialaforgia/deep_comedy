@@ -10,7 +10,7 @@ tf.get_logger().setLevel('ERROR')
 from dante_by_tonedrev_syl.data_preparation import text_in_syls_rhyme
 from dante_by_tonedrev_syl.text_processing import clean_comedy, prettify_text, special_tokens
 from dante_by_syl.generate_dante import generate_text
-from utils import save_vocab, load_vocab
+from utils import save_vocab, load_vocab, save_syls_list, load_syls_list
 
 
 working_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'dante_by_tonedrev_syl')
@@ -78,13 +78,23 @@ output_file = os.path.join(logs_dir, model_filename, "output.txt")
 raw_output_file = os.path.join(logs_dir, model_filename, "raw_output.txt")
 
 
-divine_comedy = '\n'.join(divine_comedy.split('\n')[:700])
-divine_comedy_rhyme = text_in_syls_rhyme(divine_comedy)
-#index_eoc = divine_comedy_rhyme.index(special_tokens['END_OF_CANTO']) + 1
-indexes = [i for i, x in enumerate(divine_comedy_rhyme) if x == special_tokens['END_OF_CANTO'] and i > SEQ_LENGTH]
+
+# divine_comedy = '\n'.join(divine_comedy.split('\n')[:700])
+
+text_in_syls_rhyme_file = os.path.join(working_dir, 'text_in_syls_rhyme.json')
+
+if os.path.isfile(text_in_syls_rhyme_file):
+    syls_rhyme_list = load_syls_list(text_in_syls_rhyme_file)
+else:
+    syls_rhyme_list = text_in_syls_rhyme(divine_comedy)
+    save_syls_list(syls_rhyme_list, text_in_syls_rhyme_file)
+
+# syls_rhyme_list = text_in_syls_rhyme(divine_comedy)
+
+indexes = [i for i, x in enumerate(syls_rhyme_list) if x == special_tokens['END_OF_CANTO'] and i > SEQ_LENGTH]
 index_eoc = np.random.choice(indexes) + 1
 start_idx = max(0, index_eoc - SEQ_LENGTH)
-start_seq = divine_comedy_rhyme[start_idx:index_eoc]
+start_seq = syls_rhyme_list[start_idx:index_eoc]
 
 #print(start_seq)
 
