@@ -41,7 +41,7 @@ vocab_verse, idx2syl_verse, syl2idx_verse = load_vocab(vocab_file_verse)
 models_dir = os.path.join(working_dir, 'models')
 os.makedirs(models_dir, exist_ok = True) 
 model_file_verse = os.path.join(models_dir, "dante_by_tonedrev_syl_verse_model.h5")
-model_file_rhyme = os.path.join(models_dir, "dante_by_rev_tonedsyl_rhyme_model.h5")
+model_file_rhyme = os.path.join(models_dir, "dante_by_tonedrev_syl_rhyme_model.h5")
 
 model_verse = tf.keras.models.load_model(model_file_verse)
 model_rhyme = tf.keras.models.load_model(model_file_rhyme)
