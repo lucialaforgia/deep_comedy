@@ -408,50 +408,6 @@ def _apply_synalepha_backup(syllables, special_tokens):
 
     return result
 
-def remove_tone(syllables, special_tokens):
-    toned_vowels = {
-        'à': 'a',
-        'è': 'e',
-        'é': 'e',
-        'ì': 'i',
-        'ò': 'o',
-        'ó': 'o',
-        'ù': 'u',
-    }
-    cleaned_syllables = []
-    for i, syl in enumerate(syllables[:-1]):
-        syl = syllables[i]
-        next_s = syllables[i+1]
-        if syl.strip() in special_tokens.values():
-            cleaned_syllables.append(syl)
-        elif next_s in special_tokens.values() and syl[-1] in toned_vowels.keys():
-            cleaned_syllables.append(syl)
-        elif special_tokens['WORD_SEP'] in syl:
-            new_sub_syls = []
-            sub_syls = syl.split(special_tokens['WORD_SEP'])
-            for s in sub_syls[:-1]:
-                if s[-1] in toned_vowels.keys():
-                    new_sub_syls.append(s)
-                else:
-                    new_sub_syls.append(''.join([toned_vowels[c] if c in toned_vowels.keys() else c for c in s]))
-
-            if next_s in special_tokens.values() and sub_syls[-1] in toned_vowels.keys():
-                new_sub_syls.append(sub_syls[-1])
-            else:
-                new_sub_syls.append(''.join([toned_vowels[c] if c in toned_vowels.keys() else c for c in sub_syls[-1]]))
-            new_syl = special_tokens['WORD_SEP'].join(new_sub_syls)
-            cleaned_syllables.append(new_syl)
-
-        else: 
-            cleaned_s = ''.join([toned_vowels[c] if c in toned_vowels.keys() else c for c in syl])
-            cleaned_syllables.append(cleaned_s)
-
-    if syllables[-1] in toned_vowels.keys():
-        cleaned_syllables.append(syllables[-1])
-    else:
-        cleaned_syllables.append(''.join([toned_vowels[c] if c in toned_vowels.keys() else c for c in syllables[-1] ]))
-    return cleaned_syllables
-
 
 def syllabify_verse_prettify(verse, special_tokens, tone_tagger, synalepha=True):
     syllables = syllabify_verse(verse, special_tokens, tone_tagger, synalepha)

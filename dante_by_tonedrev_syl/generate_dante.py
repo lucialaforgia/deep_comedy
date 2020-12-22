@@ -2,7 +2,7 @@ import os
 import numpy as np
 import tensorflow as tf
 from dante_by_tonedrev_syl.text_processing import prettify_text, special_tokens
-
+from dante_by_tonedrev_syl.tone import remove_tone
 
 def generate_text(model_rhyme, model_verse, special_tokens, vocab_size_rhyme, vocab_size_verse, syl2idx_rhyme, idx2syl_rhyme, syl2idx_verse, idx2syl_verse, seq_length_rhyme, seq_length_verse, start_seq_rhyme, start_seq_verse, temperature=1.0):
     seq_text_rhyme = start_seq_rhyme
@@ -87,6 +87,8 @@ def generate_text(model_rhyme, model_verse, special_tokens, vocab_size_rhyme, vo
 
 
         whole_verse_list = rest_revese_verse_list[::-1] + end_verse_list
+
+        # whole_verse_list = remove_tone(whole_verse_list, special_tokens)
 
         generated_text_list += whole_verse_list
     
