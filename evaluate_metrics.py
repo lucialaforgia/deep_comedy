@@ -16,7 +16,7 @@ import our_metrics.metrics as m
 #from dante_by_word.text_processing import clean_comedy, prettify_text, special_tokens
 
 
-from dante_by_rev_syl.text_processing import clean_comedy, prettify_text, special_tokens, remove_all_punctuation
+from dante_by_tonedrev_syl.text_processing import clean_comedy, prettify_text, special_tokens, remove_punctuation
 
 
 
@@ -71,7 +71,7 @@ if __name__ == '__main__':
 
     divine_comedy = clean_comedy(divine_comedy, special_tokens)
     divine_comedy = prettify_text(divine_comedy, special_tokens)
-    divine_comedy = remove_all_punctuation(divine_comedy)
+    divine_comedy = remove_punctuation(divine_comedy)
     
     evaluation_results = {}
 #    print(divine_comedy)
@@ -79,17 +79,17 @@ if __name__ == '__main__':
 
 
     ###### Test our metrics on divine comedy ########
-    print('\nEVALUATING OUR METRICS ON WHOLE DIVINE COMEDY...')
-    evaluation_results = evaluate_our_metrics(divine_comedy, divine_comedy)
+    # print('\nEVALUATING OUR METRICS ON WHOLE DIVINE COMEDY...')
+    # evaluation_results = evaluate_our_metrics(divine_comedy, divine_comedy)
 
-    f = open(evaluation_results_file, "w", encoding='utf-8')
-    f.write('EVALUATION RESULTS:\n')
-    print('\nOUR METRICS ON WHOLE DIVINE COMEDY:')
-    f.write('\nOUR METRICS ON WHOLE DIVINE COMEDY:\n')
-    for k, v in evaluation_results.items():
-        print('{}: {}'.format(k, v))
-        f.write('{}: {}\n'.format(k, v))
-    f.close()
+    # f = open(evaluation_results_file, "w", encoding='utf-8')
+    # f.write('EVALUATION RESULTS:\n')
+    # print('\nOUR METRICS ON WHOLE DIVINE COMEDY:')
+    # f.write('\nOUR METRICS ON WHOLE DIVINE COMEDY:\n')
+    # for k, v in evaluation_results.items():
+    #     print('{}: {}'.format(k, v))
+    #     f.write('{}: {}\n'.format(k, v))
+    # f.close()
     ##################################################
     
 

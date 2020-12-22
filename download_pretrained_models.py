@@ -8,10 +8,10 @@ import shutil
 if __name__ == '__main__':
 
     models_dirs = [
-        'dante_by_char',
-        'dante_by_syl',
-        'dante_by_word',
-        'dante_by_rev_syl',
+#        'dante_by_char',
+#        'dante_by_syl',
+#        'dante_by_word',
+#        'dante_by_rev_syl',
         'dante_by_tonedrev_syl',
     ]
 

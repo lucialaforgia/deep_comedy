@@ -34,3 +34,124 @@ Last single verse: True
 Average syllables per verse: 10.76 ± 0.80
 Correct hendecasyllabicness by tone: 0/379
 Number of rhymes: 0
+
+OUR METRICS ON 1 CANTO OF DIVINE COMEDY:
+Number of verses: 136
+Number of strophes: 46
+Number of well formed terzine: 45
+Last single verse: True
+Average syllables per verse: 12.26 ± 1.02
+Correct hendecasyllabicness by tone: 0/136
+Number of rhymes: 0
+
+OTHER METRICS ON GENERATED CANTO:
+Number of putative terzine: 126
+Number of well formed terzine: 126
+Average structuredness: 0.9980276134122288
+Average hendecasyllabicness: 0.9409090909090911
+Average rhymeness: 0.976
+Plagiarism: 0.8734455010972934
+
+OUR METRICS ON GENERATED CANTO:
+Number of verses: 379
+Number of strophes: 127
+Number of well formed terzine: 126
+Last single verse: True
+Average syllables per verse: 11.80 ± 1.16
+Correct hendecasyllabicness by tone: 0/379
+Number of rhymes: 0
+
+OUR METRICS ON 1 CANTO OF DIVINE COMEDY:
+Number of verses: 136
+Number of strophes: 46
+Number of well formed terzine: 45
+Last single verse: True
+Average syllables per verse: 12.26 ± 1.02
+Correct hendecasyllabicness by tone: 31/136
+Number of rhymes: 0
+
+OTHER METRICS ON GENERATED CANTO:
+Number of putative terzine: 126
+Number of well formed terzine: 126
+Average structuredness: 0.9980276134122288
+Average hendecasyllabicness: 0.9409090909090911
+Average rhymeness: 0.976
+Plagiarism: 0.8734455010972934
+
+OUR METRICS ON GENERATED CANTO:
+Number of verses: 379
+Number of strophes: 127
+Number of well formed terzine: 126
+Last single verse: True
+Average syllables per verse: 11.80 ± 1.16
+Correct hendecasyllabicness by tone: 120/379
+Number of rhymes: 0
+
+OUR METRICS ON 1 CANTO OF DIVINE COMEDY:
+Number of verses: 136
+Number of strophes: 46
+Number of well formed terzine: 45
+Last single verse: True
+Average syllables per verse: 6.61 ± 5.43
+Correct hendecasyllabicness by tone: 0.9044
+Number of rhymes: 0
+
+OTHER METRICS ON GENERATED CANTO:
+Number of putative terzine: 126
+Number of well formed terzine: 126
+Average structuredness: 0.9980276134122288
+Average hendecasyllabicness: 0.9409090909090911
+Average rhymeness: 0.976
+Plagiarism: 0.8734455010972934
+
+OUR METRICS ON GENERATED CANTO:
+Number of verses: 379
+Number of strophes: 127
+Number of well formed terzine: 126
+Last single verse: True
+Average syllables per verse: 6.62 ± 5.48
+Correct hendecasyllabicness by tone: 0.6992
+Number of rhymes: 0
+
+OUR METRICS ON 1 CANTO OF DIVINE COMEDY:
+Number of verses: 136
+Number of strophes: 46
+Number of well formed terzine: 45
+Last single verse: True
+Average syllables per verse: 6.60 ± 5.44
+Correct hendecasyllabicness by tone: 0.9044
+Number of rhymes: 0
+
+OTHER METRICS ON GENERATED CANTO:
+Number of putative terzine: 126
+Number of well formed terzine: 126
+Average structuredness: 0.9980276134122288
+Average hendecasyllabicness: 0.9409090909090911
+Average rhymeness: 0.976
+Plagiarism: 0.8734455010972934
+
+OUR METRICS ON GENERATED CANTO:
+Number of verses: 379
+Number of strophes: 127
+Number of well formed terzine: 126
+Last single verse: True
+Average syllables per verse: 6.62 ± 5.48
+Correct hendecasyllabicness by tone: 0.6992
+Number of rhymes: 0
+
+OUR METRICS ON 1 CANTO OF DIVINE COMEDY:
+Number of verses: 136
+Number of strophes: 46
+Number of well formed terzine: 45
+Last single verse: True
+Average syllables per verse: 6.60 ± 5.44
+Correct hendecasyllabicness by tone: 0.9044
+Number of rhymes: 0
+
+OTHER METRICS ON GENERATED CANTO:
+Number of putative terzine: 126
+Number of well formed terzine: 126
+Average structuredness: 0.9980276134122288
+Average hendecasyllabicness: 0.9409090909090911
+Average rhymeness: 0.976
+Plagiarism: 0.8734455010972934
