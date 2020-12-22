@@ -59,8 +59,28 @@ def evaluate_our_metrics(generated_canto, divine_comedy):
 
 if __name__ == '__main__':
 
-    generated_canto_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "generated_canto.txt") 
-    evaluation_results_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "evaluation_results.txt") 
+    generated_cantos_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'generated_cantos')
+
+    evaluation_results_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'evaluation_results')
+    os.makedirs(generated_cantos_dir, exist_ok = True) 
+    os.makedirs(evaluation_results_dir, exist_ok = True) 
+
+
+    if len(sys.argv) == 2:
+        generated_canto_file = os.path.abspath(sys.argv[1])
+        evaluation_filename = os.path.splitext(os.path.basename(generated_canto_file))[0]
+
+        evaluation_results_file = os.path.join(evaluation_results_dir, evaluation_filename+'_results.txt')
+
+    else:
+        generated_canto_file = os.path.join(generated_cantos_dir, "generated_canto.txt")
+
+        evaluation_results_file = os.path.join(evaluation_results_dir, "generated_canto_results.txt") 
+
+
+
+
+
     divine_comedy_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "divina_commedia", "divina_commedia_accent_UTF-8.txt") 
 
     with open(generated_canto_file,"r", encoding='utf-8') as f:
@@ -74,6 +94,11 @@ if __name__ == '__main__':
     divine_comedy = remove_punctuation(divine_comedy)
     
     evaluation_results = {}
+    # to empty evaluation results file
+    f = open(evaluation_results_file, "w", encoding='utf-8')
+    f.write('EVALUATION RESULTS:\n')
+    f.close()
+
 #    print(divine_comedy)
 #    print(generated_canto)
 
@@ -83,7 +108,6 @@ if __name__ == '__main__':
     # evaluation_results = evaluate_our_metrics(divine_comedy, divine_comedy)
 
     # f = open(evaluation_results_file, "w", encoding='utf-8')
-    # f.write('EVALUATION RESULTS:\n')
     # print('\nOUR METRICS ON WHOLE DIVINE COMEDY:')
     # f.write('\nOUR METRICS ON WHOLE DIVINE COMEDY:\n')
     # for k, v in evaluation_results.items():

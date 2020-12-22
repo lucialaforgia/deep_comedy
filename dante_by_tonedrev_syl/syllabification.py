@@ -109,21 +109,6 @@ def _clump_diphthongs(text):
 
     return out
 
-# def is_diphthong(text):
-#     diphthong = r"""(?i)(i[aeouàèéòóù]|u[aeioàèéìòó]|[aeouàèéòóù]i|[aeàèé]u)"""
-#     if re.search(diphthong, text):
-#         return True
-#     else:
-#         return False
-
-# def is_hiatus(text):
-#     hiatus = re.compile(r"""(?i)([aeoàèòóé](?=[aeoàèòóé])|^[rbd]i(?=[aeou])|^tri(?=[aeou])|[ì](?=[aeo])|[aeo](?=[ì])|[ù](?=[aeou])|[aeou](?=[ù]))""")
-#     if re.search(hiatus, text):
-#         return True
-#     else:
-#         return False
-
-
 def is_toned_syl(syl):
     toned_v = r"""(?i)([ÁÀàáÉÈèéÍÌíìÓÒóòÚÙúù]{1})"""
     if len(re.findall(toned_v, syl)) == 1:
@@ -167,9 +152,7 @@ def _apply_synalepha(syllables, special_tokens):
         if syllables[i] == special_tokens['WORD_SEP']:
             pre_syl = syllables[i-1]
             next_syl = syllables[i+1]
-            if pre_syl[-1] in vowels and next_syl[0] in vowels: # aggiungere is_dittongo (e not is_iato???) NON CORRETTO! USIAMOLI NELLA SMARAGLIATA
-#            if pre_syl[-1] in vowels and next_syl[0] in vowels and is_diphthong(''.join([pre_syl[-1], next_syl[0]])):
-#            if pre_syl[-1] in vowels and next_syl[0] in vowels and not is_hiatus(''.join([pre_syl[-1], next_syl[0]])):
+            if pre_syl[-1] in vowels and next_syl[0] in vowels: 
                 i += 1
                 n_synalepha+=1
         i+=1
@@ -209,206 +192,6 @@ def _apply_synalepha(syllables, special_tokens):
     return result
 
 
-def _apply_synalepha_brute_force(syllables, special_tokens):
-    
-    # if is_hendecasyllable(syllables, special_tokens):
-    #     return syllables
-
-    # syllables_cleaned = [ prettify_text(s, special_tokens).strip() for s in syllables ]
-    # syllables_cleaned = [ s for s in syllables if s != '' ]
-    syllables_cleaned = [ prettify_text(s, special_tokens).strip() for s in syllables if s not in special_tokens.values() ]
-    
-    if len(syllables_cleaned) <= 9:
-        return syllables 
-
-    # SMARAGLIATA    
-    vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoóòÚÙUuúùHh'" # considerare l'H come vocale???????
-
-    n_synalepha = 0
-
-    i = 1
-    while i < (len(syllables) - 1):
-        if syllables[i] == special_tokens['WORD_SEP']:
-            pre_syl = syllables[i-1]
-            next_syl = syllables[i+1]
-            if pre_syl[-1] in vowels and next_syl[0] in vowels: # aggiungere is_dittongo (e not is_iato???) NON CORRETTO! USIAMOLI NELLA SMARAGLIATA
-#            if pre_syl[-1] in vowels and next_syl[0] in vowels and is_diphthong(''.join([pre_syl[-1], next_syl[0]])):
-#            if pre_syl[-1] in vowels and next_syl[0] in vowels and not is_hiatus(''.join([pre_syl[-1], next_syl[0]])):
-                i += 1
-                n_synalepha+=1
-        i+=1
-
-#    print(n_synalepha, syllables)
-    x = ['0', '1']
-    combinations = [''.join(p) for p in itertools.product(x, repeat=n_synalepha)]
-    synalepha_results = { k: [] for k in combinations }
-    print(combinations)
-    for c in combinations:    
-        syn_index = 0
-        result = [syllables[0]]
-        i = 1
-        while i < (len(syllables) - 1) :
-            if syllables[i] == special_tokens['WORD_SEP']:
-                pre_syl = syllables[i-1]
-                next_syl = syllables[i+1]
-                if pre_syl[-1] in vowels and next_syl[0] in vowels:
-                    if c[syn_index] == '1':
-                        result.append(result[-1] + syllables[i] + next_syl)
-                        del result[-2]
-                        i += 1
-                        
-                    else:
-                        result.append(syllables[i])               
-                    syn_index+=1
-                else:
-                    result.append(syllables[i])               
-            else:
-                result.append(syllables[i])
-            i+=1
-        result.append(syllables[-1])
-        synalepha_results[c] = result
-
-    # print(synalepha_results)
-    # remove WORD_SEP to count the syllables
-    
-    best_syllabification = [] 
-    best_score = -1
-    # get best syllabification
-
-    for syllables_list in synalepha_results.values():
-        syllables_cleaned = [ prettify_text(s, special_tokens).strip() for s in syllables_list if s not in special_tokens.values() ]
-        
-        if len(syllables_cleaned) >=10 and len(syllables_cleaned) <= 11 and is_hendecasyllable(syllables_list, special_tokens):
-            if best_score < 5:
-                best_syllabification = syllables_list
-                best_score = 5
-        
-        if len(syllables_cleaned) >=10 and len(syllables_cleaned) <= 12 and is_hendecasyllable(syllables_list, special_tokens):
-            if best_score < 4:
-                best_syllabification = syllables_list
-                best_score = 4
-        
-        if is_hendecasyllable(syllables_list, special_tokens):
-            if best_score < 3:
-                best_syllabification = syllables_list
-                best_score = 3
-
-        if len(syllables_cleaned) >=9 and len(syllables_cleaned) <= 12:
-            if best_score < 2:
-                best_syllabification = syllables_list
-                best_score = 2
-        
-        if len(syllables_cleaned) >=5:
-            if best_score < 1:
-                best_syllabification = syllables_list
-                best_score = 1
-
-
-    # if not best_syllabification:
-    #     best_syllabification = syllables
-
-    return best_syllabification
-
-
-def _apply_synalepha_v1(syllables, special_tokens):
-    
-    if is_hendecasyllable(syllables, special_tokens):
-        return syllables
-
-    syllables_cleaned = [ prettify_text(s, special_tokens).strip() for s in syllables ]
-    syllables_cleaned = [ s for s in syllables if s != '' ]
-
-    if len(syllables_cleaned) <= 9:
-        return syllables 
-
- 
-
-    # SMARAGLIATA    
-    vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoóòÚÙUuúù'" # considerare l'H come vocale???????
-
-    n_synalepha = 0
-
-
-    i = 1
-    while i < (len(syllables) - 1):
-        if syllables[i] == special_tokens['WORD_SEP']:
-            pre_syl = syllables[i-1]
-            next_syl = syllables[i+1]
-            if pre_syl[-1] in vowels and next_syl[0] in vowels: # aggiungere is_dittongo (e not is_iato???) NON CORRETTO! USIAMOLI NELLA SMARAGLIATA
-#            if pre_syl[-1] in vowels and next_syl[0] in vowels and is_diphthong(''.join([pre_syl[-1], next_syl[0]])):
-#            if pre_syl[-1] in vowels and next_syl[0] in vowels and not is_hiatus(''.join([pre_syl[-1], next_syl[0]])):
-                i += 1
-                n_synalepha+=1
-        i+=1
-
-#    print(n_synalepha, syllables)
-
-
-    result = syllables
-    synalepha_to_apply = 1
-    while not is_hendecasyllable(result, special_tokens) and synalepha_to_apply<=n_synalepha:
-        
-        applied_synalepha = 0
-        result = [syllables[0]]
-        i = 1
-        completed = False
-        while i < (len(syllables) - 1) :
-            
-            if syllables[i] == special_tokens['WORD_SEP']:
-                pre_syl = syllables[i-1]
-                next_syl = syllables[i+1]
-                if completed:
-                    result.append(syllables[i])               
-                else:
-
-                    if pre_syl[-1] in vowels and next_syl[0] in vowels:
-                        result.append(result[-1] + syllables[i] + next_syl)
-                        del result[-2]
-                        i += 1
-                        
-                        applied_synalepha+=1
-                        if applied_synalepha == synalepha_to_apply:
-                            completed = True
-                    else:
-                        result.append(syllables[i])               
-            else:
-                result.append(syllables[i])
-            i+=1
-        result.append(syllables[-1])
-        synalepha_to_apply+=1
-    # remove WORD_SEP to count the syllables
-
-    return result
-
-def _apply_synalepha_backup(syllables, special_tokens):
-    
-    vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoóòÚÙUuúù'"
-#        vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoóòÚÙUuúù"
-
-    result = [syllables[0]]
-    i = 1
-    while i < (len(syllables) - 1):
-        if syllables[i] == special_tokens['WORD_SEP']:
-            pre_syl = syllables[i-1]
-            next_syl = syllables[i+1]
-            if pre_syl[-1] in vowels and next_syl[0] in vowels: # aggiungere is_dittongo (e not is_iato???) NON CORRETTO! USIAMOLI NELLA SMARAGLIATA
-#            if pre_syl[-1] in vowels and next_syl[0] in vowels and is_diphthong(''.join([pre_syl[-1], next_syl[0]])):
-#            if pre_syl[-1] in vowels and next_syl[0] in vowels and not is_hiatus(''.join([pre_syl[-1], next_syl[0]])):
-                result.append(result[-1] + syllables[i] + next_syl)
-                del result[-2]
-                i += 1
-            else:
-                result.append(syllables[i])               
-        else:
-            result.append(syllables[i])
-        i+=1
-    result.append(syllables[-1])
-
-    # remove WORD_SEP to count the syllables
-
-    return result
-
-
 def syllabify_verse_prettify(verse, special_tokens, tone_tagger, synalepha=True):
     syllables = syllabify_verse(verse, special_tokens, tone_tagger, synalepha)
     syllables = [ prettify_text(s, special_tokens).strip() for s in syllables ]
@@ -432,19 +215,9 @@ def syllabify_verse(verse, special_tokens, tone_tagger, synalepha=True):
     for s in list_of_syllables:
         syllables+=s
     ## ['nèl', '<word_sep>', 'mèz', 'zo', '<word_sep>', 'dèl', '<word_sep>', 'cam', 'mìn', '<word_sep>', 'di', '<word_sep>', 'nò', 'stra', '<word_sep>', 'vì', 'ta', '<end_of_verso>']
-
-
-    # removing usless tones
-#    syllables = remove_tone(syllables, special_tokens)
-#    print('before',syllables)
-#    print()
     
     if synalepha:
         syllables = _apply_synalepha(syllables, special_tokens)
-
-    # removing usless tones
-#    syllables = remove_tone(syllables, special_tokens)
-#    print('after',syllables)
 
     return syllables
 

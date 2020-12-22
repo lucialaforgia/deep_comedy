@@ -39,7 +39,7 @@ def eval(generated_canto, synalepha=True):
         'Number of well formed terzine': n_well_formed_terzine,
         'Last single verse': last_single_verse,
         'Average syllables per verse': '{:.2f} ± {:.2f}'.format(mean_verse_len, std_verse_len),
-        'Correct hendecasyllabicness by tone': '{:.4f}'.format(correct_hendecasyllables/n_verses),
+        'Hendecasyllables by tone': '{:.4f}'.format(correct_hendecasyllables/n_verses),
         'Number of rhymes': n_rhymes_verses,
     }
 
@@ -60,12 +60,6 @@ def add_special_tokens(generated_canto):
             new_canto_verses.append(verse)
     new_canto_verses.append(special_tokens['END_OF_CANTO'])
     return new_canto_verses
-
-    # 'nel mezzo del cammin di nostra vita',
-    # 'mi ritrovai per una selva oscura',
-    # 'ché la diritta via era smarrita', '',
-    print(canto_verses)
-
 
 def get_terzine(generated_canto):
     generated_canto = generated_canto.strip()
@@ -95,10 +89,11 @@ def get_verses(generated_canto):
 
 def get_mean_std_verse_length(toned_verses_syls, synalepha):
     lengths = []
-    for v in toned_verses_syls:
-        syllables = [ s.strip() for s in v if s.strip() not in special_tokens.values()]
+    for verse_syls in toned_verses_syls:
+        syllables = [ s.strip() for s in verse_syls if s.strip() not in special_tokens.values()]
         #syllables = [ s for s in syllables if s != '' and s != '\n']
-        lengths.append(len(syllables))
+        if syllables:
+            lengths.append(len(syllables))
     lengths = np.array(lengths)
     return np.mean(lengths), np.std(lengths)
 

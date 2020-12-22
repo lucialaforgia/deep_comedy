@@ -111,7 +111,8 @@ os.makedirs(os.path.join(logs_dir, model_filename), exist_ok = True)
 output_file = os.path.join(logs_dir, model_filename, "output.txt")
 raw_output_file = os.path.join(logs_dir, model_filename, "raw_output.txt")
 
-
+output_toned_file = os.path.join(logs_dir, model_filename, "output_toned.txt")
+raw_output_toned_file = os.path.join(logs_dir, model_filename, "raw_output_toned.txt")
 
 
 # divine_comedy_r = '\n'.join(divine_comedy.split('\n')[:700])
@@ -154,12 +155,20 @@ start_seq_verse = syls_verse_list[start_idx:index_eov]
 
 
 
-generated_text = generate_text(model_rhyme, model_verse, special_tokens, vocab_size_rhyme, vocab_size_verse, syl2idx_rhyme, idx2syl_rhyme, syl2idx_verse, idx2syl_verse, SEQ_LENGTH_RHYME, SEQ_LENGTH_VERSE, start_seq_rhyme, start_seq_verse, temperature=1.0)
+generated_text, generated_text_no_tone = generate_text(model_rhyme, model_verse, special_tokens, vocab_size_rhyme, vocab_size_verse, syl2idx_rhyme, idx2syl_rhyme, syl2idx_verse, idx2syl_verse, SEQ_LENGTH_RHYME, SEQ_LENGTH_VERSE, start_seq_rhyme, start_seq_verse, temperature=1.0)
 
 #print(prettify_text(generated_text, special_tokens))
 
 with open(output_file,"w") as f:
-    f.write(prettify_text(generated_text, special_tokens))
+    f.write(prettify_text(generated_text_no_tone, special_tokens))
 
 with open(raw_output_file,"w") as f:
+    f.write(generated_text_no_tone)
+
+
+
+with open(output_toned_file,"w") as f:
+    f.write(prettify_text(generated_text, special_tokens))
+
+with open(raw_output_toned_file,"w") as f:
     f.write(generated_text)
