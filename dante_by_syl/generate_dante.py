@@ -14,8 +14,9 @@ def generate_text(model, special_tokens, vocab_size, syl2idx, idx2syl, seq_lengt
     model.reset_states()
     i = 0
     while prediction != special_tokens['END_OF_CANTO'] \
-            and generated_text_list.count(special_tokens['END_OF_VERSO']) < 136:
-#            and generated_text_list.count(special_tokens['END_OF_TERZINA']) < 45 \
+            and generated_text_list.count(special_tokens['END_OF_VERSO']) < 151:
+#            and generated_text_list.count(special_tokens['END_OF_TERZINA']) < 50 \
+
         
         sequence = [ syl2idx[syl] for syl in text_list[-seq_length:] ]
         sequence = tf.keras.preprocessing.sequence.pad_sequences([sequence], maxlen=seq_length)

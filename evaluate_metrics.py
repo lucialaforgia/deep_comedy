@@ -107,7 +107,7 @@ if __name__ == '__main__':
     # print('\nEVALUATING OUR METRICS ON WHOLE DIVINE COMEDY...')
     # evaluation_results = evaluate_our_metrics(divine_comedy, divine_comedy)
 
-    # f = open(evaluation_results_file, "w", encoding='utf-8')
+    # f = open(evaluation_results_file, "a", encoding='utf-8')
     # print('\nOUR METRICS ON WHOLE DIVINE COMEDY:')
     # f.write('\nOUR METRICS ON WHOLE DIVINE COMEDY:\n')
     # for k, v in evaluation_results.items():

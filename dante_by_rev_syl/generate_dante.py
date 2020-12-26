@@ -15,8 +15,8 @@ def generate_text(model_rhyme, model_verse, special_tokens, vocab_size_rhyme, vo
     model_verse.reset_states()
     end_of_canto = False
     while not end_of_canto:
-        #      and generated_text_list.count(special_tokens['END_OF_VERSO']) < 136:
-        #      and generated_text_list.count(special_tokens['END_OF_TERZINA']) < 45 \
+        #      and generated_text_list.count(special_tokens['END_OF_VERSO']) < 151:
+        #      and generated_text_list.count(special_tokens['END_OF_TERZINA']) < 50 \
 
         next_syl_rhyme = ''
         end_verse_list = []

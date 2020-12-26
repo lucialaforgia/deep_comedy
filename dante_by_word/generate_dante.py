@@ -13,8 +13,8 @@ def generate_text(model, special_tokens, vocab_size, word2idx, idx2word, seq_len
     model.reset_states()
     i = 0
     while prediction != special_tokens['END_OF_CANTO'] \
-            and generated_text.count(special_tokens['END_OF_VERSO']) < 136:
-#            and generated_text.count(special_tokens['END_OF_TERZINA']) < 45 \
+            and generated_text.count(special_tokens['END_OF_VERSO']) < 151:
+#            and generated_text.count(special_tokens['END_OF_TERZINA']) < 50 \
         
         sequence = [ word2idx[w] for w in text.split()[-seq_length:] ]
         sequence = tf.keras.preprocessing.sequence.pad_sequences([sequence], maxlen=seq_length)
