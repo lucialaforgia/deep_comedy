@@ -7,7 +7,7 @@ Number of well formed terzine: 45
 Last single verse: True
 Average syllables per verse: 11.07 ± 0.41
 Hendecasyllables by tone: 0.9044
-Number of rhymes: 0
+Rhymeness score: 0.9667
 
 OTHER METRICS ON GENERATED CANTO:
 Number of putative terzine: 89
@@ -24,4 +24,4 @@ Number of well formed terzine: 89
 Last single verse: True
 Average syllables per verse: 11.10 ± 0.63
 Hendecasyllables by tone: 0.7164
-Number of rhymes: 0
+Rhymeness score: 0.8427

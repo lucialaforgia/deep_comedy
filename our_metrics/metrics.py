@@ -3,13 +3,13 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import numpy as np
+import re
 
 #from dante_by_rev_syl.syllabification import syllabify_verse_prettify
 #from dante_by_rev_syl.text_processing import special_tokens
 
 from dante_by_tonedrev_syl.syllabification import syllabify_verse_prettify, syllabify_verse, is_hendecasyllable
 from dante_by_tonedrev_syl.text_processing import special_tokens, prettify_text
-
 
 from dante_by_tonedrev_syl.tone import ToneTagger
 
@@ -23,6 +23,9 @@ def eval(generated_canto, synalepha=True):
         syls = syllabify_verse(v, special_tokens, tone_tagger, synalepha=synalepha)
         toned_verses_syls.append(syls)
     
+    correct_rhymes = get_well_formed_rhymes(toned_verses_syls, synalepha)
+    # print(correct_rhymes)
+    # exit(0)
 
     n_strophes = get_n_strophes(generated_canto)
     n_well_formed_terzine = get_well_formed_terzine(generated_canto)
@@ -31,7 +34,6 @@ def eval(generated_canto, synalepha=True):
 
     n_verses = len(get_verses(generated_canto))
     correct_hendecasyllables = get_correct_hendecasyllables(toned_verses_syls, synalepha)
-    n_rhymes_verses = 0 #get_well_formed_rhymes(toned_verses_syls, synalepha)
 
     return {
         'Number of verses': n_verses ,
@@ -40,7 +42,7 @@ def eval(generated_canto, synalepha=True):
         'Last single verse': last_single_verse,
         'Average syllables per verse': '{:.2f} ± {:.2f}'.format(mean_verse_len, std_verse_len),
         'Hendecasyllables by tone': '{:.4f}'.format(correct_hendecasyllables/n_verses),
-        'Number of rhymes': n_rhymes_verses,
+        'Rhymeness score': '{:.4f}'.format(correct_rhymes),
     }
 
 
@@ -104,17 +106,91 @@ def get_correct_hendecasyllables(toned_verses_syls, synalepha):
             count += 1
     return count
 
+
+def is_rhyme(verse_1, verse_2):
+    rev_1 = verse_1[::-1]
+    rev_2 = verse_2[::-1]
+    toned_v = r"""(?i)([ÁÀàáÉÈèéÍÌíìÓÒóòÚÙúù]{1})"""
+    rhyme_1 = rev_1[:re.search(toned_v, rev_1).start()+1][::-1]
+    rhyme_2 = rev_2[:re.search(toned_v, rev_2).start()+1][::-1]
+    if rhyme_1 == rhyme_2:
+        return True
+    else:
+        return False
+
 def get_well_formed_rhymes(toned_verses_syls, synalepha):
-    count = 0
-    print("toned_verses_syls", toned_verses_syls[:20])
+    verses = [ ''.join(verse_syls) for verse_syls in toned_verses_syls]
+    generated_canto = ''.join(verses)
+    generated_canto = prettify_text(generated_canto, special_tokens)
 
-    # verses = []
-    # for el in toned_verses_syls:
-    #     verses += el
-    #     #if ()
-    #     #    print(verses)
-    # lengths = []
-    # tone_tagger = ToneTagger()
-    # for v in verses:
+    generated_canto_list = generated_canto.split("\n")
+    generated_canto_list = [line.strip() for line in generated_canto_list if line != 'CANTO']
+    generated_canto = "\n".join(generated_canto_list)
 
-    return 0
+    # print(generated_canto)
+
+
+    # FIRST VERSION
+    
+    # n_rhymes = 0
+    # correct_rhymes = 0
+
+    # generated_canto = generated_canto.replace('\n\n', '\n').strip()
+    # generated_canto_list = generated_canto.split("\n")
+
+    # if is_rhyme(generated_canto_list[0], generated_canto_list[2]):
+    #     n_rhymes+=1
+    #     correct_rhymes+=1
+
+    # for i in range(1, len(generated_canto_list), 3):
+    #     sub_score = 0
+    #     verse_1 = generated_canto_list[i]
+    #     verse_2 = ''
+    #     verse_3 = ''
+    #     if i+2 < len(generated_canto_list):
+    #         verse_2 = generated_canto_list[i+2]
+    #     if i+4 < len(generated_canto_list):
+    #         verse_3 = generated_canto_list[i+4]
+
+    #     # print()
+    #     # print(verse_1)
+    #     # print(verse_2)
+    #     # print(verse_3)
+    #     # print()
+    #     if verse_2 and is_rhyme(verse_1, verse_2):
+    #         sub_score+=1
+    #     if verse_2 and verse_3 and is_rhyme(verse_2, verse_3):
+    #         sub_score+=1
+    #     if verse_3 and is_rhyme(verse_1, verse_3):
+    #         sub_score+=1
+
+    #     if verse_2 and verse_3:
+    #         correct_rhymes+=sub_score/3
+    #     else:
+    #         correct_rhymes+=sub_score
+    #     n_rhymes+=1
+
+
+    # SECOND VERSION
+
+    n_rhymes = 0
+    correct_rhymes = 0
+
+    terzine = get_terzine(generated_canto)
+    
+    for i in range(0,len(terzine)-1,1):
+        t1 = terzine[i].split('\n')
+        t2 = terzine[i+1].split('\n')
+
+        if is_rhyme(t1[0], t1[2]):
+            correct_rhymes+=1
+        if is_rhyme(t1[1], t2[0]):
+            correct_rhymes+=1
+        n_rhymes+=2
+        # print(correct_rhymes, n_rhymes)
+        # print(t1)
+        # print(t2)
+
+
+        
+    return correct_rhymes/n_rhymes
