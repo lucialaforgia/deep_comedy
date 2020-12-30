@@ -89,6 +89,8 @@ if __name__ == '__main__':
     with open(divine_comedy_file,"r", encoding='utf-8') as f:
         divine_comedy = f.read()
 
+    generated_canto = remove_punctuation(generated_canto)
+
     divine_comedy = clean_comedy(divine_comedy, special_tokens)
     divine_comedy = prettify_text(divine_comedy, special_tokens)
     divine_comedy = remove_punctuation(divine_comedy)
@@ -119,20 +121,20 @@ if __name__ == '__main__':
 
 
     # Test our metrics on one canto of divine comedy #
-    n_canto = 1
-    print('\nEVALUATING OUR METRICS ON {} CANTO OF DIVINE COMEDY...'.format(n_canto))
-    divine_comedy_canto_list = divine_comedy.split('CANTO')
-    divine_comedy_canto_list = [line.strip() for line in divine_comedy_canto_list if line != '']
+    # n_canto = 1
+    # print('\nEVALUATING OUR METRICS ON {} CANTO OF DIVINE COMEDY...'.format(n_canto))
+    # divine_comedy_canto_list = divine_comedy.split('CANTO')
+    # divine_comedy_canto_list = [line.strip() for line in divine_comedy_canto_list if line != '']
 
-    evaluation_results = evaluate_our_metrics(divine_comedy_canto_list[n_canto-1], divine_comedy)
+    # evaluation_results = evaluate_our_metrics(divine_comedy_canto_list[n_canto-1], divine_comedy)
 
-    f = open(evaluation_results_file, "a", encoding='utf-8')
-    print('\nOUR METRICS ON {} CANTO OF DIVINE COMEDY:'.format(n_canto))
-    f.write('\nOUR METRICS ON {} CANTO OF DIVINE COMEDY:\n'.format(n_canto))
-    for k, v in evaluation_results.items():
-        print('{}: {}'.format(k, v))
-        f.write('{}: {}\n'.format(k, v))
-    f.close()
+    # f = open(evaluation_results_file, "a", encoding='utf-8')
+    # print('\nOUR METRICS ON {} CANTO OF DIVINE COMEDY:'.format(n_canto))
+    # f.write('\nOUR METRICS ON {} CANTO OF DIVINE COMEDY:\n'.format(n_canto))
+    # for k, v in evaluation_results.items():
+    #     print('{}: {}'.format(k, v))
+    #     f.write('{}: {}\n'.format(k, v))
+    # f.close()
     
     ##################################################
     

@@ -7,7 +7,7 @@ from dante_by_syl.text_processing import prettify_text, special_tokens
 def generate_text(model, special_tokens, vocab_size, syl2idx, idx2syl, seq_length, start_seq, temperature=1.0):
     text_list = start_seq
     generated_text_list = []
-    print(prettify_text(''.join(text_list), special_tokens), end='', flush=True)
+#     print(prettify_text(''.join(text_list), special_tokens), end='', flush=True)
 #    sequence = start_seq
 #    sequence = [ syl2idx[syl] for syl in text_in_syls(start_string)[-seq_length:] ]
     prediction = ''

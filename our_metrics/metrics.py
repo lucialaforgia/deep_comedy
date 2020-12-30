@@ -181,12 +181,19 @@ def get_well_formed_rhymes(toned_verses_syls, synalepha):
     for i in range(0,len(terzine)-1,1):
         t1 = terzine[i].split('\n')
         t2 = terzine[i+1].split('\n')
-
-        if is_rhyme(t1[0], t1[2]):
-            correct_rhymes+=1
-        if is_rhyme(t1[1], t2[0]):
-            correct_rhymes+=1
-        n_rhymes+=2
+        try:
+            if is_rhyme(t1[0], t1[2]):
+                correct_rhymes+=1
+            n_rhymes+=1
+        except:
+            pass
+        
+        try:
+            if is_rhyme(t1[1], t2[0]):
+                correct_rhymes+=1
+            n_rhymes+=1
+        except:
+            pass
         # print(correct_rhymes, n_rhymes)
         # print(t1)
         # print(t2)
