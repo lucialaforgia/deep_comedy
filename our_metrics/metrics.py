@@ -127,77 +127,53 @@ def get_well_formed_rhymes(toned_verses_syls, synalepha):
     generated_canto_list = [line.strip() for line in generated_canto_list if line != 'CANTO']
     generated_canto = "\n".join(generated_canto_list)
 
-    # print(generated_canto)
-
-
-    # FIRST VERSION
-    
-    # n_rhymes = 0
-    # correct_rhymes = 0
-
-    # generated_canto = generated_canto.replace('\n\n', '\n').strip()
-    # generated_canto_list = generated_canto.split("\n")
-
-    # if is_rhyme(generated_canto_list[0], generated_canto_list[2]):
-    #     n_rhymes+=1
-    #     correct_rhymes+=1
-
-    # for i in range(1, len(generated_canto_list), 3):
-    #     sub_score = 0
-    #     verse_1 = generated_canto_list[i]
-    #     verse_2 = ''
-    #     verse_3 = ''
-    #     if i+2 < len(generated_canto_list):
-    #         verse_2 = generated_canto_list[i+2]
-    #     if i+4 < len(generated_canto_list):
-    #         verse_3 = generated_canto_list[i+4]
-
-    #     # print()
-    #     # print(verse_1)
-    #     # print(verse_2)
-    #     # print(verse_3)
-    #     # print()
-    #     if verse_2 and is_rhyme(verse_1, verse_2):
-    #         sub_score+=1
-    #     if verse_2 and verse_3 and is_rhyme(verse_2, verse_3):
-    #         sub_score+=1
-    #     if verse_3 and is_rhyme(verse_1, verse_3):
-    #         sub_score+=1
-
-    #     if verse_2 and verse_3:
-    #         correct_rhymes+=sub_score/3
-    #     else:
-    #         correct_rhymes+=sub_score
-    #     n_rhymes+=1
-
-
-    # SECOND VERSION
 
     n_rhymes = 0
     correct_rhymes = 0
 
-    terzine = get_terzine(generated_canto)
-    
-    for i in range(0,len(terzine)-1,1):
-        t1 = terzine[i].split('\n')
-        t2 = terzine[i+1].split('\n')
-        try:
-            if is_rhyme(t1[0], t1[2]):
-                correct_rhymes+=1
+    generated_canto = generated_canto.replace('\n\n', '\n').strip()
+    generated_canto_list = generated_canto.split("\n")
+
+    triplets = []
+    l = None
+    for i, verse in enumerate(generated_canto_list):
+        if i % 3 == 0:
+            if l:
+                triplets.append('\n'.join(l))
+            l = [verse]
+        else:
+            l.append(verse)
+
+    triplets.append('\n'.join(l))
+
+    for i in range(0,len(triplets)-1,1):
+        t1 = triplets[i].split('\n')
+        t2 = triplets[i+1].split('\n')
+            
+        if i==0:
             n_rhymes+=1
-        except:
-            pass
+            if is_rhyme(t1[0], t1[2]):
+                correct_rhymes+=1        
+
+        n_rhymes+=1
         
-        try:
+        if i == len(triplets)-2 and len(t2) <3 :
+
             if is_rhyme(t1[1], t2[0]):
                 correct_rhymes+=1
-            n_rhymes+=1
-        except:
-            pass
-        # print(correct_rhymes, n_rhymes)
+
+        else:
+            if is_rhyme(t1[1], t2[0]):
+                correct_rhymes+=1/3         
+
+            if is_rhyme(t2[0], t2[2]):
+                correct_rhymes+=1/3
+
+            if is_rhyme(t1[1], t2[2]):
+                correct_rhymes+=1/3
+            
+        # print('correct_rhymes: ',correct_rhymes, 'n_rhymes: ',n_rhymes)
         # print(t1)
         # print(t2)
 
-
-        
     return correct_rhymes/n_rhymes

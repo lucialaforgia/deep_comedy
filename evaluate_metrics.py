@@ -121,19 +121,19 @@ if __name__ == '__main__':
 
 
     # Test our metrics on one canto of divine comedy #
-    # n_canto = 1
-    # print('\nEVALUATING OUR METRICS ON {} CANTO OF DIVINE COMEDY...'.format(n_canto))
-    # divine_comedy_canto_list = divine_comedy.split('CANTO')
-    # divine_comedy_canto_list = [line.strip() for line in divine_comedy_canto_list if line != '']
+    n_canto = 1
+    print('\nEVALUATING OUR METRICS ON {} CANTO OF DIVINE COMEDY...'.format(n_canto))
+    divine_comedy_canto_list = divine_comedy.split('CANTO')
+    divine_comedy_canto_list = [line.strip() for line in divine_comedy_canto_list if line != '']
 
-    # evaluation_results = evaluate_our_metrics(divine_comedy_canto_list[n_canto-1], divine_comedy)
+    evaluation_results = evaluate_our_metrics(divine_comedy_canto_list[n_canto-1], divine_comedy)
 
     # f = open(evaluation_results_file, "a", encoding='utf-8')
-    # print('\nOUR METRICS ON {} CANTO OF DIVINE COMEDY:'.format(n_canto))
+    print('\nOUR METRICS ON {} CANTO OF DIVINE COMEDY:'.format(n_canto))
     # f.write('\nOUR METRICS ON {} CANTO OF DIVINE COMEDY:\n'.format(n_canto))
-    # for k, v in evaluation_results.items():
-    #     print('{}: {}'.format(k, v))
-    #     f.write('{}: {}\n'.format(k, v))
+    for k, v in evaluation_results.items():
+        print('{}: {}'.format(k, v))
+        # f.write('{}: {}\n'.format(k, v))
     # f.close()
     
     ##################################################
@@ -155,7 +155,7 @@ if __name__ == '__main__':
 
     ##################################################
 
-    ### Evaluation our metrics on generated canto ####
+    ## Evaluation our metrics on generated canto ####
     print('\nEVALUATING OUR METRICS ON GENERATED CANTO...')
     evaluation_results = evaluate_our_metrics(generated_canto, divine_comedy)
 
