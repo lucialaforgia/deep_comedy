@@ -7,11 +7,6 @@ import string
 from dante_by_rev_syl.text_processing import remove_punctuation, special_tokens, prettify_text
 
 
-def syllabify_verse_prettify(verse, special_tokens, synalepha=True, dieresis=True):
-    syllables = syllabify_verse(verse, special_tokens, synalepha, dieresis)
-    syllables = [ prettify_text(s, special_tokens).strip() for s in syllables ]
-    syllables = [ s for s in syllables if s != '' ]
-    return syllables
 
 def syllabify_verse(verse, special_tokens, synalepha=True, dieresis=True):
     

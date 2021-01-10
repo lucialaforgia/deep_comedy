@@ -1,6 +1,11 @@
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import re
 import string
-import os
+
+from dante_by_tonedrev_syl.tone import ToneTagger
 
 special_tokens = {
     'START_OF_CANTO'   : '<start_of_canto>',
@@ -146,21 +151,51 @@ def prettify_text(text, special_tokens):
 
     return text
 
+def tone_divine_comedy(divine_comedy):
+    verses = divine_comedy.splitlines()
+    tone_tagger = ToneTagger()
 
+    toned_verses = [ ' '.join([ tone_tagger.tone(w) if w.strip() not in special_tokens.values() else w for w in v.split() ]) for v in verses ]
 
-def clean_comedy(divine_comedy, special_tokens):
-    divine_comedy = replace_chars(divine_comedy)
-    divine_comedy = get_corpus(divine_comedy)
-    divine_comedy = remove_cantica_title(divine_comedy)
-    divine_comedy = remove_punctuation(divine_comedy)
-    divine_comedy = remove_empty_lines(divine_comedy)
-    divine_comedy = add_special_tokens(divine_comedy, special_tokens)
-
-#    divine_comedy = remove_newlines(divine_comedy)
-
-    divine_comedy = divine_comedy.lower()
+    divine_comedy = "\n".join(toned_verses)
 
     return divine_comedy
+
+def clean_comedy(divine_comedy, special_tokens):
+
+
+    divine_comedy_file_output = os.path.join(os.path.dirname(os.path.abspath(__file__)), "divina_commedia_toned_cleaned.txt") 
+
+    if os.path.isfile(divine_comedy_file_output):
+        with open(divine_comedy_file_output) as f:
+            divine_comedy = f.read().strip()
+    else:
+
+        divine_comedy = replace_chars(divine_comedy)
+        divine_comedy = get_corpus(divine_comedy)
+        divine_comedy = remove_cantica_title(divine_comedy)
+        divine_comedy = remove_punctuation(divine_comedy)
+        divine_comedy = remove_empty_lines(divine_comedy)
+        divine_comedy = add_special_tokens(divine_comedy, special_tokens)
+
+    #    divine_comedy = remove_newlines(divine_comedy)
+
+        divine_comedy = divine_comedy.lower()
+
+        divine_comedy = tone_divine_comedy(divine_comedy)
+
+        save_comedy_cleaned(divine_comedy)
+
+    return divine_comedy
+
+    
+def save_comedy_cleaned(divine_comedy):
+    divine_comedy_file_output = os.path.join(os.path.dirname(os.path.abspath(__file__)), "divina_commedia_toned_cleaned.txt") 
+
+#   save cleaned divine comedy in a new file
+    with open(divine_comedy_file_output,"w") as f:
+        f.write(divine_comedy)
+
 
 
 if __name__ == "__main__":
@@ -172,12 +207,7 @@ if __name__ == "__main__":
 
     divine_comedy = clean_comedy(divine_comedy, special_tokens)
 
-    divine_comedy_file_output = os.path.join(os.path.dirname(os.path.abspath(__file__)), "divina_commedia_accent_cleaned.txt") 
-
-#   save cleaned divine comedy in a new file
-    with open(divine_comedy_file_output,"w") as f:
-        f.write(divine_comedy)
-
+#    save_comedy_cleaned(divine_comedy)
 
 
     print(divine_comedy[:1000])

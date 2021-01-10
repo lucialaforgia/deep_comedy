@@ -192,14 +192,7 @@ def _apply_synalepha(syllables, special_tokens):
     return result
 
 
-def syllabify_verse_prettify(verse, special_tokens, tone_tagger, synalepha=True):
-    syllables = syllabify_verse(verse, special_tokens, tone_tagger, synalepha)
-    syllables = [ prettify_text(s, special_tokens).strip() for s in syllables ]
-    syllables = [ s for s in syllables if s != '' ]
-    return syllables
-
-
-def syllabify_verse(verse, special_tokens, tone_tagger, synalepha=True):
+def syllabify_verse(verse, special_tokens, synalepha=True):
     if verse.strip() == '':
         return []
     if verse in special_tokens.values():
@@ -207,7 +200,7 @@ def syllabify_verse(verse, special_tokens, tone_tagger, synalepha=True):
 
     words = [ w for w in verse.split() ]
 
-    list_of_syllables = [ syllabify_word(tone_tagger.tone(w)).split('#') if w.strip() not in special_tokens.values() else [w] for w in words ] 
+    list_of_syllables = [ syllabify_word(w).split('#') if w.strip() not in special_tokens.values() else [w] for w in words ] 
     
     ## [['nel'], ['<word_sep>'], ['mez', 'zo'], ['<word_sep>'], ['del'], ['<word_sep>'], ['cam', 'min'], ['<word_sep>'], ['di'], ['<word_sep>'], ['no', 'stra'], ['<word_sep>'], ['vi', 'ta'], ['<end_of_verso>']]
     
@@ -219,6 +212,17 @@ def syllabify_verse(verse, special_tokens, tone_tagger, synalepha=True):
     if synalepha:
         syllables = _apply_synalepha(syllables, special_tokens)
 
+    return syllables
+
+
+def tone_and_syllabify_verse(verse, special_tokens, tone_tagger, synalepha=True):
+    if verse.strip() == '':
+        return []
+    if verse in special_tokens.values():
+        return [verse]
+
+    toned_verse = ' '.join([ tone_tagger.tone(w) if w.strip() not in special_tokens.values() else w for w in verse.split() ])
+    syllables = syllabify_verse(toned_verse, special_tokens, synalepha=synalepha)
     return syllables
 
 if __name__ == "__main__":

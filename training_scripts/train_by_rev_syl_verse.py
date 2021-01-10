@@ -7,7 +7,6 @@ import numpy as np
 import tensorflow as tf
 tf.get_logger().setLevel('ERROR')
 
-from dante_by_rev_syl.syllabification import syllabify_verse
 from dante_by_rev_syl.data_preparation import build_vocab_verse, build_dataset_verse, split_dataset
 from dante_by_rev_syl.text_processing import clean_comedy, prettify_text, special_tokens
 from dante_by_rev_syl.dante_model import build_model

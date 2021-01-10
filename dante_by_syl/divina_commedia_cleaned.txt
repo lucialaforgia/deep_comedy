@@ -621,7 +621,7 @@ verrai <word_sep> a <word_sep> piaggia <word_sep> non <word_sep> qui <word_sep> 
 più <word_sep> lieve <word_sep> legno <word_sep> convien <word_sep> che <word_sep> ti <word_sep> porti <end_of_verso>
 <end_of_terzina>
 <start_of_terzina>
-e <word_sep> 'l <word_sep> duca <word_sep> a <word_sep> lui <word_sep> caron <word_sep> non <word_sep> ti <word_sep> crucciare <end_of_verso>
+e <word_sep> 'l <word_sep> duca <word_sep> lui <word_sep> caron <word_sep> non <word_sep> ti <word_sep> crucciare <end_of_verso>
 vuolsi <word_sep> così <word_sep> colà <word_sep> dove <word_sep> si <word_sep> puote <end_of_verso>
 ciò <word_sep> che <word_sep> si <word_sep> vuole <word_sep> e <word_sep> più <word_sep> non <word_sep> dimandare <end_of_verso>
 <end_of_terzina>

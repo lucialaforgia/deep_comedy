@@ -5,10 +5,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import numpy as np
 import re
 
-#from dante_by_rev_syl.syllabification import syllabify_verse_prettify
-#from dante_by_rev_syl.text_processing import special_tokens
 
-from dante_by_tonedrev_syl.syllabification import syllabify_verse_prettify, syllabify_verse, is_hendecasyllable
+from dante_by_tonedrev_syl.syllabification import tone_and_syllabify_verse, is_hendecasyllable
 from dante_by_tonedrev_syl.text_processing import special_tokens, prettify_text
 
 from dante_by_tonedrev_syl.tone import ToneTagger
@@ -20,7 +18,7 @@ def eval(generated_canto, synalepha=True):
     tone_tagger = ToneTagger()
 
     for v in generated_verses_list:
-        syls = syllabify_verse(v, special_tokens, tone_tagger, synalepha=synalepha)
+        syls = tone_and_syllabify_verse(v, special_tokens, tone_tagger, synalepha=synalepha)
         toned_verses_syls.append(syls)
     
     correct_rhymes = get_well_formed_rhymes(toned_verses_syls, synalepha)

@@ -11,12 +11,10 @@ from other_metrics.ngrams_plagiarism import ngrams_plagiarism
 
 import our_metrics.metrics as m
 
-#from dante_by_char.text_processing import clean_comedy, prettify_text, special_tokens
-#from dante_by_syl.text_processing import clean_comedy, prettify_text, special_tokens
-#from dante_by_word.text_processing import clean_comedy, prettify_text, special_tokens
 
 
-from dante_by_tonedrev_syl.text_processing import clean_comedy, prettify_text, special_tokens, remove_punctuation
+from dante_by_rev_syl.text_processing import clean_comedy
+from dante_by_tonedrev_syl.text_processing import prettify_text, special_tokens, remove_punctuation
 
 
 
@@ -41,15 +39,11 @@ def evaluate_other_metrics(generated_canto, divine_comedy):
     return evaluation_results
 
 
-def evaluate_our_metrics(generated_canto, divine_comedy):
+def evaluate_our_metrics(generated_canto):
 
     generated_canto_list = generated_canto.split("\n")
     generated_canto_list = [line.strip() for line in generated_canto_list if line != 'CANTO']
     generated_canto = "\n".join(generated_canto_list)
-
-    divine_comedy_list = divine_comedy.split("\n")
-    divine_comedy_list = [line.strip() for line in divine_comedy_list if line != 'CANTO']
-    divine_comedy = "\n".join(divine_comedy_list)
 
     evaluation_results = {}
 
@@ -78,9 +72,6 @@ if __name__ == '__main__':
         evaluation_results_file = os.path.join(evaluation_results_dir, "generated_canto_results.txt") 
 
 
-
-
-
     divine_comedy_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "divina_commedia", "divina_commedia_accent_UTF-8.txt") 
 
     with open(generated_canto_file,"r", encoding='utf-8') as f:
@@ -107,7 +98,7 @@ if __name__ == '__main__':
 
     ###### Test our metrics on divine comedy ########
     # print('\nEVALUATING OUR METRICS ON WHOLE DIVINE COMEDY...')
-    # evaluation_results = evaluate_our_metrics(divine_comedy, divine_comedy)
+    # evaluation_results = evaluate_our_metrics(divine_comedy)
 
     # f = open(evaluation_results_file, "a", encoding='utf-8')
     # print('\nOUR METRICS ON WHOLE DIVINE COMEDY:')
@@ -126,7 +117,7 @@ if __name__ == '__main__':
     divine_comedy_canto_list = divine_comedy.split('CANTO')
     divine_comedy_canto_list = [line.strip() for line in divine_comedy_canto_list if line != '']
 
-    evaluation_results = evaluate_our_metrics(divine_comedy_canto_list[n_canto-1], divine_comedy)
+    evaluation_results = evaluate_our_metrics(divine_comedy_canto_list[n_canto-1])
 
     # f = open(evaluation_results_file, "a", encoding='utf-8')
     print('\nOUR METRICS ON {} CANTO OF DIVINE COMEDY:'.format(n_canto))
@@ -157,7 +148,7 @@ if __name__ == '__main__':
 
     ## Evaluation our metrics on generated canto ####
     print('\nEVALUATING OUR METRICS ON GENERATED CANTO...')
-    evaluation_results = evaluate_our_metrics(generated_canto, divine_comedy)
+    evaluation_results = evaluate_our_metrics(generated_canto)
 
     f = open(evaluation_results_file, "a", encoding='utf-8')
     print('\nOUR METRICS ON GENERATED CANTO:')

@@ -160,6 +160,17 @@ def clean_comedy(divine_comedy, special_tokens):
 
     return divine_comedy
 
+
+
+def save_comedy_cleaned(divine_comedy):
+    divine_comedy_file_output = os.path.join(os.path.dirname(os.path.abspath(__file__)), "divina_commedia_cleaned.txt") 
+
+#   save cleaned divine comedy in a new file
+    with open(divine_comedy_file_output,"w") as f:
+        f.write(divine_comedy)
+
+
+
 if __name__ == "__main__":
     #read divine comedy from file
     divine_comedy_file = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "divina_commedia", "divina_commedia_accent_UTF-8.txt")
@@ -169,12 +180,7 @@ if __name__ == "__main__":
 
     divine_comedy = clean_comedy(divine_comedy, special_tokens)
 
-    divine_comedy_file_output = os.path.join(os.path.dirname(os.path.abspath(__file__)), "divina_commedia_accent_cleaned.txt") 
-
-#   save cleaned divine comedy in a new file
-    with open(divine_comedy_file_output,"w") as f:
-        f.write(divine_comedy)
-
+    save_comedy_cleaned(divine_comedy)
 
     print(divine_comedy[:500])
     print(special_tokens)

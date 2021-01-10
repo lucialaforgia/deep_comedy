@@ -1,14 +1,5 @@
 EVALUATION RESULTS:
 
-OUR METRICS ON 1 CANTO OF DIVINE COMEDY:
-Number of verses: 136
-Number of strophes: 46
-Number of well formed terzine: 45
-Last single verse: True
-Average syllables per verse: 11.07 ± 0.41
-Hendecasyllables by tone: 0.9044
-Rhymeness score: 0.9710
-
 OTHER METRICS ON GENERATED CANTO:
 Number of putative terzine: 89
 Number of well formed terzine: 89
