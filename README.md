@@ -40,7 +40,7 @@ pip3 install -r requirements.txt
 ## Running
 
 ### Download pretrained models
-Our pretrained models can be found on [releases page](https://github.com/lucialaforgia/deep_comedy/releases/tag/pretrained_models). To download all the models you can run the `download_pretrained_models.py` and they will be placed to the correct folder.
+Our pretrained models can be found on [releases page](https://github.com/lucialaforgia/deep_comedy/releases/tag/pretrained_models). To download all the models you can run the `download_pretrained_models.py` script that will place all the file to the correct folder.
 
 ```
 python3 download_pretrained_models.py
