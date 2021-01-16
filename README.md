@@ -2,6 +2,8 @@
   <img width=500 src="https://github.com/lucialaforgia/deep_comedy/blob/master/images/dante.jpg?raw=true">
 </p>
 
+AI for poetry generation! :robot:	:writing_hand:
+
 This repository contains some experiments with Recurrent Neural Networks aimed to reproduce the Dante's writing style and generate new text according to it. Our approach starts with some baseline sequence-to-sequence models performing training and generation by characters, by syllables and by words. 
 Going deeper and enjoing the project, we have developed a pair of more advanced models, which give us quite impressive results writing text that follows Dante's hendecasyllable, triplets structure and rhyming scheme. More details are explained [here](docs/deep_comedy_documentation.pdf).
 
@@ -47,8 +49,8 @@ python3 download_pretrained_models.py
 
 ### Training
 All the training scripts are placed in `training_scripts` folder. If you want to re-train a neural network you need to run the corresponding script, listed below:. 
-
->training_scripts/train_by_char.py
+```
+training_scripts/train_by_char.py
 training_scripts/train_by_syl.py
 training_scripts/train_by_word.py
 training_scripts/train_by_rev_syl_rhyme.py  
@@ -56,7 +58,7 @@ training_scripts/train_by_rev_syl_verse.py
 training_scripts/train_by_tonedrev_syl_tone.py
 training_scripts/train_by_tonedrev_syl_rhyme.py
 training_scripts/train_by_tonedrev_syl_verse.py
-
+```
 
 Our advanced models are composed by more than one neural network, so there is a script to train each neural network. All data will be saved in the `logs` and `models` subfolders in the main model's folder.
 
