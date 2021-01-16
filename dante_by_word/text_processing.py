@@ -70,8 +70,6 @@ def remove_all_punctuation(divine_comedy):
 
 def remove_punctuation(divine_comedy):
     # remove punctuation
-#    divine_comedy = re.sub(r'\'',' ', divine_comedy)
-#    divine_comedy = re.sub('[%s]'% re.escape(string.punctuation),'', divine_comedy)
     divine_comedy = re.sub('[%s]'% re.escape('!"#$%&()*+,-./:;<=>?@[\]^_`{|}~'),'', divine_comedy)
     divine_comedy = re.sub(r' +',' ', divine_comedy)
     return divine_comedy
@@ -95,7 +93,6 @@ def add_special_tokens(divine_comedy, special_tokens):
 
     divine_comedy_list = divine_comedy.split("\n")
     
-#    divine_comedy_list = [special_tokens['END_OF_CANTO']+"\n"+special_tokens['START_OF_CANTO'] if re.search(r'Canto [A-Z]+',line) else line for line in divine_comedy_list]
     divine_comedy_list = [special_tokens['END_OF_CANTO']+ "\n"+ special_tokens['START_OF_CANTO']+"\n"+special_tokens['START_OF_TERZINA'] \
         if re.search(r'Canto [A-Z]+',line) else line for line in divine_comedy_list]
     divine_comedy = "\n".join(divine_comedy_list)

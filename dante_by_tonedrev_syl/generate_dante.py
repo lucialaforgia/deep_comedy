@@ -33,8 +33,6 @@ def generate_text(model_rhyme, model_verse, special_tokens, vocab_size_rhyme, vo
 
             prediction_rhyme = tf.squeeze(prediction_rhyme, 0)[-1]
             prediction_rhyme = prediction_rhyme / temperature
-        #    prediction = tf.nn.softmax(prediction_rhyme).numpy()
-        #    prediction /= np.sum(prediction_rhyme)
             prediction_rhyme = prediction_rhyme.numpy()
 
         #    index_rhyme = np.random.choice(len(prediction_rhyme), size=1, p=prediction_rhyme)[0]
@@ -63,7 +61,6 @@ def generate_text(model_rhyme, model_verse, special_tokens, vocab_size_rhyme, vo
         rest_revese_verse_list = []
 
         while not end_of_canto and next_syl_verse != special_tokens['END_OF_VERSO']:
-##        while not end_of_canto and (next_syl_verse == special_tokens['WORD_SEP'] or next_syl_verse not in special_tokens.values()):
 
             seq_text_verse = seq_text_verse[-seq_length_verse:]
 
@@ -80,7 +77,6 @@ def generate_text(model_rhyme, model_verse, special_tokens, vocab_size_rhyme, vo
             index_verse = np.random.choice(len(prediction_verse), size=1, p=prediction_verse)[0]
 
             next_syl_verse = idx2syl_verse[index_verse]
-##            if next_syl_verse == special_tokens['WORD_SEP'] or next_syl_verse not in special_tokens.values():
             if next_syl_verse != special_tokens['END_OF_VERSO']:
                     seq_text_verse.append(next_syl_verse)
                     rest_revese_verse_list.append(next_syl_verse)

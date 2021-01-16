@@ -115,8 +115,6 @@ output_toned_file = os.path.join(logs_dir, model_filename, "output_toned.txt")
 raw_output_toned_file = os.path.join(logs_dir, model_filename, "raw_output_toned.txt")
 
 
-# divine_comedy_r = '\n'.join(divine_comedy.split('\n')[:700])
-
 text_in_syls_rhyme_file = os.path.join(working_dir, 'text_in_syls_rhyme.json')
 
 if os.path.isfile(text_in_syls_rhyme_file):
@@ -125,7 +123,7 @@ else:
     syls_rhyme_list = text_in_syls_rhyme(divine_comedy)
     save_syls_list(syls_rhyme_list, text_in_syls_rhyme_file)
 
-# syls_rhyme_list = text_in_syls_rhyme(divine_comedy_r)
+# syls_rhyme_list = text_in_syls_rhyme(divine_comedy)
 
 #index_eoc = syls_rhyme_list.index(special_tokens['END_OF_CANTO']) + 1
 indexes = [i for i, x in enumerate(syls_rhyme_list) if x == special_tokens['END_OF_CANTO'] and i > SEQ_LENGTH_RHYME]
@@ -135,9 +133,6 @@ start_seq_rhyme = syls_rhyme_list[start_idx:index_eoc]
 
 
 
-
-# divine_comedy_v = '\n'.join(divine_comedy.split('\n')[:50])
-
 text_in_syls_verse_file = os.path.join(working_dir, 'text_in_syls_verse.json')
 
 if os.path.isfile(text_in_syls_verse_file):
@@ -146,7 +141,7 @@ else:
     syls_verse_list = text_in_rev_syls(divine_comedy)
     save_syls_list(syls_verse_list, text_in_syls_verse_file)
 
-# syls_verse_list = text_in_rev_syls(divine_comedy_v)
+# syls_verse_list = text_in_rev_syls(divine_comedy)
 indexes = [i for i, x in enumerate(syls_verse_list) if x == special_tokens['END_OF_VERSO'] and i > SEQ_LENGTH_VERSE]
 index_eov = np.random.choice(indexes)
 start_idx = max(0, index_eov - SEQ_LENGTH_VERSE)

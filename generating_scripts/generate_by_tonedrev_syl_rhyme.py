@@ -78,9 +78,6 @@ output_file = os.path.join(logs_dir, model_filename, "output.txt")
 raw_output_file = os.path.join(logs_dir, model_filename, "raw_output.txt")
 
 
-
-# divine_comedy = '\n'.join(divine_comedy.split('\n')[:700])
-
 text_in_syls_rhyme_file = os.path.join(working_dir, 'text_in_syls_rhyme.json')
 
 if os.path.isfile(text_in_syls_rhyme_file):

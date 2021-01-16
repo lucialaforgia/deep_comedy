@@ -17,7 +17,6 @@ if __name__ == '__main__':
 
     working_dir = os.path.dirname(os.path.abspath(__file__))
 
-#    data_zip = os.path.join(working_dir, 'data.zip')
     data_dir = os.path.join(working_dir, 'pretrained_models')
 
     for m in models_dirs:
@@ -25,12 +24,9 @@ if __name__ == '__main__':
         data_zip = os.path.join(working_dir, zip_name)
 
         if not os.path.exists(data_zip):
-            # url = 'https://drive.google.com/file/d/1fdziRHPFmvKdYxEo2x8ZZ_alK7xq7tSN/view?usp=sharing'
-            # print("\nBEFORE CONTINUE PLEASE DOWNLOAD DATA FROM {}\nAND SAVE IT TO {} ".format(url, data_zip))
 
             owner = 'luca-ant'
             repo = 'deep_comedy'
-
 
             url = 'https://github.com/{owner}/{repo}/releases/download/pretrained_models/{zip_name}'.format(owner=owner, repo=repo, zip_name=zip_name)
             print("DOWNLOADING {} PRETRAINED MODELS... ".format(m))
@@ -70,10 +66,5 @@ if __name__ == '__main__':
                 print("MOVING {} DATA TO DESTINATION FOLDER... DONE!".format(m))
 
             shutil.rmtree(data_dir, ignore_errors=True)
-
-#        os.remove(data_zip)
-
-        # else:
-        #     print("\nMISSING ZIP DATA IN {}".format(data_zip))
 
         print()

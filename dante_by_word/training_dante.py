@@ -120,7 +120,6 @@ def train_model(working_dir, model, model_filename, dataset_train, dataset_val, 
         )
 
     print("TRAINING MODEL")
-#    history = model.fit(x_train, y_train,
     history = model.fit(dataset_train,
         epochs=epochs, 
         validation_data=dataset_val,
@@ -135,8 +134,6 @@ def train_model(working_dir, model, model_filename, dataset_train, dataset_val, 
 
     print("TRAINING COMPLETE!")
     
-#    model.save(model_file)
-
     draw_graphs(history.history, logs_dir)
 
     return history

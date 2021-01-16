@@ -134,8 +134,6 @@ def train_model(working_dir, model, model_filename, dataset_train, dataset_val, 
 
     print("TRAINING COMPLETE!")
     
-#    model.save(model_file)
-
     draw_graphs(history.history, logs_dir)
 
     return history

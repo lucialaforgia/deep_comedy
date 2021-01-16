@@ -24,32 +24,8 @@ tone_tagger = ToneTagger()
 
 print("\nMODEL: {}\n".format(tone_tagger.model_filename))
 
-#os.makedirs(os.path.join(logs_dir, model_filename), exist_ok = True) 
-
-# output_file = os.path.join(logs_dir, model_filename, "output.txt")
-# raw_output_file = os.path.join(logs_dir, model_filename, "raw_output.txt")
-
-
 divine_comedy_words = divine_comedy.split()[:10] + []
 
 for w in divine_comedy_words:
     print(tone_tagger.tone(w), flush=True, end=' ')
 
-
-
-# indexes = [i for i, x in enumerate(divine_comedy_verse) if x == special_tokens['END_OF_VERSO'] and i > SEQ_LENGTH]
-# index_eov = np.random.choice(indexes)
-# start_seq = divine_comedy_verse[index_eov - SEQ_LENGTH:index_eov]
-
-# #print(start_seq)
-
-# generated_text = generate_text(model_tone, special_tokens, vocab_size, char2idx, idx2char, SEQ_LENGTH, start_seq, temperature=1.0)
-
-# #print(prettify_text(generated_text, special_tokens))
-
-
-# with open(output_file,"w") as f:
-#     f.write(prettify_text(generated_text, special_tokens))
-
-# with open(raw_output_file,"w") as f:
-#     f.write(generated_text)

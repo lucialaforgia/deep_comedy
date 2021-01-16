@@ -29,13 +29,8 @@ def _perform_initial_splits(text):
 
 # Performs the second (difficult and heuristic) phase of syllabification.
 def _perform_final_splits(text):
-    # ho aggiunto l'h -> 'richeggio'
     cvcv = r"""(?i)([bcdfglmnpqrstvz][ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu]+)([bcdfglmnpqrstvz]+[ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUuHh]+)"""
     vcv = r"""(?i)([ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu]+)([bcdfglmnpqrstvz]+[ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUuHh]+)"""
-#    vv = r"""(?i)(?<=[ÄäAaËëEeÏïIiÖöOoÜüUu])(?=[ÄäAaËëEeÏïIiÖöOoÜüUu])"""
-
-#    vv = r"""(?i)(?<=[AaEeIiOoUu])(?=[AaEeIiOoUu])"""
-
     vv = r"""(?i)(?<=[ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu])(?=[ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu])"""
 
     # Split the contoid vocoid - contoid vocoid case (eg. ca-ne). Deterministic.
@@ -80,14 +75,6 @@ def _split_dieresis(text):
 
 # Splits SURE hiatuses only. Ambiguous ones are heuristically considered diphthongs.
 def _split_hiatus(text):
-    # ho tolto cose... i - u caso 'più','guida'
-    # e aggiunto ^
-    # hiatus = re.compile(r"""(?i)([aeoàèòóé](?=[aeoàèòóé])|[rbd]i(?=[aeou])|tri(?=[aeou])|[ìù](?=[aeiou])|[aeiou](?=[ìù]))""")
-    
-    # ok
-#    hiatus = re.compile(r"""(?i)([aeoàèòóé](?=[aeoàèòóé])|^[rbd]i(?=[aeou])|^tri(?=[aeou])|[ì](?=[aeo])|[aeo](?=[ì])|[ù](?=[aeo])|[aeo](?=[ù]))""")
-
-
     hiatus = re.compile(r"""(?i)([aeo](?=[aeo])|^[rbd]i(?=[aeou])|^tri(?=[aeou])|[ì](?=[aeo])|[aeo](?=[ì])|[ù](?=[aeo])|[aeo](?=[ù]))""")
    
     return "#".join(hiatus.sub(r"""\1@""", text).split("@"))
@@ -96,8 +83,7 @@ def _split_hiatus(text):
 def _clump_diphthongs(text):
     diphthong = r"""(?i)(i[aeouàèéòóù]|u[aeioàèéìòó]|[aeouàèéòóù]i|[aeàèé]u)"""
     diphthongsep = r"""(\{.)(.\})"""
-    # triphthong = r"""(?i)(i[àèé]i|u[àòó]i|iu[òó]|ui[èéà])""" #nostra
-    triphthong = r"""(?i)(i[àèéòó]i|u[àèéòó]i|iu[òó]|ui[èéà])""" #nostra
+    triphthong = r"""(?i)(i[àèéòó]i|u[àèéòó]i|iu[òó]|ui[èéà])"""
 
     triphthongsep = r"""(\{.)(.)(.\})"""
 
@@ -128,7 +114,6 @@ def get_last_tonedsyl_index(syllables, special_tokens):
 
 def is_hendecasyllable(syllables, special_tokens):
     syllables = [ prettify_text(s, special_tokens).strip() for s in syllables if s not in special_tokens.values() ]
-    # ENDECASILLABO A MAIORE O A MINORE
     if len(syllables) > 9:
         return get_last_tonedsyl_index(syllables, special_tokens) == 9
     else:
@@ -143,7 +128,7 @@ def _apply_synalepha(syllables, special_tokens):
         return syllables 
 
     # SMARAGLIATA    
-    vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoóòÚÙUuúùHh'" # considerare l'H come vocale???????
+    vowels = "ÁÀAaàáÉÈEeèéIÍÌiíìOoóòÚÙUuúùHh'"
 
     n_synalepha = 0
 
@@ -252,7 +237,6 @@ if __name__ == "__main__":
 
         if line.strip() not in special_tokens.values():
 #            print("\n"+line)
-#            if size < 10 or size > 12:
 
             # if not is_hendecasyllable(syllables, special_tokens):
             print(line.replace(special_tokens['WORD_SEP'], '').replace(special_tokens['END_OF_VERSO'], ''))

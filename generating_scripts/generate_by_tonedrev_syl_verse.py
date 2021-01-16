@@ -77,7 +77,6 @@ raw_output_file = os.path.join(logs_dir, model_filename, "raw_output.txt")
 
 
 
-# divine_comedy = '\n'.join(divine_comedy.split('\n')[:50])
 
 text_in_syls_verse_file = os.path.join(working_dir, 'text_in_syls_verse.json')
 

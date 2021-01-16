@@ -27,7 +27,6 @@ model_file = os.path.join(models_dir, "dante_by_char_model.h5")
 
 model = tf.keras.models.load_model(model_file)
 
-#SEQ_LENGTH = 250
 SEQ_LENGTH = model.get_layer('embedding').output.shape[1]
 EMBEDDING_DIM = model.get_layer('embedding').output.shape[2]
 for l in model.layers:

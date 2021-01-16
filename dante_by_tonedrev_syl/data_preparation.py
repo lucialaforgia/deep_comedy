@@ -110,7 +110,6 @@ def build_dataset_tone(tone_dataframe, vocab_tone, idx2char, char2idx, max_lengt
     toned_index  = tf.keras.preprocessing.sequence.pad_sequences(toned_index, padding='post', maxlen=max_length)
 
     # print(toned_index.shape)
-
     # print(toned_index[0])
     
     dataset = tf.data.Dataset.from_tensor_slices((words_as_int, toned_index))

@@ -115,21 +115,9 @@ class ToneTagger():
         
         MAX_WORD_LENGTH = model_tone.get_layer('output').output.shape[1]
         EMBEDDING_DIM = model_tone.get_layer('embedding').output.shape[2]
-        # for l in model_tone.layers:
-        #     if l.name == 'bidirectional':
-        #         RNN_TYPE = 'lstm' 
-        #         break
-        #     if l.name == 'last_gru':
-        #         RNN_TYPE = 'gru' 
-        #         break
         
         RNN_TYPE = 'lstm'
         RNN_UNITS = model_tone.get_layer('bidirectional').output.shape[-1]//2
-        
-        # if 'lstm' in RNN_TYPE:
-        #     RNN_UNITS = model_tone.get_layer('bidirectional').output.shape[-1]
-        # if 'gru' in RNN_TYPE:
-        #     RNN_UNITS = model_tone.get_layer('last_gru').output.shape[-1]
         
 #        model_tone.summary()
         
@@ -142,7 +130,6 @@ class ToneTagger():
     def tone(self, word):
         word = word.lower()
 
-#        v = r"""(?i)([ÄäÁÀàáAaËëÉÈèéEeÏïÍÌíìIiÖöÓÒóòOoÜüÚÙúùUu]{1})"""
         v = r"""(?i)([ÁÀàáAaÉÈèéEeÍÌíìIiÓÒóòOoÚÙúùUu]{1})"""
         if len(re.findall(v, word)) == 1:
             return word
@@ -154,15 +141,10 @@ class ToneTagger():
         # do not tone some words
         not_tone = ['che', 'la', 'lo', 'le', 'qui', 'qua', 'quo', 
                     ] 
-#        not_tone = ['che', 'la', 'lo', 'le', 'qui', 'qua', 'quo', 'io',
-#                    'tuo', 'tua', 'tue', 'suo', 'sua', 'sue', 'mio', 'mia', 'mie'
-#                    ] 
+        
         if word in not_tone:
             return word
 
-#        # do not tone word of 2 letters
-#        if len(word) < 3:
-#            return word
 
         dv = r"""(?i)([äëïöü]{1})"""
         if re.search(dv, word):

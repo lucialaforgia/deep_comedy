@@ -6,9 +6,6 @@ from dante_by_word.text_processing import prettify_text, special_tokens
 def generate_text(model, special_tokens, vocab_size, word2idx, idx2word, seq_length, start_string, temperature=1.0):
     text = start_string
     generated_text = ''
-#     print(prettify_text(text, special_tokens), end='', flush=True)
-#    sequence = start_string
-#    sequence = [ word2idx[w] for w in start_string.split()[-seq_length:] ]
     prediction = ''
     model.reset_states()
     i = 0
@@ -19,25 +16,16 @@ def generate_text(model, special_tokens, vocab_size, word2idx, idx2word, seq_len
         sequence = [ word2idx[w] for w in text.split()[-seq_length:] ]
         sequence = tf.keras.preprocessing.sequence.pad_sequences([sequence], maxlen=seq_length)
         x = np.array(sequence, dtype='int64')
-#        print(x)
 
         prediction = model.predict(x, verbose=0)
 
         prediction = tf.squeeze(prediction, 0)[-1]
         
         prediction = prediction / temperature
-#        prediction = tf.nn.softmax(prediction).numpy()
-#        prediction /= np.sum(prediction)
         prediction = prediction.numpy()
         index = np.random.choice(len(prediction), size=1, p=prediction)[0]
 
 #        index = np.argmax(prediction)
-
-
-#        prediction = model.predict(x, verbose=0)
-#        prediction = tf.squeeze(prediction, 0)
-#        prediction = prediction / temperature
-#        index = tf.random.categorical(prediction, num_samples=1)[-1,0].numpy()
 
         prediction = idx2word[index]
         generated_text += " "+prediction

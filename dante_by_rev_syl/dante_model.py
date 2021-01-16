@@ -47,20 +47,11 @@ def build_model(name, vocab_size, seq_length, embedding_dim=64, rnn_type='lstm',
                           recurrent_initializer='glorot_uniform',
                           name='last_gru')
         )
-#    model.add(tf.keras.layers.Dense(128, activation='relu', name='dense'))
 
     model.add(tf.keras.layers.Dense(vocab_size, activation='softmax', name='output'))
 
-#    model.add(tf.keras.layers.Dense(vocab_size, name='output'))
-    
-    
-#    def loss(labels, logits):
-#        return tf.keras.losses.sparse_categorical_crossentropy(labels, logits, from_logits=True)
-
     optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
 
-#    model.compile(loss=loss, metrics="accuracy", optimizer=optimizer)
-    
     model.compile(loss="sparse_categorical_crossentropy", metrics="accuracy", optimizer=optimizer)
     model.summary()
 

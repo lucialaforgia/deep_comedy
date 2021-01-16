@@ -66,7 +66,6 @@ metadata_file = os.path.join(logs_dir, model_filename, "metadata.tsv")
 f_e = open(embedding_file, "w")
 f_m = open(metadata_file, "w")
 
-#f_m.write("{}\n".format('word')
 writer = csv.writer(f_e, delimiter='\t', lineterminator='\n')             
 for w in vocab:
     f_m.write("{}\n".format(w))

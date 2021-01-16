@@ -54,7 +54,6 @@ metadata_file_rhyme = os.path.join(logs_dir, model_filename_tone, "metadata.tsv"
 f_e = open(embedding_file_rhyme, "w")
 f_m = open(metadata_file_rhyme, "w")
 
-#f_m.write("{}\n".format('syl'))
 writer = csv.writer(f_e, delimiter='\t', lineterminator='\n')             
 for s in vocab_tone:
     f_m.write('"{}"\n'.format(s))
