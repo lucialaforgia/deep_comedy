@@ -24,7 +24,7 @@ git clone https://github.com/lucialaforgia/deep_comedy.git
 
 * Install dependencies (**We recommend Python 3.8 version**)
 ```
-sudo apt install python3.8 python3-setuptools python3-pip python3-venv
+sudo apt install python3.8 python3-setuptools python3-pip python3-venv graphviz
 ```
 
 * Create a virtual environment and install requirement modules
