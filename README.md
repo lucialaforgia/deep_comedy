@@ -7,7 +7,7 @@
 
 
 <p align="center">
-  <img width=512px src="https://github.com/lucialaforgia/deep_comedy/blob/master/images/gen_tonedrev.gif">
+  <img width=812px src="https://github.com/lucialaforgia/deep_comedy/blob/master/images/gen_tonedrev.gif">
 </p>
 
 
