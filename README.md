@@ -2,7 +2,7 @@
 
 
 <p align="center">
-  <img width=350px src="https://github.com/lucialaforgia/deep_comedy/blob/master/static/images/dante.png?raw=true">
+  <img width=256px src="https://github.com/lucialaforgia/deep_comedy/blob/master/static/images/dante.jpg?raw=true">
 </p>
 
 
