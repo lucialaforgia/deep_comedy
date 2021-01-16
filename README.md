@@ -44,7 +44,21 @@ python3 download_pretrained_models.py
 ```
 
 ### Training
-All the training scripts are placed in `training_scripts` folder. If you want to re-train a neural network you need to run the corresponding script and all data will be saved in the `logs` and `models` subfolders in the main project's folder.
+All the training scripts are placed in `training_scripts` folder. If you want to re-train a neural network you need to run the corresponding script, listed below:. 
+```
+train_by_char.py
+train_by_syl.py
+train_by_word.py
+train_by_rev_syl_rhyme.py  
+train_by_rev_syl_verse.py
+train_by_tonedrev_syl_tone.py
+train_by_tonedrev_syl_rhyme.py
+train_by_tonedrev_syl_verse.py
+```
+
+Our advanced models are composed by more than one neural network, so there is a script to train each neural network. All data will be saved in the `logs` and `models` subfolders in the main model's folder.
+
+For example to train the model `by_char` you need to run:
 
 ```
 python3 training_scripts/train_by_char.py
@@ -59,6 +73,7 @@ generating_scripts/generate_by_word.py
 generating_scripts/generate_by_rev_syl.py
 generating_scripts/generate_by_tonedrev_syl.py
 ```
+For example to write a nre canto with our best generation model you need to run:
 ```
 python3 generating_scripts/generate_by_tonedrev_syl.py
 ```
