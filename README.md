@@ -1,10 +1,10 @@
 <p align="center">
-  <img width=512px src="https://github.com/lucialaforgia/deep_comedy/blob/master/images/dante.jpg?raw=true">
+  <img width=700px src="https://github.com/lucialaforgia/deep_comedy/blob/master/images/dante.jpg?raw=true">
 </p>
 
 
 <p align="center">
-  <img width=812px src="https://github.com/lucialaforgia/deep_comedy/blob/master/images/gen_tonedrev.gif">
+  <img width=900px src="https://github.com/lucialaforgia/deep_comedy/blob/master/images/gen_tonedrev.gif">
 </p>
 
 
