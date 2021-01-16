@@ -52,12 +52,13 @@ python3 training_scripts/train_by_char.py
 
 ### Generation
 To use the models and generate a new canto you can run one of the following scripts from `generating_scripts` folder, depending on which model you have chosen:
-* `generate_by_char.py`
-* `generate_by_syl.py`
-* `generate_by_word.py`
-* `generate_by_rev_syl.py`
-* `generate_by_tonedrev_syl.py`
-
+```
+generating_scripts/generate_by_char.py
+generating_scripts/generate_by_syl.py
+generating_scripts/generate_by_word.py
+generating_scripts/generate_by_rev_syl.py
+generating_scripts/generate_by_tonedrev_syl.py
+```
 ```
 python3 generating_scripts/generate_by_tonedrev_syl.py
 ```
