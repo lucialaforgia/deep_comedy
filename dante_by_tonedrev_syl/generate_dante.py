@@ -92,9 +92,9 @@ def generate_text(model_rhyme, model_verse, special_tokens, vocab_size_rhyme, vo
         generated_text_list += whole_verse_list
     
         print(prettify_text(''.join(structure_list), special_tokens),  end='', flush=True)
-        print(prettify_text(''.join(whole_verse_list), special_tokens),  end='', flush=True)
-#        print(''.join(structure_list),  end='\n', flush=True)
-#        print(''.join(whole_verse_list),  end='\n', flush=True)
+        # print(prettify_text(''.join(whole_verse_list), special_tokens),  end='', flush=True)
+        print(prettify_text(''.join(remove_tone(whole_verse_list, special_tokens)), special_tokens),  end='', flush=True)
+    
     generated_text_no_tone_list = remove_tone(generated_text_list, special_tokens)
 
     return ''.join(generated_text_list), ''.join(generated_text_no_tone_list)
