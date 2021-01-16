@@ -5,7 +5,7 @@
 This repository contains some experiments with Recurrent Neural Networks aimed to reproduce the Dante's writing style and generate new text according to it. Our approach starts with some baselines sequence-to-sequence models performing training and generation by characters, by syllables and by words. 
 Going deeper and enjoing the project, we have developed a pair of more advanced models, which give us quite impressive results writing text that follows Dante's hendecasyllable, triplets structure and rhyming scheme. 
 
-Look our model witing a new canto verse after verse!
+Watch our model writing a new canto one verse after the other!
 
 <p align="center">
   <img width=700 src="https://github.com/lucialaforgia/deep_comedy/blob/master/images/gen_tonedrev.gif">
