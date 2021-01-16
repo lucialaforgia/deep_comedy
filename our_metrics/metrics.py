@@ -21,14 +21,12 @@ def eval(generated_canto, synalepha=True):
         syls = tone_and_syllabify_verse(v, special_tokens, tone_tagger, synalepha=synalepha)
         toned_verses_syls.append(syls)
     
-    correct_rhymes = get_well_formed_rhymes(toned_verses_syls, synalepha)
-    # print(correct_rhymes)
-    # exit(0)
 
     n_strophes = get_n_strophes(generated_canto)
     n_well_formed_terzine = get_well_formed_terzine(generated_canto)
     mean_verse_len, std_verse_len = get_mean_std_verse_length(toned_verses_syls, synalepha)
     last_single_verse = is_last_single_verse_present(generated_canto)
+    correct_rhymes = get_well_formed_rhymes(toned_verses_syls, synalepha)
 
     n_verses = len(get_verses(generated_canto))
     correct_hendecasyllables = get_correct_hendecasyllables(toned_verses_syls, synalepha)
@@ -170,8 +168,5 @@ def get_well_formed_rhymes(toned_verses_syls, synalepha):
             if is_rhyme(t1[1], t2[2]):
                 correct_rhymes+=1/3
             
-        # print('correct_rhymes: ',correct_rhymes, 'n_rhymes: ',n_rhymes)
-        # print(t1)
-        # print(t2)
 
     return correct_rhymes/n_rhymes
