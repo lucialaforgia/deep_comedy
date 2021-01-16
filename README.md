@@ -81,8 +81,9 @@ For example to write a new canto with our best model you need to run:
 python3 generating_scripts/generate_by_tonedrev_syl.py
 ```
 
-### Evaluation
+### Evaluation's metrics
 
+We also develop some metrics to evaluate text, which give us the following scores on the first canto of the Divine Comedy, useful to understand the goodness of our generated cantos comparing the values:
 
 
 | Metric                          | Score          |
@@ -97,6 +98,7 @@ python3 generating_scripts/generate_by_tonedrev_syl.py
 
 
 
+**Here the metrics computed on a new and machine-written canto:**
 
 | Metric                          | Score          |
 | :---                            |      :---:     |
