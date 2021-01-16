@@ -2,6 +2,7 @@
   <img width=700px src="https://github.com/lucialaforgia/deep_comedy/blob/master/images/dante.jpg?raw=true">
 </p>
 
+This repository contains some experiments 
 
 <p align="center">
   <img width=900px src="https://github.com/lucialaforgia/deep_comedy/blob/master/images/gen_tonedrev.gif">
