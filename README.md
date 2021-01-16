@@ -67,7 +67,7 @@ For example to train the model `by_char` you need to run:
 python3 training_scripts/train_by_char.py
 ```
 
-### Generation
+### Generating
 To use the models and generate a new canto you can run one of the following scripts from `generating_scripts` folder, depending on which model you have chosen:
 ```
 generating_scripts/generate_by_char.py
