@@ -1,8 +1,5 @@
-# deep_comedy
-
-
 <p align="center">
-  <img width=256px src="https://github.com/lucialaforgia/deep_comedy/blob/master/images/dante.jpg?raw=true">
+  <img width=512px src="https://github.com/lucialaforgia/deep_comedy/blob/master/images/dante.jpg?raw=true">
 </p>
 
 
