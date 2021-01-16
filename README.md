@@ -1,5 +1,5 @@
 <p align="center">
-  <img width=400 src="https://github.com/lucialaforgia/deep_comedy/blob/master/images/dante.jpg?raw=true">
+  <img width=500 src="https://github.com/lucialaforgia/deep_comedy/blob/master/images/dante.jpg?raw=true">
 </p>
 
 This repository contains some experiments with Recurrent Neural Networks to reproduce the Dante's writing style and generate new text according to it. Our approach starts with some baselines sequence-to-sequence models performing training and generation by characters, by syllables and by words. 
