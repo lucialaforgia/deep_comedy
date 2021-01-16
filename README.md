@@ -2,8 +2,10 @@
   <img width=500 src="https://github.com/lucialaforgia/deep_comedy/blob/master/images/dante.jpg?raw=true">
 </p>
 
-This repository contains some experiments with Recurrent Neural Networks aimed to reproduce the Dante's writing style and generate new text according to it. Our approach starts with some baselines sequence-to-sequence models performing training and generation by characters, by syllables and by words. 
-Going deeper and enjoing the project, we have developed a pair of more advanced models, which give us quite impressive results writing text that follows Dante's hendecasyllable, triplets structure and rhyming scheme. 
+This repository contains some experiments with Recurrent Neural Networks aimed to reproduce the Dante's writing style and generate new text according to it. Our approach starts with some baseline sequence-to-sequence models performing training and generation by characters, by syllables and by words. 
+Going deeper and enjoing the project, we have developed a pair of more advanced models, which give us quite impressive results writing text that follows Dante's hendecasyllable, triplets structure and rhyming scheme. More details are explained [here](docs/deep_comedy_documentation.pdf).
+
+
 
 Watch our model writing a new canto one verse after the other!
 
@@ -73,7 +75,7 @@ generating_scripts/generate_by_word.py
 generating_scripts/generate_by_rev_syl.py
 generating_scripts/generate_by_tonedrev_syl.py
 ```
-For example to write a new canto with our best generation model you need to run:
+For example to write a new canto with our best model you need to run:
 ```
 python3 generating_scripts/generate_by_tonedrev_syl.py
 ```
