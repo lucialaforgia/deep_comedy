@@ -47,7 +47,7 @@ python3 download_pretrained_models.py
 ```
 
 ### Training
-All the training scripts are placed in `training_scripts` folder. If you want to re-train a neural network you need to run the corresponding script, listed below:. 
+All the training scripts are placed in `training_scripts` folder. If you want to re-train a neural network you need to run the corresponding script, listed below:
 ```
 training_scripts/train_by_char.py
 training_scripts/train_by_syl.py
