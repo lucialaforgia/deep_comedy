@@ -12,6 +12,10 @@ from utils import load_vocab
 
 
 def remove_tone(syllables, special_tokens):
+
+    if len(syllables) == 0:
+        return []
+
     toned_vowels = {
         'à': 'a',
         'è': 'e',
