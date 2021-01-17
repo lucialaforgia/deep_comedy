@@ -1,7 +1,7 @@
 # AI for generating poetry! :robot: :writing_hand:
 
 <p align="center">
-  <img width=500 src="https://github.com/lucialaforgia/deep_comedy/blob/master/images/dante.jpg?raw=true">
+  <img width=500 src="https://github.com/lucialaforgia/deep_comedy/blob/master/images/dante.png?raw=true">
 </p>
 
 
