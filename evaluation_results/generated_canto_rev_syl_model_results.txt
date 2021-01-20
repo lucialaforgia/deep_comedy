@@ -15,4 +15,4 @@ Number of well formed terzine: 30
 Last single verse: True
 Average syllables per verse: 11.04 ± 0.66
 Hendecasyllables by tone: 0.7033
-Rhymeness score: 0.8667
+Rhymeness score: 0.8387

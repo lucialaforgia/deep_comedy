@@ -37,7 +37,7 @@ def eval(generated_canto, synalepha=True):
         'Number of well formed terzine': n_well_formed_terzine,
         'Last single verse': last_single_verse,
         'Average syllables per verse': '{:.2f} ± {:.2f}'.format(mean_verse_len, std_verse_len),
-        'Hendecasyllables by tone': '{:.4f}'.format(correct_hendecasyllables/n_verses),
+        'Hendecasyllabicness score': '{:.4f}'.format(correct_hendecasyllables/n_verses),
         'Rhymeness score': '{:.4f}'.format(correct_rhymes),
     }
 
