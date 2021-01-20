@@ -47,7 +47,7 @@ python3 download_pretrained_models.py
 ```
 
 ### Training
-All the training scripts are placed in `training_scripts` folder. If you want to re-train a neural network you need to run the corresponding script, listed below:. 
+All the training scripts are placed in `training_scripts` folder. If you want to re-train a neural network you need to run the corresponding script, listed below:
 ```
 training_scripts/train_by_char.py
 training_scripts/train_by_syl.py
@@ -98,7 +98,7 @@ We also develop some metrics to evaluate text, which give us the following score
 | Rhymeness score                 |     0.9710     |
 
 
-You can quckly calculate all of them running the `evaluate_metrics.py` script, passing as argument a `.txt` file contains one canto.
+You can quickly calculate all of them running the `evaluate_metrics.py` script, passing as argument a `.txt` file contains one canto.
 ```
 python3 evaluate_metrics.py generated_cantos/generated_canto.txt
 ```
