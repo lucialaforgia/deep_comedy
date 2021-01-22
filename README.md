@@ -94,7 +94,7 @@ We also develop some metrics to evaluate text, which give us the following score
 | Number of well formed terzine   |        45      |
 | Last single verse               |      True      |
 | Average syllables per verse     |  11.07 ± 0.41  |
-| Hendecasyllables by tone        |     0.9044     |
+| Hendecasyllabbicness score      |     0.9044     |
 | Rhymeness score                 |     0.9710     |
 
 
@@ -270,7 +270,7 @@ de sanza cui suo cristo esser non vesti
 | Number of well formed terzine   |        37      |
 | Last single verse               |      True      |
 | Average syllables per verse     |  11.08 ± 0.55  |
-| Hendecasyllables by tone        |     0.7321     |
+| Hendecasyllabbicness score      |     0.7321     |
 | Rhymeness score                 |     0.9474     |
 
 
