@@ -1,0 +1,70 @@
+CANTO
+che fan fermate l'etterno amore
+quella viscava la carne si spira
+sanza seme nel tuo vinco il valore
+
+lasciavara povertà convien che gira
+se ben s'impingua se non si puote
+per la valle veggendosi termira
+
+di perlo al piè de le celeste rote
+vid' ïo d'altro pesce che va sì parte
+e che muta in conforto sua percuote
+
+rispuosemi cominpiù ir lo fren de l'arte
+innocendotemi di sù li l'ama
+da questa infino al loco si parte
+
+per tratta che del mondo più rama
+ancevan le converre a su la porta
+mi disse in tre volte mezza notte chiama
+
+l'un da l'altro carro a la destra torta
+onde la tosta e questa quel da vivano
+una ritane sperando morta
+
+perch' ella quel popol di lontano
+che questi sette tempo tutto manco
+così l'ottava l'udiso son pur dano
+
+malebolge sì com' uom che suo banco
+si ride somica si preliba
+onde ferso i duri denti verde stanco
+
+l'umile credenza de l'alvi ciba
+nel mondo de la folgone sicura
+che tante torlatar li prescriba
+
+l'uno a più non conoscer la ventura
+non dico moto seguitò la 'mprenta
+la fiamma di quanto l'altra fessura
+
+ché prima il popol tuo che si argomenta
+vergogna men ti tolse e con sospire
+mi disse a me e quanto più appresenta
+
+e ch'a le bella ciprigna il folle amore
+di grande autorità ne' lor sembianti
+rispuose ciò non vodi comi t'accore
+
+or lo suo corisce che non davanti
+quantunque gradi vuol che mi giova
+e né sì forte pur che tu rimanti
+
+miseramente queste né si ritrova
+sì che di lui chiedi chi che la mente
+che tanto di grazia che si fa prova
+
+luce di romeo personar la mente
+disse solo che già mai non ne pone
+eran ne' primo scender la gente
+
+mi parrà nel fondo gerïone
+sì crudelmente al taglio de la spada
+di noi per confortarmi di sermone
+
+manendo l'univerchiar la strada
+
+
+
+<start_of_canto><start_of_terzina>che<word_sep>fan<word_sep>fermate<word_sep>l'etterno<word_sep>amore<end_of_verso>quella<word_sep>viscava<word_sep>la<word_sep>carne<word_sep>si<word_sep>spira<end_of_verso>sanza<word_sep>seme<word_sep>nel<word_sep>tuo<word_sep>vinco<word_sep>il<word_sep>valore<end_of_verso><end_of_terzina><start_of_terzina>lasciavara<word_sep>povertà<word_sep>convien<word_sep>che<word_sep>gira<end_of_verso>se<word_sep>ben<word_sep>s'impingua<word_sep>se<word_sep>non<word_sep>si<word_sep>puote<end_of_verso>per<word_sep>la<word_sep>valle<word_sep>veggendosi<word_sep>termira<end_of_verso><end_of_terzina><start_of_terzina>di<word_sep>perlo<word_sep>al<word_sep>piè<word_sep>de<word_sep>le<word_sep>celeste<word_sep>rote<end_of_verso>vid'<word_sep>ïo<word_sep>d'altro<word_sep>pesce<word_sep>che<word_sep>va<word_sep>sì<word_sep>parte<end_of_verso>e<word_sep>che<word_sep>muta<word_sep>in<word_sep>conforto<word_sep>sua<word_sep>percuote<end_of_verso><end_of_terzina><start_of_terzina>rispuosemi<word_sep>cominpiù<word_sep>ir<word_sep>lo<word_sep>fren<word_sep>de<word_sep>l'arte<end_of_verso>innocendotemi<word_sep>di<word_sep>sù<word_sep>li<word_sep>l'ama<end_of_verso>da<word_sep>questa<word_sep>infino<word_sep>al<word_sep>loco<word_sep>si<word_sep>parte<end_of_verso><end_of_terzina><start_of_terzina>per<word_sep>tratta<word_sep>che<word_sep>del<word_sep>mondo<word_sep>più<word_sep>rama<end_of_verso>ancevan<word_sep>le<word_sep>converre<word_sep>a<word_sep>su<word_sep>la<word_sep>porta<end_of_verso>mi<word_sep>disse<word_sep>in<word_sep>tre<word_sep>volte<word_sep>mezza<word_sep>notte<word_sep>chiama<end_of_verso><end_of_terzina><start_of_terzina>l'un<word_sep>da<word_sep>l'altro<word_sep>carro<word_sep>a<word_sep>la<word_sep>destra<word_sep>torta<end_of_verso>onde<word_sep>la<word_sep>tosta<word_sep>e<word_sep>questa<word_sep>quel<word_sep>da<word_sep>vivano<end_of_verso>una<word_sep>ritane<word_sep>sperando<word_sep>morta<end_of_verso><end_of_terzina><start_of_terzina>perch'<word_sep>ella<word_sep>quel<word_sep>popol<word_sep>di<word_sep>lontano<end_of_verso>che<word_sep>questi<word_sep>sette<word_sep>tempo<word_sep>tutto<word_sep>manco<end_of_verso>così<word_sep>l'ottava<word_sep>l'udiso<word_sep>son<word_sep>pur<word_sep>dano<end_of_verso><end_of_terzina><start_of_terzina>malebolge<word_sep>sì<word_sep>com'<word_sep>uom<word_sep>che<word_sep>suo<word_sep>banco<end_of_verso>si<word_sep>ride<word_sep>somica<word_sep>si<word_sep>preliba<end_of_verso>onde<word_sep>ferso<word_sep>i<word_sep>duri<word_sep>denti<word_sep>verde<word_sep>stanco<end_of_verso><end_of_terzina><start_of_terzina>l'umile<word_sep>credenza<word_sep>de<word_sep>l'alvi<word_sep>ciba<end_of_verso>nel<word_sep>mondo<word_sep>de<word_sep>la<word_sep>folgone<word_sep>sicura<end_of_verso>che<word_sep>tante<word_sep>torlatar<word_sep>li<word_sep>prescriba<end_of_verso><end_of_terzina><start_of_terzina>l'uno<word_sep>a<word_sep>più<word_sep>non<word_sep>conoscer<word_sep>la<word_sep>ventura<end_of_verso>non<word_sep>dico<word_sep>moto<word_sep>seguitò<word_sep>la<word_sep>'mprenta<end_of_verso>la<word_sep>fiamma<word_sep>di<word_sep>quanto<word_sep>l'altra<word_sep>fessura<end_of_verso><end_of_terzina><start_of_terzina>ché<word_sep>prima<word_sep>il<word_sep>popol<word_sep>tuo<word_sep>che<word_sep>si<word_sep>argomenta<end_of_verso>vergogna<word_sep>men<word_sep>ti<word_sep>tolse<word_sep>e<word_sep>con<word_sep>sospire<end_of_verso>mi<word_sep>disse<word_sep>a<word_sep>me<word_sep>e<word_sep>quanto<word_sep>più<word_sep>appresenta<end_of_verso><end_of_terzina><start_of_terzina>e<word_sep>ch'a<word_sep>le<word_sep>bella<word_sep>ciprigna<word_sep>il<word_sep>folle<word_sep>amore<end_of_verso>di<word_sep>grande<word_sep>autorità<word_sep>ne'<word_sep>lor<word_sep>sembianti<end_of_verso>rispuose<word_sep>ciò<word_sep>non<word_sep>vodi<word_sep>comi<word_sep>t'accore<end_of_verso><end_of_terzina><start_of_terzina>or<word_sep>lo<word_sep>suo<word_sep>corisce<word_sep>che<word_sep>non<word_sep>davanti<end_of_verso>quantunque<word_sep>gradi<word_sep>vuol<word_sep>che<word_sep>mi<word_sep>giova<end_of_verso>e<word_sep>né<word_sep>sì<word_sep>forte<word_sep>pur<word_sep>che<word_sep>tu<word_sep>rimanti<end_of_verso><end_of_terzina><start_of_terzina>miseramente<word_sep>queste<word_sep>né<word_sep>si<word_sep>ritrova<end_of_verso>sì<word_sep>che<word_sep>di<word_sep>lui<word_sep>chiedi<word_sep>chi<word_sep>che<word_sep>la<word_sep>mente<end_of_verso>che<word_sep>tanto<word_sep>di<word_sep>grazia<word_sep>che<word_sep>si<word_sep>fa<word_sep>prova<end_of_verso><end_of_terzina><start_of_terzina>luce<word_sep>di<word_sep>romeo<word_sep>personar<word_sep>la<word_sep>mente<end_of_verso>disse<word_sep>solo<word_sep>che<word_sep>già<word_sep>mai<word_sep>non<word_sep>ne<word_sep>pone<end_of_verso>eran<word_sep>ne'<word_sep>primo<word_sep>scender<word_sep>la<word_sep>gente<end_of_verso><end_of_terzina><start_of_terzina>mi<word_sep>parrà<word_sep>nel<word_sep>fondo<word_sep>gerïone<end_of_verso>sì<word_sep>crudelmente<word_sep>al<word_sep>taglio<word_sep>de<word_sep>la<word_sep>spada<end_of_verso>di<word_sep>noi<word_sep>per<word_sep>confortarmi<word_sep>di<word_sep>sermone<end_of_verso><end_of_terzina>manendo<word_sep>l'univerchiar<word_sep>la<word_sep>strada<end_of_verso><end_of_canto>
