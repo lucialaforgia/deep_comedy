@@ -87,7 +87,7 @@ def train_model(working_dir, model, model_filename, dataset_train, dataset_val, 
         filepath=model_file,
         save_weights_only=False,
         save_best_only=True,
-        monitor='val_accuracy', 
+        monitor='val_loss', 
         mode='auto', 
         verbose=1, 
         )
@@ -95,7 +95,7 @@ def train_model(working_dir, model, model_filename, dataset_train, dataset_val, 
     early_stopping_callback = tf.keras.callbacks.EarlyStopping(
         restore_best_weights=True, 
         patience=7,
-        monitor='val_accuracy', 
+        monitor='val_loss', 
         mode='auto', 
         verbose=1
         )
@@ -107,7 +107,7 @@ def train_model(working_dir, model, model_filename, dataset_train, dataset_val, 
         )
 
     reduce_lr_callback = tf.keras.callbacks.ReduceLROnPlateau(
-        monitor='val_accuracy', 
+        monitor='val_loss', 
         mode='auto', 
         factor=0.5, 
         patience=3, 
