@@ -8,9 +8,9 @@ import shutil
 if __name__ == '__main__':
 
     models_dirs = [
-#        'dante_by_char',
-#        'dante_by_syl',
-#        'dante_by_word',
+        'dante_by_char',
+        'dante_by_syl',
+        'dante_by_word',
         'dante_by_rev_syl',
         'dante_by_tonedrev_syl',
     ]
@@ -25,7 +25,7 @@ if __name__ == '__main__':
 
         if not os.path.exists(data_zip):
 
-            owner = 'luca-ant'
+            owner = 'lucialaforgia'
             repo = 'deep_comedy'
 
             url = 'https://github.com/{owner}/{repo}/releases/download/pretrained_models/{zip_name}'.format(owner=owner, repo=repo, zip_name=zip_name)
