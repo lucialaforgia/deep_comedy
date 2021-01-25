@@ -1,4 +1,5 @@
-#### Additional project's creators and contributors: [Luca Antognetti] (https://github.com/luca-ant) and [Allegra Adinolfi] (https://github.com/adinolfiallegra).
+
+#### Additional project's creators and contributors: [Luca Antognetti](https://github.com/luca-ant) and [Allegra Adinolfi](https://github.com/adinolfiallegra).
 
 _________
 
