@@ -1,0 +1,18 @@
+EVALUATION RESULTS:
+
+OTHER METRICS ON GENERATED CANTO:
+Number of putative terzine: 2
+Number of well formed terzine: 2
+Average structuredness: 0.8333333333333334
+Average hendecasyllabicness: 0.4772727272727273
+Average rhymeness: 0.3333333333333333
+Plagiarism: 0.98
+
+OUR METRICS ON GENERATED CANTO:
+Number of verses: 8
+Number of strophes: 3
+Number of well formed terzine: 2
+Last single verse: False
+Average syllables per verse: 11.00 ± 0.50
+Hendecasyllabicness score: 0.7500
+Rhymeness score: 0.0000
