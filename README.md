@@ -1,4 +1,6 @@
-### project's creator and contributors: Luca Antognetti https://github.com/luca-ant , Allegra Adinolfi https://github.com/adinolfiallegra and myself.
+### Additional project's creators and contributors: Luca Antognetti https://github.com/luca-ant and Allegra Adinolfi https://github.com/adinolfiallegra.
+
+_________
 
 # AI for generating poetry! :robot: :writing_hand:
 
