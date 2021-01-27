@@ -167,3 +167,4 @@ with open(output_toned_file,"w") as f:
 
 with open(raw_output_toned_file,"w") as f:
     f.write(generated_text)
+
