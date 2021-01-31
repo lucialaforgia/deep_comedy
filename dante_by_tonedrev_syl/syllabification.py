@@ -238,9 +238,9 @@ if __name__ == "__main__":
 
 #        print("\n"+line)
 
-        # if not is_hendecasyllable(syllables, special_tokens):
-        print(line.replace(special_tokens['WORD_SEP'], '').replace(special_tokens['END_OF_VERSO'], ''))
-        print(size, '-'.join(syllables))
-        print()
+        if not is_hendecasyllable(syllables, special_tokens):
+            print(line.replace(special_tokens['WORD_SEP'], '').replace(special_tokens['END_OF_VERSO'], ''))
+            print(size, '-'.join(syllables))
+            print()
 
     print(str(count)+'/'+str(len(divine_comedy_list)) + " verses still wrong")
