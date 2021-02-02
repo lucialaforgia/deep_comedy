@@ -83,12 +83,13 @@ if __name__ == "__main__":
 
     print(special_tokens)
 
-    with open("divina_commedia_accent_cleaned.txt","r") as f:
+    with open("divina_commedia_cleaned.txt","r") as f:
         divine_comedy = f.read()
 
 
     divine_comedy_list = divine_comedy.split("\n")
 
+    # removing special tokens lines
     divine_comedy_list = [ line for line in divine_comedy_list if line.strip() not in special_tokens.values() ]
 
     count = 0
@@ -101,13 +102,11 @@ if __name__ == "__main__":
 
         size = len(syllables)
 
-        if line.strip() not in special_tokens.values():
-#            print("\n"+line)
-#            if size < 10 or size > 12:
-            if size != 11:
-                print(line.replace(special_tokens['WORD_SEP'], '').replace(special_tokens['END_OF_VERSO'], ''))
-                print(size, '-'.join(syllables))
-                print()
-                count+=1
+#        if size < 10 or size > 12:
+        if size != 11:
+            count+=1
+        print(line.replace(special_tokens['WORD_SEP'], '').replace(special_tokens['END_OF_VERSO'], ''))
+        print(size, '-'.join(syllables))
+        print()
 
     print(str(count)+'/'+str(len(divine_comedy_list)) + " verses still wrong")

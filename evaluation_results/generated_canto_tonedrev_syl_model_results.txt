@@ -14,5 +14,5 @@ Number of strophes: 38
 Number of well formed terzine: 37
 Last single verse: True
 Average syllables per verse: 11.08 ± 0.55
-Hendecasyllables by tone: 0.7321
+Hendecasyllabicness score: 0.7321
 Rhymeness score: 0.9474
